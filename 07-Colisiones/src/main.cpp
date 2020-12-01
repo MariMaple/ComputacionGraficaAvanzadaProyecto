@@ -65,7 +65,7 @@ Shader shaderMulLighting;
 Shader shaderTerrain;
 
 std::shared_ptr<Camera> camera(new ThirdPersonCamera());
-float distanceFromTarget = 7.0;
+float distanceFromTarget = 5.0;
 
 std::shared_ptr<FirstPersonCamera>cameraPP(new FirstPersonCamera());
 
@@ -84,7 +84,7 @@ Model panditaVerde;
 
 
 // Terrain model instance
-Terrain terrain(-1, -1, 400, 40, "../Textures/heightmap.png");
+Terrain terrain(-1, -1, 800, 60, "../Textures/heightmap.png");
 
 GLuint textureCespedID, textureWallID, textureWindowID, textureHighwayID, textureLandingPadID;
 GLuint textureTerrainBackgroundID, textureTerrainRID, textureTerrainGID, textureTerrainBID, textureTerrainBlendMapID;
@@ -547,24 +547,20 @@ bool processInput(bool continueApplication) {
 
 	if (camaraActivada == 1) {
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			cameraPP->moveFrontCamera(true, deltaTime+0.2);
+			cameraPP->moveFrontCamera(true, deltaTime+0.3);
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			cameraPP->moveFrontCamera(false, deltaTime+0.2);
+			cameraPP->moveFrontCamera(false, deltaTime+0.3);
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			cameraPP->moveRightCamera(false, deltaTime+0.2);
+			cameraPP->moveRightCamera(false, deltaTime+0.3);
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			cameraPP->moveRightCamera(true, deltaTime+0.2);
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-			cameraPP->mouseMoveCamera(offsetX, offsetY, deltaTime);
+			cameraPP->moveRightCamera(true, deltaTime+0.3);
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 			cameraPP->mouseMoveCamera(offsetX, offsetY, deltaTime);
 
 	}
 	else {
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-			camera->mouseMoveCamera(offsetX, 0.0, deltaTime);
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-			camera->mouseMoveCamera(0.0, offsetY, deltaTime);
+			camera->mouseMoveCamera(offsetX, offsetY, deltaTime);
 	}
 	offsetX = 0;
 	offsetY = 0;
@@ -647,7 +643,7 @@ void applicationLoop() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f),
-			(float)screenWidth / (float)screenHeight, 0.01f, 100.0f);
+			(float)screenWidth / (float)screenHeight, 0.01f, 400.0f);
 
 		if (modelSelected == 1) {
 			axis = glm::axis(glm::quat_cast(matrixModelPanditaRojo));
@@ -702,16 +698,16 @@ void applicationLoop() {
 		 * Propiedades Luz direccional
 		 *******************************************/
 		shaderMulLighting.setVectorFloat3("viewPos", glm::value_ptr(camera->getPosition()));
-		shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+		shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
 		shaderMulLighting.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
 		shaderMulLighting.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
-		shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, 0.0, 0.0)));
+		shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, -1.0, 0.0)));
 
 		/*******************************************
 		 * Propiedades Luz direccional Terrain
 		 *******************************************/
 		shaderTerrain.setVectorFloat3("viewPos", glm::value_ptr(camera->getPosition()));
-		shaderTerrain.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+		shaderTerrain.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
 		shaderTerrain.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
 		shaderTerrain.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
 		shaderTerrain.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, -1.0, 0.0)));
