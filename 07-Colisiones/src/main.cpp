@@ -84,7 +84,7 @@ Model panditaVerde;
 
 
 // Terrain model instance
-Terrain terrain(-1, -1, 400, 20, "../Textures/heightmap.png");
+Terrain terrain(-1, -1, 400, 40, "../Textures/heightmap.png");
 
 GLuint textureCespedID, textureWallID, textureWindowID, textureHighwayID, textureLandingPadID;
 GLuint textureTerrainBackgroundID, textureTerrainRID, textureTerrainGID, textureTerrainBID, textureTerrainBlendMapID;
