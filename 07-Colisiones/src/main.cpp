@@ -1,3 +1,6 @@
+//Mariana Arguelles Macosay
+//Diana Yandhis Santana
+
 #define _USE_MATH_DEFINES
 #include <cmath>
 //glew include
@@ -47,6 +50,10 @@
 int screenWidth;
 int screenHeight;
 
+//selector de vista - camara 
+bool selec_vista = true;
+bool camaraActivada = false;
+
 GLFWwindow *window;
 
 Shader shader;
@@ -58,56 +65,26 @@ Shader shaderMulLighting;
 Shader shaderTerrain;
 
 std::shared_ptr<Camera> camera(new ThirdPersonCamera());
-float distanceFromTarget = 7.0;
+float distanceFromTarget = 5.0;
+
+std::shared_ptr<FirstPersonCamera>cameraPP(new FirstPersonCamera());
 
 Sphere skyboxSphere(20, 20);
 Box boxCollider;
 Sphere sphereCollider(10, 10);
 
 // Models complex instances
-<<<<<<< Updated upstream
-Model modelRock;
-Model modelAircraft;
-Model modelHeliChasis;
-Model modelHeliHeli;
-Model modelLambo;
-Model modelLamboLeftDor;
-Model modelLamboRightDor;
-Model modelLamboFrontLeftWheel;
-Model modelLamboFrontRightWheel;
-Model modelLamboRearLeftWheel;
-Model modelLamboRearRightWheel;
-// Dart lego
-Model modelDartLegoBody;
-Model modelDartLegoHead;
-Model modelDartLegoMask;
-Model modelDartLegoLeftArm;
-Model modelDartLegoRightArm;
-Model modelDartLegoLeftHand;
-Model modelDartLegoRightHand;
-Model modelDartLegoLeftLeg;
-Model modelDartLegoRightLeg;
-// Lamps
-Model modelLamp1;
-Model modelLamp2;
-Model modelLampPost2;
-=======
-Model modelPanditaR;
-Model modelPanditaAm;
-Model modelPanditaAz;
-Model modelPanditaN;
-Model modelPanditaV;
-Model modelChocoP;
-Model modelIceCream;
-Model modelLollipop;
-Model modelPiruleta;
+Model panditaRojo;
+Model panditaAmarillo;
+Model panditaAzul;
+Model panditaNaranja;
+Model panditaVerde;
 
->>>>>>> Stashed changes
 // Model animate instance
-// Mayow
-Model mayowModelAnimate;
+
+
 // Terrain model instance
-Terrain terrain(-1, -1, 200, 8, "../Textures/heightmap.png");
+Terrain terrain(-1, -1, 800, 60, "../Textures/heightmap.png");
 
 GLuint textureCespedID, textureWallID, textureWindowID, textureHighwayID, textureLandingPadID;
 GLuint textureTerrainBackgroundID, textureTerrainRID, textureTerrainGID, textureTerrainBID, textureTerrainBlendMapID;
@@ -121,66 +98,30 @@ GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
 GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
 GL_TEXTURE_CUBE_MAP_NEGATIVE_Z };
 
-std::string fileNames[6] = { "../Textures/mp_Cute/Cute_ft.tga",
-		"../Textures/mp_Cute/Cute_bk.tga",
-		"../Textures/mp_Cute/Cute_up.tga",
-		"../Textures/mp_Cute/Cute_dn.tga",
-		"../Textures/mp_Cute/Cute_rt.tga",
-		"../Textures/mp_Cute/Cute_lf.tga" };
+std::string fileNames[6] = { "../Textures/mp_bloodvalley/blood-valley_ft.tga",
+		"../Textures/mp_bloodvalley/blood-valley_bk.tga",
+		"../Textures/mp_bloodvalley/blood-valley_up.tga",
+		"../Textures/mp_bloodvalley/blood-valley_dn.tga",
+		"../Textures/mp_bloodvalley/blood-valley_rt.tga",
+		"../Textures/mp_bloodvalley/blood-valley_lf.tga" };
 
 bool exitApp = false;
 int lastMousePosX, offsetX = 0;
 int lastMousePosY, offsetY = 0;
 
 // Model matrix definitions
-<<<<<<< Updated upstream
-glm::mat4 matrixModelRock = glm::mat4(1.0);
-glm::mat4 modelMatrixHeli = glm::mat4(1.0f);
-glm::mat4 modelMatrixLambo = glm::mat4(1.0);
-glm::mat4 modelMatrixAircraft = glm::mat4(1.0);
-glm::mat4 modelMatrixDart = glm::mat4(1.0f);
-glm::mat4 modelMatrixMayow = glm::mat4(1.0f);
-=======
-glm::mat4 matrixModelPanditaR		= glm::mat4(1.0);
-glm::mat4 matrixModelPanditaAz		= glm::mat4(1.0);
-glm::mat4 matrixModelPanditaN		= glm::mat4(1.0);
-glm::mat4 matrixModelPanditaAm		= glm::mat4(1.0);
-glm::mat4 matrixModelPanditaV		= glm::mat4(1.0);
-glm::mat4 matrixModelChocoP			= glm::mat4(1.0);
->>>>>>> Stashed changes
+glm::mat4 matrixModelPanditaRojo		= glm::mat4(1.0);
+glm::mat4 matrixModelPanditaAzul		= glm::mat4(1.0);
+glm::mat4 matrixModelPanditaNaranja		= glm::mat4(1.0);
+glm::mat4 matrixModelPanditaAmarillo	= glm::mat4(1.0);
+glm::mat4 matrixModelPanditaVerde		= glm::mat4(1.0);
 
 int animationIndex = 1;
-float rotDartHead = 0.0, rotDartLeftArm = 0.0, rotDartLeftHand = 0.0, rotDartRightArm = 0.0, rotDartRightHand = 0.0, rotDartLeftLeg = 0.0, rotDartRightLeg = 0.0;
 int modelSelected = 2;
 bool enableCountSelected = true;
 
-// Variables to animations keyframes
-bool saveFrame = false, availableSave = true;
-std::ofstream myfile;
-std::string fileName = "";
-bool record = false;
 
-// Joints interpolations Dart Lego
-std::vector<std::vector<float>> keyFramesDartJoints;
-std::vector<std::vector<glm::mat4>> keyFramesDart;
-int indexFrameDartJoints = 0;
-int indexFrameDartJointsNext = 1;
-float interpolationDartJoints = 0.0;
-int maxNumPasosDartJoints = 20;
-int numPasosDartJoints = 0;
-int indexFrameDart = 0;
-int indexFrameDartNext = 1;
-float interpolationDart = 0.0;
-int maxNumPasosDart = 200;
-int numPasosDart = 0;
-
-// Var animate helicopter
-float rotHelHelY = 0.0;
-
-// Var animate lambo dor
-int stateDoor = 0;
-float dorRotCount = 0.0;
-
+/*
 // Lamps positions
 std::vector<glm::vec3> lamp1Position = { glm::vec3(-7.03, 0, -19.14), glm::vec3(
 		24.41, 0, -34.57), glm::vec3(-10.15, 0, -54.10) };
@@ -188,6 +129,7 @@ std::vector<float> lamp1Orientation = { -17.0, -82.67, 23.70 };
 std::vector<glm::vec3> lamp2Position = { glm::vec3(-36.52, 0, -23.24),
 		glm::vec3(-52.73, 0, -3.90) };
 std::vector<float> lamp2Orientation = {21.37 + 90, -65.0 + 90};
+*/
 
 double deltaTime;
 double currTime, lastTime;
@@ -280,76 +222,23 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	sphereCollider.setShader(&shader);
 	sphereCollider.setColor(glm::vec4(1.0, 1.0, 1.0, 1.0));
 
-	modelRock.loadModel("../models/rock/rock.obj");
-	modelRock.setShader(&shaderMulLighting);
-
-	modelAircraft.loadModel("../models/Aircraft_obj/E 45 Aircraft_obj.obj");
-	modelAircraft.setShader(&shaderMulLighting);
-
 	terrain.init();
 	terrain.setShader(&shaderTerrain);
 	terrain.setPosition(glm::vec3(100, 0, 100));
 
-<<<<<<< Updated upstream
-	// Helicopter
-	modelHeliChasis.loadModel("../models/Helicopter/Mi_24_chasis.obj");
-	modelHeliChasis.setShader(&shaderMulLighting);
-	modelHeliHeli.loadModel("../models/Helicopter/Mi_24_heli.obj");
-	modelHeliHeli.setShader(&shaderMulLighting);
-	// Lamborginhi
-	modelLambo.loadModel("../models/Lamborginhi_Aventador_OBJ/Lamborghini_Aventador_chasis.obj");
-	modelLambo.setShader(&shaderMulLighting);
-	modelLamboLeftDor.loadModel("../models/Lamborginhi_Aventador_OBJ/Lamborghini_Aventador_left_dor.obj");
-	modelLamboLeftDor.setShader(&shaderMulLighting);
-	modelLamboRightDor.loadModel("../models/Lamborginhi_Aventador_OBJ/Lamborghini_Aventador_right_dor.obj");
-	modelLamboRightDor.setShader(&shaderMulLighting);
-	modelLamboFrontLeftWheel.loadModel("../models/Lamborginhi_Aventador_OBJ/Lamborghini_Aventador_front_left_wheel.obj");
-	modelLamboFrontLeftWheel.setShader(&shaderMulLighting);
-	modelLamboFrontRightWheel.loadModel("../models/Lamborginhi_Aventador_OBJ/Lamborghini_Aventador_front_right_wheel.obj");
-	modelLamboFrontRightWheel.setShader(&shaderMulLighting);
-	modelLamboRearLeftWheel.loadModel("../models/Lamborginhi_Aventador_OBJ/Lamborghini_Aventador_rear_left_wheel.obj");
-	modelLamboRearLeftWheel.setShader(&shaderMulLighting);
-	modelLamboRearRightWheel.loadModel("../models/Lamborginhi_Aventador_OBJ/Lamborghini_Aventador_rear_right_wheel.obj");
-	modelLamboRearRightWheel.setShader(&shaderMulLighting);
+	// Panditas
+	panditaRojo.loadModel("../models/Panditas/PanditaRojo.obj");
+	panditaRojo.setShader(&shaderMulLighting);
+	panditaAzul.loadModel("../models/Panditas/PanditaAzul.obj");
+	panditaAzul.setShader(&shaderMulLighting);
+	panditaNaranja.loadModel("../models/Panditas/PanditaNaranja.obj");
+	panditaNaranja.setShader(&shaderMulLighting);
+	panditaVerde.loadModel("../models/Panditas/PanditaVerde.obj");
+	panditaVerde.setShader(&shaderMulLighting);
+	panditaAmarillo.loadModel("../models/Panditas/PanditaAmarillo.obj");
+	panditaAmarillo.setShader(&shaderMulLighting);
 
-	// Dart Lego
-	modelDartLegoBody.loadModel("../models/LegoDart/LeoDart_body.obj");
-	modelDartLegoBody.setShader(&shaderMulLighting);
-	modelDartLegoMask.loadModel("../models/LegoDart/LeoDart_mask.obj");
-	modelDartLegoMask.setShader(&shaderMulLighting);
-	modelDartLegoHead.loadModel("../models/LegoDart/LeoDart_head.obj");
-	modelDartLegoHead.setShader(&shaderMulLighting);
-	modelDartLegoLeftArm.loadModel("../models/LegoDart/LeoDart_left_arm.obj");
-	modelDartLegoLeftArm.setShader(&shaderMulLighting);
-	modelDartLegoRightArm.loadModel("../models/LegoDart/LeoDart_right_arm.obj");
-	modelDartLegoRightArm.setShader(&shaderMulLighting);
-	modelDartLegoLeftHand.loadModel("../models/LegoDart/LeoDart_left_hand.obj");
-	modelDartLegoLeftHand.setShader(&shaderMulLighting);
-	modelDartLegoRightHand.loadModel("../models/LegoDart/LeoDart_right_hand.obj");
-	modelDartLegoRightHand.setShader(&shaderMulLighting);
-	modelDartLegoLeftLeg.loadModel("../models/LegoDart/LeoDart_left_leg.obj");
-	modelDartLegoLeftLeg.setShader(&shaderMulLighting);
-	modelDartLegoRightLeg.loadModel("../models/LegoDart/LeoDart_right_leg.obj");
-	modelDartLegoRightLeg.setShader(&shaderMulLighting);
-
-=======
-	// Panditas models
-	modelPanditaR.loadModel("../models/Panditas/PanditaRojo.obj");
-	modelPanditaR.setShader(&shaderMulLighting);
-	modelPanditaAz.loadModel("../models/Panditas/PanditaAzul.obj");
-	modelPanditaAz.setShader(&shaderMulLighting);
-	modelPanditaN.loadModel("../models/Panditas/PanditaNaranja.obj");
-	modelPanditaN.setShader(&shaderMulLighting);
-	modelPanditaV.loadModel("../models/Panditas/PanditaVerde.obj");
-	modelPanditaV.setShader(&shaderMulLighting);
-	modelPanditaAm.loadModel("../models/Panditas/PanditaAmarillo.obj");
-	modelPanditaAm.setShader(&shaderMulLighting);
-
-	//ChocoPopsicle models
-	modelChocoP.loadModel("../models/ChocoPaleta/ChocoPaleta.obj");
-	modelChocoP.setShader(&shaderMulLighting);
 	/*
->>>>>>> Stashed changes
 	//Lamp models
 	modelLamp1.loadModel("../models/Street-Lamp-Black/objLamp.obj");
 	modelLamp1.setShader(&shaderMulLighting);
@@ -357,14 +246,15 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelLamp2.setShader(&shaderMulLighting);
 	modelLampPost2.loadModel("../models/Street_Light/LampPost.obj");
 	modelLampPost2.setShader(&shaderMulLighting);
+	*/
 
-	//Mayow
-	mayowModelAnimate.loadModel("../models/mayow/personaje2.fbx");
-	mayowModelAnimate.setShader(&shaderMulLighting);
-
-	camera->setPosition(glm::vec3(0.0, 0.0, 10.0));
+	//Posicion de la camara
+	glm::vec3 posicion_camara = glm::vec3(0.0, 0.0, 10.0);
+	camera->setPosition(posicion_camara);
 	camera->setDistanceFromTarget(distanceFromTarget);
-	camera->setSensitivity(1.0);
+	camera->setSensitivity(1.0f); // velocidad de la camara
+	posicion_camara = glm::vec3(5.0, 20.0, 5.0);
+	cameraPP->setPosition(posicion_camara);
 
 	// Definimos el tamanio de la imagen
 	int imageWidth, imageHeight;
@@ -395,168 +285,9 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 		skyboxTexture.freeImage(bitmap);
 	}
 
+	
 	// Definiendo la textura a utilizar
-	Texture textureCesped("../Textures/cesped.jpg");
-	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
-	bitmap = textureCesped.loadImage();
-	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
-	data = textureCesped.convertToData(bitmap, imageWidth,
-			imageHeight);
-	// Creando la textura con id 1
-	glGenTextures(1, &textureCespedID);
-	// Enlazar esa textura a una tipo de textura de 2D.
-	glBindTexture(GL_TEXTURE_2D, textureCespedID);
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// Verifica si se pudo abrir la textura
-	if (data) {
-		// Transferis los datos de la imagen a memoria
-		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
-		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
-		// a los datos
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
-		GL_BGRA, GL_UNSIGNED_BYTE, data);
-		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
-		glGenerateMipmap(GL_TEXTURE_2D);
-	} else
-		std::cout << "Failed to load texture" << std::endl;
-	// Libera la memoria de la textura
-	textureCesped.freeImage(bitmap);
-
-	// Definiendo la textura a utilizar
-	Texture textureWall("../Textures/whiteWall.jpg");
-	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
-	bitmap = textureWall.loadImage();
-	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
-	data = textureWall.convertToData(bitmap, imageWidth,
-			imageHeight);
-	// Creando la textura con id 1
-	glGenTextures(1, &textureWallID);
-	// Enlazar esa textura a una tipo de textura de 2D.
-	glBindTexture(GL_TEXTURE_2D, textureWallID);
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// Verifica si se pudo abrir la textura
-	if (data) {
-		// Transferis los datos de la imagen a memoria
-		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
-		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
-		// a los datos
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
-		GL_BGRA, GL_UNSIGNED_BYTE, data);
-		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
-		glGenerateMipmap(GL_TEXTURE_2D);
-	} else
-		std::cout << "Failed to load texture" << std::endl;
-	// Libera la memoria de la textura
-	textureWall.freeImage(bitmap);
-
-	// Definiendo la textura a utilizar
-	Texture textureWindow("../Textures/ventana.png");
-	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
-	bitmap = textureWindow.loadImage();
-	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
-	data = textureWindow.convertToData(bitmap, imageWidth,
-			imageHeight);
-	// Creando la textura con id 1
-	glGenTextures(1, &textureWindowID);
-	// Enlazar esa textura a una tipo de textura de 2D.
-	glBindTexture(GL_TEXTURE_2D, textureWindowID);
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// Verifica si se pudo abrir la textura
-	if (data) {
-		// Transferis los datos de la imagen a memoria
-		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
-		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
-		// a los datos
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
-		GL_BGRA, GL_UNSIGNED_BYTE, data);
-		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
-		glGenerateMipmap(GL_TEXTURE_2D);
-	} else
-		std::cout << "Failed to load texture" << std::endl;
-	// Libera la memoria de la textura
-	textureWindow.freeImage(bitmap);
-
-	// Definiendo la textura a utilizar
-	Texture textureHighway("../Textures/highway.jpg");
-	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
-	bitmap = textureHighway.loadImage();
-	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
-	data = textureHighway.convertToData(bitmap, imageWidth,
-			imageHeight);
-	// Creando la textura con id 1
-	glGenTextures(1, &textureHighwayID);
-	// Enlazar esa textura a una tipo de textura de 2D.
-	glBindTexture(GL_TEXTURE_2D, textureHighwayID);
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// Verifica si se pudo abrir la textura
-	if (data) {
-		// Transferis los datos de la imagen a memoria
-		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
-		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
-		// a los datos
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
-		GL_BGRA, GL_UNSIGNED_BYTE, data);
-		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
-		glGenerateMipmap(GL_TEXTURE_2D);
-	} else
-		std::cout << "Failed to load texture" << std::endl;
-	// Libera la memoria de la textura
-	textureHighway.freeImage(bitmap);
-
-	// Definiendo la textura a utilizar
-	Texture textureLandingPad("../Textures/landingPad.jpg");
-	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
-	bitmap = textureLandingPad.loadImage();
-	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
-	data = textureLandingPad.convertToData(bitmap, imageWidth,
-			imageHeight);
-	// Creando la textura con id 1
-	glGenTextures(1, &textureLandingPadID);
-	// Enlazar esa textura a una tipo de textura de 2D.
-	glBindTexture(GL_TEXTURE_2D, textureLandingPadID);
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// Verifica si se pudo abrir la textura
-	if (data) {
-		// Transferis los datos de la imagen a memoria
-		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
-		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
-		// a los datos
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
-		GL_BGRA, GL_UNSIGNED_BYTE, data);
-		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
-		glGenerateMipmap(GL_TEXTURE_2D);
-	} else
-		std::cout << "Failed to load texture" << std::endl;
-	// Libera la memoria de la textura
-	textureLandingPad.freeImage(bitmap);
-
-	// Definiendo la textura a utilizar
-	Texture textureTerrainBackground("../Textures/grassy2.png");
+	Texture textureTerrainBackground("../Textures/Floor/nubeRosa.jpg");
 	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
 	bitmap = textureTerrainBackground.loadImage();
 	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
@@ -588,7 +319,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	textureTerrainBackground.freeImage(bitmap);
 
 	// Definiendo la textura a utilizar
-	Texture textureTerrainR("../Textures/mud.png");
+	Texture textureTerrainR("../Textures/Floor/nubeVerde.jpg");
 	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
 	bitmap = textureTerrainR.loadImage();
 	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
@@ -620,7 +351,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	textureTerrainR.freeImage(bitmap);
 
 	// Definiendo la textura a utilizar
-	Texture textureTerrainG("../Textures/grassFlowers.png");
+	Texture textureTerrainG("../Textures/Floor/nubeAzul.jpg");
 	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
 	bitmap = textureTerrainG.loadImage();
 	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
@@ -652,7 +383,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	textureTerrainG.freeImage(bitmap);
 
 	// Definiendo la textura a utilizar
-	Texture textureTerrainB("../Textures/path.png");
+	Texture textureTerrainB("../Textures/Floor/nubeAmarilla.jpg");
 	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
 	bitmap = textureTerrainB.loadImage();
 	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
@@ -733,54 +464,25 @@ void destroy() {
 	boxCollider.destroy();
 	sphereCollider.destroy();
 
+
 	// Terrains objects Delete
 	terrain.destroy();
 
 	// Custom objects Delete
-	modelAircraft.destroy();
-	modelDartLegoBody.destroy();
-	modelDartLegoHead.destroy();
-	modelDartLegoLeftArm.destroy();
-	modelDartLegoLeftHand.destroy();
-	modelDartLegoLeftLeg.destroy();
-	modelDartLegoMask.destroy();
-	modelDartLegoRightArm.destroy();
-	modelDartLegoRightHand.destroy();
-	modelDartLegoRightLeg.destroy();
-	modelHeliChasis.destroy();
-	modelHeliHeli.destroy();
-	modelLambo.destroy();
-	modelLamboFrontLeftWheel.destroy();
-	modelLamboFrontRightWheel.destroy();
-	modelLamboLeftDor.destroy();
-	modelLamboRearLeftWheel.destroy();
-	modelLamboRearRightWheel.destroy();
-	modelLamboRightDor.destroy();
-	modelRock.destroy();
-	modelLamp1.destroy();
+	/*modelLamp1.destroy();
 	modelLamp2.destroy();
-<<<<<<< Updated upstream
-	modelLampPost2.destroy();
-=======
 	modelLampPost2.destroy();*/
-	modelPanditaAm.destroy();
-	modelPanditaAz.destroy();
-	modelPanditaN.destroy();
-	modelPanditaR.destroy();
-	modelPanditaV.destroy();
-	modelChocoP.destroy();
->>>>>>> Stashed changes
+	panditaAmarillo.destroy();
+	panditaAzul.destroy();
+	panditaNaranja.destroy();
+	panditaRojo.destroy();
+	panditaVerde.destroy();
 
 	// Custom objects animate
-	mayowModelAnimate.destroy();
+	
 
 	// Textures Delete
 	glBindTexture(GL_TEXTURE_2D, 0);
-	glDeleteTextures(1, &textureCespedID);
-	glDeleteTextures(1, &textureWallID);
-	glDeleteTextures(1, &textureWindowID);
-	glDeleteTextures(1, &textureHighwayID);
-	glDeleteTextures(1, &textureLandingPadID);
 	glDeleteTextures(1, &textureTerrainBackgroundID);
 	glDeleteTextures(1, &textureTerrainRID);
 	glDeleteTextures(1, &textureTerrainGID);
@@ -843,10 +545,23 @@ bool processInput(bool continueApplication) {
 		return false;
 	}
 
-	if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-		camera->mouseMoveCamera(offsetX, 0.0, deltaTime);
-	if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-		camera->mouseMoveCamera(0.0, offsetY, deltaTime);
+	if (camaraActivada == 1) {
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			cameraPP->moveFrontCamera(true, deltaTime+0.3);
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			cameraPP->moveFrontCamera(false, deltaTime+0.3);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			cameraPP->moveRightCamera(false, deltaTime+0.3);
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			cameraPP->moveRightCamera(true, deltaTime+0.3);
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+			cameraPP->mouseMoveCamera(offsetX, offsetY, deltaTime);
+
+	}
+	else {
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+			camera->mouseMoveCamera(offsetX, offsetY, deltaTime);
+	}
 	offsetX = 0;
 	offsetY = 0;
 
@@ -856,91 +571,14 @@ bool processInput(bool continueApplication) {
 		modelSelected++;
 		if(modelSelected > 2)
 			modelSelected = 0;
-		if(modelSelected == 1)
-			fileName = "../animaciones/animation_dart_joints.txt";
-		if (modelSelected == 2)
-			fileName = "../animaciones/animation_dart.txt";
 		std::cout << "modelSelected:" << modelSelected << std::endl;
 	}
 	else if(glfwGetKey(window, GLFW_KEY_TAB) == GLFW_RELEASE)
 		enableCountSelected = true;
 
-	// Guardar key frames
-	if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS
-			&& glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS){
-		record = true;
-		if(myfile.is_open())
-			myfile.close();
-		myfile.open(fileName);
-	}
-	if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE
-			&& glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS){
-		record = false;
-		myfile.close();
-		if(modelSelected == 1)
-			keyFramesDartJoints = getKeyRotFrames(fileName);
-		if (modelSelected == 2)
-			keyFramesDart = getKeyFrames(fileName);
-	}
-	if(availableSave && glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS){
-		saveFrame = true;
-		availableSave = false;
-	}if(glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_RELEASE)
-		availableSave = true;
-
-	// Dart Lego model movements
-	if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE &&
-			glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-		rotDartHead += 0.02;
-	else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS &&
-			glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-		rotDartHead -= 0.02;
-	if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE &&
-			glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
-		rotDartLeftArm += 0.02;
-	else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS &&
-			glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
-		rotDartLeftArm -= 0.02;
-	if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE &&
-			glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-		rotDartRightArm += 0.02;
-	else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS &&
-			glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-		rotDartRightArm -= 0.02;
-	if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE &&
-			glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
-		rotDartLeftHand += 0.02;
-	else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS &&
-			glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
-		rotDartLeftHand -= 0.02;
-	if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE &&
-			glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
-		rotDartRightHand += 0.02;
-	else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS &&
-			glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
-		rotDartRightHand -= 0.02;
-	if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE &&
-			glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
-		rotDartLeftLeg += 0.02;
-	else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS &&
-			glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
-		rotDartLeftLeg -= 0.02;
-	if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE &&
-			glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
-		rotDartRightLeg += 0.02;
-	else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS &&
-			glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
-		rotDartRightLeg -= 0.02;
-	if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		modelMatrixDart = glm::rotate(modelMatrixDart, 0.02f, glm::vec3(0, 1, 0));
-	else if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		modelMatrixDart = glm::rotate(modelMatrixDart, -0.02f, glm::vec3(0, 1, 0));
-	if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		modelMatrixDart = glm::translate(modelMatrixDart, glm::vec3(-0.02, 0.0, 0.0));
-	else if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		modelMatrixDart = glm::translate(modelMatrixDart, glm::vec3(0.02, 0.0, 0.0));
-
-	if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS){
+	
+// Desplazamiento y movimiento
+	/*if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS){
 		modelMatrixMayow = glm::rotate(modelMatrixMayow, glm::radians(1.0f), glm::vec3(0, 1, 0));
 		animationIndex = 0;
 	}else if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS){
@@ -953,6 +591,19 @@ bool processInput(bool continueApplication) {
 		modelMatrixMayow = glm::translate(modelMatrixMayow, glm::vec3(0, 0, -0.02));
 		animationIndex = 0;
 	}
+	*/
+	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && selec_vista) {
+		selec_vista = false;
+		if (camaraActivada == 1) {
+			camaraActivada = 0;
+		}
+		else if (camaraActivada == 0) {
+			camaraActivada = 1;
+		}
+	}
+	else if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_K) == GLFW_RELEASE) {
+		selec_vista = true;
+	}
 
 	glfwPollEvents();
 	return continueApplication;
@@ -964,41 +615,19 @@ void applicationLoop() {
 	glm::mat4 view;
 	glm::vec3 axis;
 	glm::vec3 target;
-	float angleTarget;
+	float angleTarget=0;
 
-	matrixModelRock = glm::translate(matrixModelRock, glm::vec3(-3.0, 0.0, 2.0));
-
-	modelMatrixHeli = glm::translate(modelMatrixHeli, glm::vec3(5.0, 10.0, -5.0));
-
-	modelMatrixAircraft = glm::translate(modelMatrixAircraft, glm::vec3(10.0, 2.0, -17.5));
-
-	modelMatrixLambo = glm::translate(modelMatrixLambo, glm::vec3(23.0, 0.0, 0.0));
-
-	modelMatrixDart = glm::translate(modelMatrixDart, glm::vec3(3.0, 0.0, 20.0));
-
-<<<<<<< Updated upstream
-	modelMatrixMayow = glm::translate(modelMatrixMayow, glm::vec3(13.0f, 0.05f, -5.0f));
-	modelMatrixMayow = glm::rotate(modelMatrixMayow, glm::radians(-90.0f), glm::vec3(0, 1, 0));
-
-	// Variables to interpolation key frames
-	fileName = "../animaciones/animation_dart_joints.txt";
-	keyFramesDartJoints = getKeyRotFrames(fileName);
-	keyFramesDart = getKeyFrames("../animaciones/animation_dart.txt");
-=======
-	//MatrixModel Position
-	matrixModelPanditaR  = glm::translate(matrixModelPanditaR, glm::vec3(-3.0, 0.0, 2.0));
-	matrixModelPanditaAm = glm::translate(matrixModelPanditaAm, glm::vec3(-5.0, 0.0, 2.0));
-	matrixModelPanditaV  = glm::translate(matrixModelPanditaV, glm::vec3(-7.0, 0.0, 2.0));
-	matrixModelPanditaN	 = glm::translate(matrixModelPanditaN, glm::vec3(-9.0, 0.0, 2.0));
-	matrixModelPanditaAz = glm::translate(matrixModelPanditaAz, glm::vec3(-11.0, 0.0, 2.0));
-	matrixModelChocoP = glm::translate(matrixModelChocoP, glm::vec3(-7.0, 0.0, 2.0));
->>>>>>> Stashed changes
+	matrixModelPanditaRojo = glm::translate(matrixModelPanditaRojo, glm::vec3(-3.0, 0.0, 2.0));
+	matrixModelPanditaAmarillo = glm::translate(matrixModelPanditaAmarillo, glm::vec3(-5.0, 0.0, 2.0));
+	matrixModelPanditaVerde = glm::translate(matrixModelPanditaVerde, glm::vec3(-7.0, 0.0, 2.0));
+	matrixModelPanditaNaranja = glm::translate(matrixModelPanditaNaranja, glm::vec3(-9.0, 0.0, 2.0));
+	matrixModelPanditaAzul = glm::translate(matrixModelPanditaAzul, glm::vec3(-11.0, 0.0, 2.0));
 
 	lastTime = TimeManager::Instance().GetTime();
 
 	while (psi) {
 		currTime = TimeManager::Instance().GetTime();
-		if(currTime - lastTime < 0.016666667){
+		if (currTime - lastTime < 0.016666667) {
 			glfwPollEvents();
 			continue;
 		}
@@ -1009,48 +638,41 @@ void applicationLoop() {
 
 		std::map<std::string, bool> collisionDetection;
 
-		// Variables donde se guardan las matrices de cada articulacion por 1 frame
-		std::vector<float> matrixDartJoints;
-		std::vector<glm::mat4> matrixDart;
+
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f),
-				(float) screenWidth / (float) screenHeight, 0.01f, 100.0f);
+			(float)screenWidth / (float)screenHeight, 0.01f, 400.0f);
 
-<<<<<<< Updated upstream
-		if(modelSelected == 1){
-			axis = glm::axis(glm::quat_cast(modelMatrixDart));
-			angleTarget = glm::angle(glm::quat_cast(modelMatrixDart));
-			target = modelMatrixDart[3];
-		}
-		else{
-			axis = glm::axis(glm::quat_cast(modelMatrixMayow));
-			angleTarget = glm::angle(glm::quat_cast(modelMatrixMayow));
-			target = modelMatrixMayow[3];
-=======
 		if (modelSelected == 1) {
-			axis = glm::axis(glm::quat_cast(matrixModelPanditaR));
-			angleTarget = glm::angle(glm::quat_cast(matrixModelPanditaR));
-			target = matrixModelPanditaR[3];
+			axis = glm::axis(glm::quat_cast(matrixModelPanditaRojo));
+			angleTarget = glm::angle(glm::quat_cast(matrixModelPanditaRojo));
+			target = matrixModelPanditaRojo[3];
 		}
 		else{
-			axis = glm::axis(glm::quat_cast(matrixModelPanditaV));
-			angleTarget = glm::angle(glm::quat_cast(matrixModelPanditaV));
-			target = matrixModelPanditaV[3];
->>>>>>> Stashed changes
+			axis = glm::axis(glm::quat_cast(matrixModelPanditaVerde));
+			angleTarget = glm::angle(glm::quat_cast(matrixModelPanditaVerde));
+			target = matrixModelPanditaVerde[3];
 		}
+		
+		glm::mat4 view;
 
-		if(std::isnan(angleTarget))
+		if (std::isnan(angleTarget))
 			angleTarget = 0.0;
-		if(axis.y < 0)
+		if (axis.y < 0)
 			angleTarget = -angleTarget;
-		if(modelSelected == 1)
+		if (modelSelected == 1)
 			angleTarget -= glm::radians(90.0f);
+		if (modelSelected == 3)
+			angleTarget += glm::radians(90.0f);
 		camera->setCameraTarget(target);
 		camera->setAngleTarget(angleTarget);
 		camera->updateCamera();
-		view = camera->getViewMatrix();
+		if (camaraActivada == true)
+			view = cameraPP->getViewMatrix();
+		else
+			view = camera->getViewMatrix();
 
 		// Settea la matriz de vista y projection al shader con solo color
 		shader.setMatrix4("projection", 1, false, glm::value_ptr(projection));
@@ -1058,123 +680,41 @@ void applicationLoop() {
 
 		// Settea la matriz de vista y projection al shader con skybox
 		shaderSkybox.setMatrix4("projection", 1, false,
-				glm::value_ptr(projection));
+			glm::value_ptr(projection));
 		shaderSkybox.setMatrix4("view", 1, false,
-				glm::value_ptr(glm::mat4(glm::mat3(view))));
+			glm::value_ptr(glm::mat4(glm::mat3(view))));
 		// Settea la matriz de vista y projection al shader con multiples luces
 		shaderMulLighting.setMatrix4("projection", 1, false,
-					glm::value_ptr(projection));
+			glm::value_ptr(projection));
 		shaderMulLighting.setMatrix4("view", 1, false,
-				glm::value_ptr(view));
+			glm::value_ptr(view));
 		// Settea la matriz de vista y projection al shader con multiples luces
 		shaderTerrain.setMatrix4("projection", 1, false,
-					glm::value_ptr(projection));
+			glm::value_ptr(projection));
 		shaderTerrain.setMatrix4("view", 1, false,
-				glm::value_ptr(view));
+			glm::value_ptr(view));
 
 		/*******************************************
 		 * Propiedades Luz direccional
 		 *******************************************/
 		shaderMulLighting.setVectorFloat3("viewPos", glm::value_ptr(camera->getPosition()));
-		shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.05, 0.05, 0.05)));
+		shaderMulLighting.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
 		shaderMulLighting.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
 		shaderMulLighting.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
-		shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, 0.0, 0.0)));
+		shaderMulLighting.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, -1.0, 0.0)));
 
 		/*******************************************
 		 * Propiedades Luz direccional Terrain
 		 *******************************************/
 		shaderTerrain.setVectorFloat3("viewPos", glm::value_ptr(camera->getPosition()));
-		shaderTerrain.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.05, 0.05, 0.05)));
+		shaderTerrain.setVectorFloat3("directionalLight.light.ambient", glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
 		shaderTerrain.setVectorFloat3("directionalLight.light.diffuse", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
 		shaderTerrain.setVectorFloat3("directionalLight.light.specular", glm::value_ptr(glm::vec3(0.4, 0.4, 0.4)));
-		shaderTerrain.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, 0.0, 0.0)));
+		shaderTerrain.setVectorFloat3("directionalLight.direction", glm::value_ptr(glm::vec3(-1.0, -1.0, 0.0)));
 
 		/*******************************************
 		 * Propiedades SpotLights
 		 *******************************************/
-<<<<<<< Updated upstream
-		glm::vec3 spotPosition = glm::vec3(modelMatrixHeli * glm::vec4(0.32437, 0.226053, 1.79149, 1.0));
-		shaderMulLighting.setInt("spotLightCount", 1);
-		shaderTerrain.setInt("spotLightCount", 1);
-		shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
-		shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
-		shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
-		shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
-		shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
-		shaderMulLighting.setFloat("spotLights[0].linear", 0.074);
-		shaderMulLighting.setFloat("spotLights[0].quadratic", 0.03);
-		shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
-		shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
-		shaderTerrain.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
-		shaderTerrain.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
-		shaderTerrain.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderTerrain.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
-		shaderTerrain.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
-		shaderTerrain.setFloat("spotLights[0].constant", 1.0);
-		shaderTerrain.setFloat("spotLights[0].linear", 0.074);
-		shaderTerrain.setFloat("spotLights[0].quadratic", 0.03);
-		shaderTerrain.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
-		shaderTerrain.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
-
-		/*******************************************
-		 * Propiedades PointLights
-		 *******************************************/
-		shaderMulLighting.setInt("pointLightCount", lamp1Position.size() + lamp2Orientation.size());
-		shaderTerrain.setInt("pointLightCount", lamp1Position.size() + lamp2Orientation.size());
-		for (int i = 0; i < lamp1Position.size(); i++){
-			glm::mat4 matrixAdjustLamp = glm::mat4(1.0f);
-			matrixAdjustLamp = glm::translate(matrixAdjustLamp, lamp1Position[i]);
-			matrixAdjustLamp = glm::rotate(matrixAdjustLamp, glm::radians(lamp1Orientation[i]), glm::vec3(0, 1, 0));
-			matrixAdjustLamp = glm::scale(matrixAdjustLamp, glm::vec3(0.5, 0.5, 0.5));
-			matrixAdjustLamp = glm::translate(matrixAdjustLamp, glm::vec3(0, 10.3585, 0));
-			glm::vec3 lampPosition = glm::vec3(matrixAdjustLamp[3]);
-			shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.ambient", glm::value_ptr(glm::vec3(0.2, 0.16, 0.01)));
-			shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.32, 0.02)));
-			shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.specular", glm::value_ptr(glm::vec3(0.6, 0.58, 0.03)));
-			shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(i) + "].position", glm::value_ptr(lampPosition));
-			shaderMulLighting.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0);
-			shaderMulLighting.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.09);
-			shaderMulLighting.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.01);
-			shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.ambient", glm::value_ptr(glm::vec3(0.2, 0.16, 0.01)));
-			shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.32, 0.02)));
-			shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.specular", glm::value_ptr(glm::vec3(0.6, 0.58, 0.03)));
-			shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(i) + "].position", glm::value_ptr(lampPosition));
-			shaderTerrain.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0);
-			shaderTerrain.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.09);
-			shaderTerrain.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.02);
-		}
-		for (int i = 0; i < lamp2Position.size(); i++){
-			glm::mat4 matrixAdjustLamp = glm::mat4(1.0f);
-			matrixAdjustLamp = glm::translate(matrixAdjustLamp, lamp2Position[i]);
-			matrixAdjustLamp = glm::rotate(matrixAdjustLamp, glm::radians(lamp2Orientation[i]), glm::vec3(0, 1, 0));
-			matrixAdjustLamp = glm::scale(matrixAdjustLamp, glm::vec3(1.0, 1.0, 1.0));
-			matrixAdjustLamp = glm::translate(matrixAdjustLamp, glm::vec3(0.759521, 5.00174, 0));
-			glm::vec3 lampPosition = glm::vec3(matrixAdjustLamp[3]);
-			shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.ambient", glm::value_ptr(glm::vec3(0.2, 0.16, 0.01)));
-			shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.32, 0.02)));
-			shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.specular", glm::value_ptr(glm::vec3(0.6, 0.58, 0.03)));
-			shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].position", glm::value_ptr(lampPosition));
-			shaderMulLighting.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].constant", 1.0);
-			shaderMulLighting.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].linear", 0.09);
-			shaderMulLighting.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].quadratic", 0.01);
-			shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.ambient", glm::value_ptr(glm::vec3(0.2, 0.16, 0.01)));
-			shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.32, 0.02)));
-			shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.specular", glm::value_ptr(glm::vec3(0.6, 0.58, 0.03)));
-			shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].position", glm::value_ptr(lampPosition));
-			shaderTerrain.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].constant", 1.0);
-			shaderTerrain.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].linear", 0.09);
-			shaderTerrain.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].quadratic", 0.02);
-		}
-
-		/*******************************************
-		 * Terrain Cesped
-		 *******************************************/
-		glm::mat4 modelCesped = glm::mat4(1.0);
-		modelCesped = glm::translate(modelCesped, glm::vec3(0.0, 0.0, 0.0));
-		modelCesped = glm::scale(modelCesped, glm::vec3(200.0, 0.001, 200.0));
-=======
 		 /*	glm::vec3 spotPosition = glm::vec3(modelMatrixHeli * glm::vec4(0.32437, 0.226053, 1.79149, 1.0));
 			 shaderMulLighting.setInt("spotLightCount", 1);
 			 shaderTerrain.setInt("spotLightCount", 1);
@@ -1249,12 +789,11 @@ void applicationLoop() {
 				  shaderTerrain.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].linear", 0.09);
 				  shaderTerrain.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].quadratic", 0.02);
 			  }
-		*/
-		/*******************************************
-		* Terrain Cesped
-		*******************************************/
->>>>>>> Stashed changes
-		// Se activa la textura del background
+			  */
+			  /*******************************************
+			   * Terrain Cesped
+			   *******************************************/
+			   // Se activa la textura del background
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureTerrainBackgroundID);
 		shaderTerrain.setInt("backgroundTexture", 0);
@@ -1274,7 +813,7 @@ void applicationLoop() {
 		glActiveTexture(GL_TEXTURE4);
 		glBindTexture(GL_TEXTURE_2D, textureTerrainBlendMapID);
 		shaderTerrain.setInt("blendMapTexture", 4);
-		shaderTerrain.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(40, 40)));
+		shaderTerrain.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(1, 1)));
 		terrain.render();
 		shaderTerrain.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(0, 0)));
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -1282,54 +821,31 @@ void applicationLoop() {
 		/*******************************************
 		 * Custom objects obj
 		 *******************************************/
-		//Rock render
-		matrixModelRock[3][1] = terrain.getHeightTerrain(matrixModelRock[3][0], matrixModelRock[3][2]);
-		modelRock.render(matrixModelRock);
-		// Forze to enable the unit texture to 0 always ----------------- IMPORTANT
+		 // Forze to enable the unit texture to 0 always ----------------- IMPORTANT
 		glActiveTexture(GL_TEXTURE0);
 
-<<<<<<< Updated upstream
-		// Render for the aircraft model
-		modelMatrixAircraft[3][1] = terrain.getHeightTerrain(modelMatrixAircraft[3][0], modelMatrixAircraft[3][2]) + 2.0;
-		modelAircraft.render(modelMatrixAircraft);
-
-		// Helicopter
-		glm::mat4 modelMatrixHeliChasis = glm::mat4(modelMatrixHeli);
-		modelHeliChasis.render(modelMatrixHeliChasis);
-
-		glm::mat4 modelMatrixHeliHeli = glm::mat4(modelMatrixHeliChasis);
-		modelMatrixHeliHeli = glm::translate(modelMatrixHeliHeli, glm::vec3(0.0, 0.0, -0.249548));
-		modelMatrixHeliHeli = glm::rotate(modelMatrixHeliHeli, rotHelHelY, glm::vec3(0, 1, 0));
-		modelMatrixHeliHeli = glm::translate(modelMatrixHeliHeli, glm::vec3(0.0, 0.0, 0.249548));
-		modelHeliHeli.render(modelMatrixHeliHeli);
-=======
 		//Pandita render
-		matrixModelPanditaR[3][1] = terrain.getHeightTerrain(matrixModelPanditaR[3][0], matrixModelPanditaR[3][2]);
-		modelPanditaR.render(matrixModelPanditaR);
+		matrixModelPanditaRojo[3][1] = terrain.getHeightTerrain(matrixModelPanditaRojo[3][0], matrixModelPanditaRojo[3][2]);
+		panditaRojo.render(matrixModelPanditaRojo);
 		glActiveTexture(GL_TEXTURE0);
 
-		matrixModelPanditaAm[3][1] = terrain.getHeightTerrain(matrixModelPanditaAm[3][0], matrixModelPanditaAm[3][2]);
-		modelPanditaAm.render(matrixModelPanditaAm);
+		matrixModelPanditaAmarillo[3][1] = terrain.getHeightTerrain(matrixModelPanditaAmarillo[3][0], matrixModelPanditaAmarillo[3][2]);
+		panditaAmarillo.render(matrixModelPanditaAmarillo);
 		glActiveTexture(GL_TEXTURE0);
 
-		matrixModelPanditaV[3][1] = terrain.getHeightTerrain(matrixModelPanditaV[3][0], matrixModelPanditaV[3][2]);
-		modelPanditaV.render(matrixModelPanditaV);
+		matrixModelPanditaVerde[3][1] = terrain.getHeightTerrain(matrixModelPanditaVerde[3][0], matrixModelPanditaVerde[3][2]);
+		panditaVerde.render(matrixModelPanditaVerde);
 		glActiveTexture(GL_TEXTURE0);
 
-		matrixModelPanditaAz[3][1] = terrain.getHeightTerrain(matrixModelPanditaAz[3][0], matrixModelPanditaAz[3][2]);
-		modelPanditaAz.render(matrixModelPanditaAz);
+		matrixModelPanditaAzul[3][1] = terrain.getHeightTerrain(matrixModelPanditaAzul[3][0], matrixModelPanditaAzul[3][2]);
+		panditaAzul.render(matrixModelPanditaAzul);
 		glActiveTexture(GL_TEXTURE0);
 
-		matrixModelPanditaN[3][1] = terrain.getHeightTerrain(matrixModelPanditaN[3][0], matrixModelPanditaN[3][2]);
-		modelPanditaN.render(matrixModelPanditaN);
+		matrixModelPanditaNaranja[3][1] = terrain.getHeightTerrain(matrixModelPanditaNaranja[3][0], matrixModelPanditaNaranja[3][2]);
+		panditaNaranja.render(matrixModelPanditaNaranja);
 		glActiveTexture(GL_TEXTURE0);
 
-		//ChocoPopsicle Render 
-		matrixModelChocoP[3][1] = terrain.getHeightTerrain(matrixModelChocoP[3][0], matrixModelChocoP[3][2]);
-		modelChocoP.render(matrixModelChocoP);
-		glActiveTexture(GL_TEXTURE0);
->>>>>>> Stashed changes
-
+		/*
 		// Lambo car
 		glDisable(GL_CULL_FACE);
 		glm::mat4 modelMatrixLamboChasis = glm::mat4(modelMatrixLambo);
@@ -1349,7 +865,8 @@ void applicationLoop() {
 		modelLamboRearRightWheel.render(modelMatrixLamboChasis);
 		// Se regresa el cull faces IMPORTANTE para las puertas
 		glEnable(GL_CULL_FACE);
-
+		*/
+		/*
 		// Render the lamps
 		for (int i = 0; i < lamp1Position.size(); i++){
 			lamp1Position[i].y = terrain.getHeightTerrain(lamp1Position[i].x, lamp1Position[i].z);
@@ -1370,67 +887,18 @@ void applicationLoop() {
 			modelLampPost2.setOrientation(glm::vec3(0, lamp2Orientation[i], 0));
 			modelLampPost2.render();
 		}
-
-		// Dart lego
-		// Se deshabilita el cull faces IMPORTANTE para la capa
-		glDisable(GL_CULL_FACE);
-		modelMatrixDart[3][1] = terrain.getHeightTerrain(modelMatrixDart[3][0], modelMatrixDart[3][2]);
-		glm::mat4 modelMatrixDartBody = glm::mat4(modelMatrixDart);
-		modelMatrixDartBody = glm::scale(modelMatrixDartBody, glm::vec3(0.5, 0.5, 0.5));
-		modelDartLegoBody.render(modelMatrixDartBody);
-		glm::mat4 modelMatrixDartHead = glm::mat4(modelMatrixDartBody);
-		modelMatrixDartHead = glm::rotate(modelMatrixDartHead, rotDartHead, glm::vec3(0, 1, 0));
-		modelDartLegoHead.render(modelMatrixDartHead);
-		modelDartLegoMask.render(modelMatrixDartHead);
-		glm::mat4 modelMatrixDartLeftArm = glm::mat4(modelMatrixDartBody);
-		modelMatrixDartLeftArm = glm::translate(modelMatrixDartLeftArm, glm::vec3(-0.023515, 2.43607, 0.446066));
-		modelMatrixDartLeftArm = glm::rotate(modelMatrixDartLeftArm, glm::radians(-5.0f), glm::vec3(1, 0, 0));
-		modelMatrixDartLeftArm = glm::rotate(modelMatrixDartLeftArm, rotDartLeftArm, glm::vec3(0, 0, 1));
-		modelMatrixDartLeftArm = glm::rotate(modelMatrixDartLeftArm, glm::radians(5.0f), glm::vec3(1, 0, 0));
-		modelMatrixDartLeftArm = glm::translate(modelMatrixDartLeftArm, glm::vec3(0.023515, -2.43607, -0.446066));
-		modelDartLegoLeftArm.render(modelMatrixDartLeftArm);
-		glm::mat4 modelMatrixDartLeftHand = glm::mat4(modelMatrixDartLeftArm);
-		modelMatrixDartLeftHand = glm::translate(modelMatrixDartLeftHand, glm::vec3(0.201343, 1.68317, 0.99774));
-		modelMatrixDartLeftHand = glm::rotate(modelMatrixDartLeftHand, glm::radians(-5.0f), glm::vec3(1, 0, 0));
-		modelMatrixDartLeftHand = glm::rotate(modelMatrixDartLeftHand, rotDartLeftHand, glm::vec3(0, 1, 0));
-		modelMatrixDartLeftHand = glm::rotate(modelMatrixDartLeftHand, glm::radians(5.0f), glm::vec3(1, 0, 0));
-		modelMatrixDartLeftHand = glm::translate(modelMatrixDartLeftHand, glm::vec3(-0.201343, -1.68317, -0.99774));
-		modelDartLegoLeftHand.render(modelMatrixDartLeftHand);
-		glm::mat4 modelMatrixDartRightArm = glm::mat4(modelMatrixDartBody);
-		modelMatrixDartRightArm = glm::translate(modelMatrixDartRightArm, glm::vec3(-0.023515, 2.43607, -0.446066));
-		modelMatrixDartRightArm = glm::rotate(modelMatrixDartRightArm, glm::radians(5.0f), glm::vec3(1, 0, 0));
-		modelMatrixDartRightArm = glm::rotate(modelMatrixDartRightArm, rotDartRightArm, glm::vec3(0, 0, 1));
-		modelMatrixDartRightArm = glm::rotate(modelMatrixDartRightArm, glm::radians(-5.0f), glm::vec3(1, 0, 0));
-		modelMatrixDartRightArm = glm::translate(modelMatrixDartRightArm, glm::vec3(0.023515, -2.43607, 0.446066));
-		modelDartLegoRightArm.render(modelMatrixDartRightArm);
-		glm::mat4 modelMatrixDartRightHand = glm::mat4(modelMatrixDartRightArm);
-		modelMatrixDartRightHand = glm::translate(modelMatrixDartRightHand, glm::vec3(0.201343, 1.68317, -0.99774));
-		modelMatrixDartRightHand = glm::rotate(modelMatrixDartRightHand, glm::radians(5.0f), glm::vec3(1, 0, 0));
-		modelMatrixDartRightHand = glm::rotate(modelMatrixDartRightHand, rotDartRightHand, glm::vec3(0, 1, 0));
-		modelMatrixDartRightHand = glm::rotate(modelMatrixDartRightHand, glm::radians(-5.0f), glm::vec3(1, 0, 0));
-		modelMatrixDartRightHand = glm::translate(modelMatrixDartRightHand, glm::vec3(-0.201343, -1.68317, 0.99774));
-		modelDartLegoRightHand.render(modelMatrixDartRightHand);
-		glm::mat4 modelMatrixDartLeftLeg = glm::mat4(modelMatrixDartBody);
-		modelMatrixDartLeftLeg = glm::translate(modelMatrixDartLeftLeg, glm::vec3(0, 1.12632, 0.423349));
-		modelMatrixDartLeftLeg = glm::rotate(modelMatrixDartLeftLeg, rotDartLeftLeg, glm::vec3(0, 0, 1));
-		modelMatrixDartLeftLeg = glm::translate(modelMatrixDartLeftLeg, glm::vec3(0, -1.12632, -0.423349));
-		modelDartLegoLeftLeg.render(modelMatrixDartLeftLeg);
-		glm::mat4 modelMatrixDartRightLeg = glm::mat4(modelMatrixDartBody);
-		modelMatrixDartRightLeg = glm::translate(modelMatrixDartRightLeg, glm::vec3(0, 1.12632, -0.423349));
-		modelMatrixDartRightLeg = glm::rotate(modelMatrixDartRightLeg, rotDartRightLeg, glm::vec3(0, 0, 1));
-		modelMatrixDartRightLeg = glm::translate(modelMatrixDartRightLeg, glm::vec3(0, -1.12632, 0.423349));
-		modelDartLegoRightLeg.render(modelMatrixDartRightLeg);
-		// Se regresa el cull faces IMPORTANTE para la capa
-		glEnable(GL_CULL_FACE);
+		*/
+	
 
 		/*******************************************
 		 * Custom Anim objects obj
 		 *******************************************/
-		modelMatrixMayow[3][1] = terrain.getHeightTerrain(modelMatrixMayow[3][0], modelMatrixMayow[3][2]);
+		/*modelMatrixMayow[3][1] = terrain.getHeightTerrain(modelMatrixMayow[3][0], modelMatrixMayow[3][2]);
 		glm::mat4 modelMatrixMayowBody = glm::mat4(modelMatrixMayow);
 		modelMatrixMayowBody = glm::scale(modelMatrixMayowBody, glm::vec3(0.021, 0.021, 0.021));
 		mayowModelAnimate.setAnimationIndex(animationIndex);
 		mayowModelAnimate.render(modelMatrixMayowBody);
+		*/
 
 		/*******************************************
 		 * Skybox
@@ -1452,86 +920,48 @@ void applicationLoop() {
 		 * Creacion de colliders
 		 * IMPORTANT do this before interpolations
 		 *******************************************/
-		// Collider del dart vader lego
-		glm::mat4 modelmatrixColliderDart = glm::mat4(modelMatrixDart);
-		AbstractModel::OBB dartLegoBodyCollider;
-		// Set the orientation of collider before doing the scale
-		dartLegoBodyCollider.u = glm::quat_cast(modelMatrixDart);
-		modelmatrixColliderDart = glm::scale(modelmatrixColliderDart, glm::vec3(0.5, 0.5, 0.5));
-		modelmatrixColliderDart = glm::translate(modelmatrixColliderDart,
-				glm::vec3(modelDartLegoBody.getObb().c.x,
-						modelDartLegoBody.getObb().c.y,
-						modelDartLegoBody.getObb().c.z));
-		dartLegoBodyCollider.c = glm::vec3(modelmatrixColliderDart[3]);
-		dartLegoBodyCollider.e = modelDartLegoBody.getObb().e * glm::vec3(0.5, 0.5, 0.5);
-		addOrUpdateColliders(collidersOBB, "dart", dartLegoBodyCollider, modelMatrixDart);
 
-		// Collider del aricraft
-		glm::mat4 modelMatrixColliderAircraft = glm::mat4(modelMatrixAircraft);
-		AbstractModel::OBB aircraftCollider;
-		// Set the orientation of collider before doing the scale
-		aircraftCollider.u = glm::quat_cast(modelMatrixAircraft);
-		modelMatrixColliderAircraft = glm::scale(modelMatrixColliderAircraft,
-				glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderAircraft = glm::translate(
-				modelMatrixColliderAircraft, modelAircraft.getObb().c);
-		aircraftCollider.c = glm::vec3(modelMatrixColliderAircraft[3]);
-		aircraftCollider.e = modelAircraft.getObb().e * glm::vec3(1.0, 1.0, 1.0);
-		addOrUpdateColliders(collidersOBB, "aircraft", aircraftCollider, modelMatrixAircraft);
-
-		//Collider del la rock
-		AbstractModel::SBB rockCollider;
-		glm::mat4 modelMatrixColliderRock= glm::mat4(matrixModelRock);
-		modelMatrixColliderRock = glm::scale(modelMatrixColliderRock, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderRock = glm::translate(modelMatrixColliderRock, modelRock.getSbb().c);
-		rockCollider.c = glm::vec3(modelMatrixColliderRock[3]);
-		rockCollider.ratio = modelRock.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "rock", rockCollider, matrixModelRock);
-
-<<<<<<< Updated upstream
-=======
 		//Collider del los panditas
-		AbstractModel::SBB panditaRCollider;
-		glm::mat4 modelMatrixColliderPanditaR= glm::mat4(matrixModelPanditaR);
-		modelMatrixColliderPanditaR = glm::scale(modelMatrixColliderPanditaR, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderPanditaR = glm::translate(modelMatrixColliderPanditaR, modelPanditaR.getSbb().c);
-		panditaRCollider.c = glm::vec3(modelMatrixColliderPanditaR[3]);
-		panditaRCollider.ratio = modelPanditaR.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "panditaRojo", panditaRCollider, matrixModelPanditaR);
+		AbstractModel::SBB panditaRojoCollider;
+		glm::mat4 modelMatrixColliderPanditaRojo= glm::mat4(matrixModelPanditaRojo);
+		modelMatrixColliderPanditaRojo = glm::scale(modelMatrixColliderPanditaRojo, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderPanditaRojo = glm::translate(modelMatrixColliderPanditaRojo, panditaRojo.getSbb().c);
+		panditaRojoCollider.c = glm::vec3(modelMatrixColliderPanditaRojo[3]);
+		panditaRojoCollider.ratio = panditaRojo.getSbb().ratio * 1.0;
+		addOrUpdateColliders(collidersSBB, "panditaRojo", panditaRojoCollider, matrixModelPanditaRojo);
 
-		AbstractModel::SBB panditaVCollider;
-		glm::mat4 modelMatrixColliderPanditaV = glm::mat4(matrixModelPanditaV);
-		modelMatrixColliderPanditaV = glm::scale(modelMatrixColliderPanditaV, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderPanditaV = glm::translate(modelMatrixColliderPanditaV, modelPanditaV.getSbb().c);
-		panditaVCollider.c = glm::vec3(modelMatrixColliderPanditaV[3]);
-		panditaVCollider.ratio = modelPanditaV.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "panditaVerde", panditaVCollider, matrixModelPanditaV);
+		AbstractModel::SBB panditaVerdeCollider;
+		glm::mat4 modelMatrixColliderPanditaVerde = glm::mat4(matrixModelPanditaVerde);
+		modelMatrixColliderPanditaVerde = glm::scale(modelMatrixColliderPanditaVerde, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderPanditaVerde = glm::translate(modelMatrixColliderPanditaVerde, panditaVerde.getSbb().c);
+		panditaVerdeCollider.c = glm::vec3(modelMatrixColliderPanditaVerde[3]);
+		panditaVerdeCollider.ratio = panditaVerde.getSbb().ratio * 1.0;
+		addOrUpdateColliders(collidersSBB, "panditaVerde", panditaVerdeCollider, matrixModelPanditaVerde);
 
-		AbstractModel::SBB panditaAzCollider;
-		glm::mat4 modelMatrixColliderPanditaAz = glm::mat4(matrixModelPanditaAz);
-		modelMatrixColliderPanditaAz = glm::scale(modelMatrixColliderPanditaAz, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderPanditaAz = glm::translate(modelMatrixColliderPanditaAz, modelPanditaAz.getSbb().c);
-		panditaAzCollider.c = glm::vec3(modelMatrixColliderPanditaAz[3]);
-		panditaAzCollider.ratio = modelPanditaAz.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "panditaAzul", panditaAzCollider, matrixModelPanditaAz);
+		AbstractModel::SBB panditaAzulCollider;
+		glm::mat4 modelMatrixColliderPanditaAzul = glm::mat4(matrixModelPanditaAzul);
+		modelMatrixColliderPanditaAzul = glm::scale(modelMatrixColliderPanditaAzul, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderPanditaAzul = glm::translate(modelMatrixColliderPanditaAzul, panditaAzul.getSbb().c);
+		panditaAzulCollider.c = glm::vec3(modelMatrixColliderPanditaAzul[3]);
+		panditaAzulCollider.ratio = panditaAzul.getSbb().ratio * 1.0;
+		addOrUpdateColliders(collidersSBB, "panditaAzul", panditaAzulCollider, matrixModelPanditaAzul);
 
-		AbstractModel::SBB panditaAmCollider;
-		glm::mat4 modelMatrixColliderPanditaAm = glm::mat4(matrixModelPanditaAm);
-		modelMatrixColliderPanditaAm = glm::scale(modelMatrixColliderPanditaAm, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderPanditaAm = glm::translate(modelMatrixColliderPanditaAm, modelPanditaAm.getSbb().c);
-		panditaAmCollider.c = glm::vec3(modelMatrixColliderPanditaAm[3]);
-		panditaAmCollider.ratio = modelPanditaAm.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "panditaAmarillo", panditaAmCollider, matrixModelPanditaAm);
+		AbstractModel::SBB panditaAmarilloCollider;
+		glm::mat4 modelMatrixColliderPanditaAmarillo = glm::mat4(matrixModelPanditaAmarillo);
+		modelMatrixColliderPanditaAmarillo = glm::scale(modelMatrixColliderPanditaAmarillo, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderPanditaAmarillo = glm::translate(modelMatrixColliderPanditaAmarillo, panditaAmarillo.getSbb().c);
+		panditaAmarilloCollider.c = glm::vec3(modelMatrixColliderPanditaAmarillo[3]);
+		panditaAmarilloCollider.ratio = panditaAmarillo.getSbb().ratio * 1.0;
+		addOrUpdateColliders(collidersSBB, "panditaAmarillo", panditaAmarilloCollider, matrixModelPanditaAmarillo);
 
-		AbstractModel::SBB panditaNCollider;
-		glm::mat4 modelMatrixColliderPanditaN = glm::mat4(matrixModelPanditaN);
-		modelMatrixColliderPanditaN = glm::scale(modelMatrixColliderPanditaN, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderPanditaN = glm::translate(modelMatrixColliderPanditaN, modelPanditaN.getSbb().c);
-		panditaNCollider.c = glm::vec3(modelMatrixColliderPanditaN[3]);
-		panditaNCollider.ratio = modelPanditaN.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "panditaNaranja", panditaNCollider, matrixModelPanditaN);
+		AbstractModel::SBB panditaNaranjaCollider;
+		glm::mat4 modelMatrixColliderPanditaNaranja = glm::mat4(matrixModelPanditaNaranja);
+		modelMatrixColliderPanditaNaranja = glm::scale(modelMatrixColliderPanditaNaranja, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderPanditaNaranja = glm::translate(modelMatrixColliderPanditaNaranja, panditaNaranja.getSbb().c);
+		panditaNaranjaCollider.c = glm::vec3(modelMatrixColliderPanditaNaranja[3]);
+		panditaNaranjaCollider.ratio = panditaNaranja.getSbb().ratio * 1.0;
+		addOrUpdateColliders(collidersSBB, "panditaNaranja", panditaNaranjaCollider, matrixModelPanditaNaranja);
 		/*
->>>>>>> Stashed changes
 		// Lamps1 colliders
 		for (int i = 0; i < lamp1Position.size(); i++){
 			AbstractModel::OBB lampCollider;
@@ -1565,7 +995,8 @@ void applicationLoop() {
 			lampCollider.e = modelLampPost2.getObb().e * glm::vec3(1.0, 1.0, 1.0);
 			std::get<0>(collidersOBB.find("lamp2-" + std::to_string(i))->second) = lampCollider;
 		}
-
+		*/
+		/*
 		// Collider de mayow
 		AbstractModel::OBB mayowCollider;
 		glm::mat4 modelmatrixColliderMayow = glm::mat4(modelMatrixMayow);
@@ -1581,11 +1012,12 @@ void applicationLoop() {
 		mayowCollider.e = mayowModelAnimate.getObb().e * glm::vec3(0.021, 0.021, 0.021) * glm::vec3(0.787401574, 0.787401574, 0.787401574);
 		mayowCollider.c = glm::vec3(modelmatrixColliderMayow[3]);
 		addOrUpdateColliders(collidersOBB, "mayow", mayowCollider, modelMatrixMayow);
+		*/
 
 		/*******************************************
 		 * Render de colliders
 		 *******************************************/
-		for (std::map<std::string, std::tuple<AbstractModel::OBB, glm::mat4, glm::mat4> >::iterator it =
+		/*for (std::map<std::string, std::tuple<AbstractModel::OBB, glm::mat4, glm::mat4> >::iterator it =
 				collidersOBB.begin(); it != collidersOBB.end(); it++) {
 			glm::mat4 matrixCollider = glm::mat4(1.0);
 			matrixCollider = glm::translate(matrixCollider, std::get<0>(it->second).c);
@@ -1605,7 +1037,7 @@ void applicationLoop() {
 			sphereCollider.enableWireMode();
 			sphereCollider.render(matrixCollider);
 		}
-
+		*/
 		// Esto es para ilustrar la transformacion inversa de los coliders
 		/*glm::vec3 cinv = glm::inverse(mayowCollider.u) * glm::vec4(rockCollider.c, 1.0);
 		glm::mat4 invColliderS = glm::mat4(1.0);
@@ -1626,156 +1058,12 @@ void applicationLoop() {
 		sphereCollider.setColor(glm::vec4(1.0, 1.0, 1.0, 1.0));
 		boxCollider.setColor(glm::vec4(1.0, 1.0, 1.0, 1.0));*/
 
-		/*******************************************
-		 * Test Colisions
-		 *******************************************/
-		for (std::map<std::string,
-				std::tuple<AbstractModel::OBB, glm::mat4, glm::mat4> >::iterator it =
-				collidersOBB.begin(); it != collidersOBB.end(); it++) {
-			bool isCollision = false;
-			for (std::map<std::string,
-					std::tuple<AbstractModel::OBB, glm::mat4, glm::mat4> >::iterator jt =
-					collidersOBB.begin(); jt != collidersOBB.end(); jt++) {
-				if (it != jt
-						&& testOBBOBB(std::get<0>(it->second),
-								std::get<0>(jt->second))) {
-					std::cout << "Colision " << it->first << " with "
-							<< jt->first << std::endl;
-					isCollision = true;
-				}
-			}
-			addOrUpdateCollisionDetection(collisionDetection, it->first, isCollision);
-		}
 
-		for (std::map<std::string,
-				std::tuple<AbstractModel::SBB, glm::mat4, glm::mat4> >::iterator it =
-				collidersSBB.begin(); it != collidersSBB.end(); it++) {
-			bool isCollision = false;
-			for (std::map<std::string,
-					std::tuple<AbstractModel::SBB, glm::mat4, glm::mat4> >::iterator jt =
-					collidersSBB.begin(); jt != collidersSBB.end(); jt++) {
-				if (it != jt
-						&& testSphereSphereIntersection(std::get<0>(it->second),
-								std::get<0>(jt->second))) {
-					std::cout << "Colision " << it->first << " with "
-							<< jt->first << std::endl;
-					isCollision = true;
-				}
-			}
-			addOrUpdateCollisionDetection(collisionDetection, it->first, isCollision);
-		}
-
-		for (std::map<std::string,
-				std::tuple<AbstractModel::SBB, glm::mat4, glm::mat4> >::iterator it =
-				collidersSBB.begin(); it != collidersSBB.end(); it++) {
-			bool isCollision = false;
-			std::map<std::string,
-					std::tuple<AbstractModel::OBB, glm::mat4, glm::mat4> >::iterator jt =
-					collidersOBB.begin();
-			for (; jt != collidersOBB.end(); jt++) {
-				if (testSphereOBox(std::get<0>(it->second),
-								std::get<0>(jt->second))) {
-					std::cout << "Colision " << it->first << " with "
-							<< jt->first << std::endl;
-					isCollision = true;
-					addOrUpdateCollisionDetection(collisionDetection, jt->first, isCollision);
-				}
-			}
-			addOrUpdateCollisionDetection(collisionDetection, it->first, isCollision);
-		}
-
-		std::map<std::string, bool>::iterator colIt;
-		for (colIt = collisionDetection.begin(); colIt != collisionDetection.end();
-				colIt++) {
-			std::map<std::string,
-					std::tuple<AbstractModel::SBB, glm::mat4, glm::mat4> >::iterator it =
-					collidersSBB.find(colIt->first);
-			std::map<std::string,
-					std::tuple<AbstractModel::OBB, glm::mat4, glm::mat4> >::iterator jt =
-					collidersOBB.find(colIt->first);
-			if (it != collidersSBB.end()) {
-				if (!colIt->second)
-					addOrUpdateColliders(collidersSBB, it->first);
-			}
-			if (jt != collidersOBB.end()) {
-				if (!colIt->second)
-					addOrUpdateColliders(collidersOBB, jt->first);
-				else {
-					if (jt->first.compare("mayow") == 0)
-						modelMatrixMayow = std::get<1>(jt->second);
-					if (jt->first.compare("dart") == 0)
-						modelMatrixDart = std::get<1>(jt->second);
-				}
-			}
-		}
-
-		/*******************************************
-		 * Interpolation key frames with disconect objects
-		 *******************************************/
-		if(record && modelSelected == 1){
-			matrixDartJoints.push_back(rotDartHead);
-			matrixDartJoints.push_back(rotDartLeftArm);
-			matrixDartJoints.push_back(rotDartLeftHand);
-			matrixDartJoints.push_back(rotDartRightArm);
-			matrixDartJoints.push_back(rotDartRightHand);
-			matrixDartJoints.push_back(rotDartLeftLeg);
-			matrixDartJoints.push_back(rotDartRightLeg);
-			if (saveFrame) {
-				appendFrame(myfile, matrixDartJoints);
-				saveFrame = false;
-			}
-		}
-		else if(keyFramesDartJoints.size() > 0){
-			// Para reproducir el frame
-			interpolationDartJoints = numPasosDartJoints / (float) maxNumPasosDartJoints;
-			numPasosDartJoints++;
-			if (interpolationDartJoints > 1.0) {
-				numPasosDartJoints = 0;
-				interpolationDartJoints = 0;
-				indexFrameDartJoints = indexFrameDartJointsNext;
-				indexFrameDartJointsNext++;
-			}
-			if (indexFrameDartJointsNext > keyFramesDartJoints.size() - 1)
-				indexFrameDartJointsNext = 0;
-			rotDartHead = interpolate(keyFramesDartJoints, indexFrameDartJoints, indexFrameDartJointsNext, 0, interpolationDartJoints);
-			rotDartLeftArm = interpolate(keyFramesDartJoints, indexFrameDartJoints, indexFrameDartJointsNext, 1, interpolationDartJoints);
-			rotDartLeftHand = interpolate(keyFramesDartJoints, indexFrameDartJoints, indexFrameDartJointsNext, 2, interpolationDartJoints);
-			rotDartRightArm = interpolate(keyFramesDartJoints, indexFrameDartJoints, indexFrameDartJointsNext, 3, interpolationDartJoints);
-			rotDartRightHand = interpolate(keyFramesDartJoints, indexFrameDartJoints, indexFrameDartJointsNext, 4, interpolationDartJoints);
-			rotDartLeftLeg = interpolate(keyFramesDartJoints, indexFrameDartJoints, indexFrameDartJointsNext, 5, interpolationDartJoints);
-			rotDartRightLeg = interpolate(keyFramesDartJoints, indexFrameDartJoints, indexFrameDartJointsNext, 6, interpolationDartJoints);
-		}
-
-		if (record && modelSelected == 2) {
-			matrixDart.push_back(modelMatrixDart);
-			if (saveFrame) {
-				appendFrame(myfile, matrixDart);
-				saveFrame = false;
-			}
-		}
-		else if (keyFramesDart.size() > 0) {
-			// Para reproducir el frame
-			interpolationDart = numPasosDart / (float)maxNumPasosDart;
-			numPasosDart++;
-			if (interpolationDart > 1.0) {
-				numPasosDart = 0;
-				interpolationDart = 0;
-				indexFrameDart = indexFrameDartNext;
-				indexFrameDartNext++;
-			}
-			if (indexFrameDartNext > keyFramesDart.size() - 1)
-				indexFrameDartNext = 0;
-			modelMatrixDart = interpolate(keyFramesDart, indexFrameDart, indexFrameDartNext, 0, interpolationDart);
-		}
-
-		// Constantes de animaciones
-		rotHelHelY += 0.5;
-		animationIndex = 1;
 
 		/*******************************************
 		 * State machines
 		 *******************************************/
-
+		/*
 		// State machine for the lambo car
 		switch(stateDoor){
 		case 0:
@@ -1791,7 +1079,7 @@ void applicationLoop() {
 			}
 			break;
 		}
-
+		*/
 		glfwSwapBuffers(window);
 	}
 }
