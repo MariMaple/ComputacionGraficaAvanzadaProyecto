@@ -65,6 +65,7 @@ Box boxCollider;
 Sphere sphereCollider(10, 10);
 
 // Models complex instances
+<<<<<<< Updated upstream
 Model modelRock;
 Model modelAircraft;
 Model modelHeliChasis;
@@ -90,6 +91,18 @@ Model modelDartLegoRightLeg;
 Model modelLamp1;
 Model modelLamp2;
 Model modelLampPost2;
+=======
+Model modelPanditaR;
+Model modelPanditaAm;
+Model modelPanditaAz;
+Model modelPanditaN;
+Model modelPanditaV;
+Model modelChocoP;
+Model modelIceCream;
+Model modelLollipop;
+Model modelPiruleta;
+
+>>>>>>> Stashed changes
 // Model animate instance
 // Mayow
 Model mayowModelAnimate;
@@ -108,24 +121,33 @@ GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
 GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
 GL_TEXTURE_CUBE_MAP_NEGATIVE_Z };
 
-std::string fileNames[6] = { "../Textures/mp_bloodvalley/blood-valley_ft.tga",
-		"../Textures/mp_bloodvalley/blood-valley_bk.tga",
-		"../Textures/mp_bloodvalley/blood-valley_up.tga",
-		"../Textures/mp_bloodvalley/blood-valley_dn.tga",
-		"../Textures/mp_bloodvalley/blood-valley_rt.tga",
-		"../Textures/mp_bloodvalley/blood-valley_lf.tga" };
+std::string fileNames[6] = { "../Textures/mp_Cute/Cute_ft.tga",
+		"../Textures/mp_Cute/Cute_bk.tga",
+		"../Textures/mp_Cute/Cute_up.tga",
+		"../Textures/mp_Cute/Cute_dn.tga",
+		"../Textures/mp_Cute/Cute_rt.tga",
+		"../Textures/mp_Cute/Cute_lf.tga" };
 
 bool exitApp = false;
 int lastMousePosX, offsetX = 0;
 int lastMousePosY, offsetY = 0;
 
 // Model matrix definitions
+<<<<<<< Updated upstream
 glm::mat4 matrixModelRock = glm::mat4(1.0);
 glm::mat4 modelMatrixHeli = glm::mat4(1.0f);
 glm::mat4 modelMatrixLambo = glm::mat4(1.0);
 glm::mat4 modelMatrixAircraft = glm::mat4(1.0);
 glm::mat4 modelMatrixDart = glm::mat4(1.0f);
 glm::mat4 modelMatrixMayow = glm::mat4(1.0f);
+=======
+glm::mat4 matrixModelPanditaR		= glm::mat4(1.0);
+glm::mat4 matrixModelPanditaAz		= glm::mat4(1.0);
+glm::mat4 matrixModelPanditaN		= glm::mat4(1.0);
+glm::mat4 matrixModelPanditaAm		= glm::mat4(1.0);
+glm::mat4 matrixModelPanditaV		= glm::mat4(1.0);
+glm::mat4 matrixModelChocoP			= glm::mat4(1.0);
+>>>>>>> Stashed changes
 
 int animationIndex = 1;
 float rotDartHead = 0.0, rotDartLeftArm = 0.0, rotDartLeftHand = 0.0, rotDartRightArm = 0.0, rotDartRightHand = 0.0, rotDartLeftLeg = 0.0, rotDartRightLeg = 0.0;
@@ -268,6 +290,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	terrain.setShader(&shaderTerrain);
 	terrain.setPosition(glm::vec3(100, 0, 100));
 
+<<<<<<< Updated upstream
 	// Helicopter
 	modelHeliChasis.loadModel("../models/Helicopter/Mi_24_chasis.obj");
 	modelHeliChasis.setShader(&shaderMulLighting);
@@ -309,6 +332,24 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelDartLegoRightLeg.loadModel("../models/LegoDart/LeoDart_right_leg.obj");
 	modelDartLegoRightLeg.setShader(&shaderMulLighting);
 
+=======
+	// Panditas models
+	modelPanditaR.loadModel("../models/Panditas/PanditaRojo.obj");
+	modelPanditaR.setShader(&shaderMulLighting);
+	modelPanditaAz.loadModel("../models/Panditas/PanditaAzul.obj");
+	modelPanditaAz.setShader(&shaderMulLighting);
+	modelPanditaN.loadModel("../models/Panditas/PanditaNaranja.obj");
+	modelPanditaN.setShader(&shaderMulLighting);
+	modelPanditaV.loadModel("../models/Panditas/PanditaVerde.obj");
+	modelPanditaV.setShader(&shaderMulLighting);
+	modelPanditaAm.loadModel("../models/Panditas/PanditaAmarillo.obj");
+	modelPanditaAm.setShader(&shaderMulLighting);
+
+	//ChocoPopsicle models
+	modelChocoP.loadModel("../models/ChocoPaleta/ChocoPaleta.obj");
+	modelChocoP.setShader(&shaderMulLighting);
+	/*
+>>>>>>> Stashed changes
 	//Lamp models
 	modelLamp1.loadModel("../models/Street-Lamp-Black/objLamp.obj");
 	modelLamp1.setShader(&shaderMulLighting);
@@ -718,7 +759,17 @@ void destroy() {
 	modelRock.destroy();
 	modelLamp1.destroy();
 	modelLamp2.destroy();
+<<<<<<< Updated upstream
 	modelLampPost2.destroy();
+=======
+	modelLampPost2.destroy();*/
+	modelPanditaAm.destroy();
+	modelPanditaAz.destroy();
+	modelPanditaN.destroy();
+	modelPanditaR.destroy();
+	modelPanditaV.destroy();
+	modelChocoP.destroy();
+>>>>>>> Stashed changes
 
 	// Custom objects animate
 	mayowModelAnimate.destroy();
@@ -925,6 +976,7 @@ void applicationLoop() {
 
 	modelMatrixDart = glm::translate(modelMatrixDart, glm::vec3(3.0, 0.0, 20.0));
 
+<<<<<<< Updated upstream
 	modelMatrixMayow = glm::translate(modelMatrixMayow, glm::vec3(13.0f, 0.05f, -5.0f));
 	modelMatrixMayow = glm::rotate(modelMatrixMayow, glm::radians(-90.0f), glm::vec3(0, 1, 0));
 
@@ -932,6 +984,15 @@ void applicationLoop() {
 	fileName = "../animaciones/animation_dart_joints.txt";
 	keyFramesDartJoints = getKeyRotFrames(fileName);
 	keyFramesDart = getKeyFrames("../animaciones/animation_dart.txt");
+=======
+	//MatrixModel Position
+	matrixModelPanditaR  = glm::translate(matrixModelPanditaR, glm::vec3(-3.0, 0.0, 2.0));
+	matrixModelPanditaAm = glm::translate(matrixModelPanditaAm, glm::vec3(-5.0, 0.0, 2.0));
+	matrixModelPanditaV  = glm::translate(matrixModelPanditaV, glm::vec3(-7.0, 0.0, 2.0));
+	matrixModelPanditaN	 = glm::translate(matrixModelPanditaN, glm::vec3(-9.0, 0.0, 2.0));
+	matrixModelPanditaAz = glm::translate(matrixModelPanditaAz, glm::vec3(-11.0, 0.0, 2.0));
+	matrixModelChocoP = glm::translate(matrixModelChocoP, glm::vec3(-7.0, 0.0, 2.0));
+>>>>>>> Stashed changes
 
 	lastTime = TimeManager::Instance().GetTime();
 
@@ -957,6 +1018,7 @@ void applicationLoop() {
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f),
 				(float) screenWidth / (float) screenHeight, 0.01f, 100.0f);
 
+<<<<<<< Updated upstream
 		if(modelSelected == 1){
 			axis = glm::axis(glm::quat_cast(modelMatrixDart));
 			angleTarget = glm::angle(glm::quat_cast(modelMatrixDart));
@@ -966,6 +1028,17 @@ void applicationLoop() {
 			axis = glm::axis(glm::quat_cast(modelMatrixMayow));
 			angleTarget = glm::angle(glm::quat_cast(modelMatrixMayow));
 			target = modelMatrixMayow[3];
+=======
+		if (modelSelected == 1) {
+			axis = glm::axis(glm::quat_cast(matrixModelPanditaR));
+			angleTarget = glm::angle(glm::quat_cast(matrixModelPanditaR));
+			target = matrixModelPanditaR[3];
+		}
+		else{
+			axis = glm::axis(glm::quat_cast(matrixModelPanditaV));
+			angleTarget = glm::angle(glm::quat_cast(matrixModelPanditaV));
+			target = matrixModelPanditaV[3];
+>>>>>>> Stashed changes
 		}
 
 		if(std::isnan(angleTarget))
@@ -1020,6 +1093,7 @@ void applicationLoop() {
 		/*******************************************
 		 * Propiedades SpotLights
 		 *******************************************/
+<<<<<<< Updated upstream
 		glm::vec3 spotPosition = glm::vec3(modelMatrixHeli * glm::vec4(0.32437, 0.226053, 1.79149, 1.0));
 		shaderMulLighting.setInt("spotLightCount", 1);
 		shaderTerrain.setInt("spotLightCount", 1);
@@ -1100,6 +1174,86 @@ void applicationLoop() {
 		glm::mat4 modelCesped = glm::mat4(1.0);
 		modelCesped = glm::translate(modelCesped, glm::vec3(0.0, 0.0, 0.0));
 		modelCesped = glm::scale(modelCesped, glm::vec3(200.0, 0.001, 200.0));
+=======
+		 /*	glm::vec3 spotPosition = glm::vec3(modelMatrixHeli * glm::vec4(0.32437, 0.226053, 1.79149, 1.0));
+			 shaderMulLighting.setInt("spotLightCount", 1);
+			 shaderTerrain.setInt("spotLightCount", 1);
+			 shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
+			 shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
+			 shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			 shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
+			 shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
+			 shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
+			 shaderMulLighting.setFloat("spotLights[0].linear", 0.074);
+			 shaderMulLighting.setFloat("spotLights[0].quadratic", 0.03);
+			 shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
+			 shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
+			 shaderTerrain.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
+			 shaderTerrain.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
+			 shaderTerrain.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			 shaderTerrain.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
+			 shaderTerrain.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
+			 shaderTerrain.setFloat("spotLights[0].constant", 1.0);
+			 shaderTerrain.setFloat("spotLights[0].linear", 0.074);
+			 shaderTerrain.setFloat("spotLights[0].quadratic", 0.03);
+			 shaderTerrain.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
+			 shaderTerrain.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
+
+			 */
+			 /*******************************************
+			  * Propiedades PointLights
+			  *******************************************/
+			  /*shaderMulLighting.setInt("pointLightCount", lamp1Position.size() + lamp2Orientation.size());
+			  shaderTerrain.setInt("pointLightCount", lamp1Position.size() + lamp2Orientation.size());
+			  for (int i = 0; i < lamp1Position.size(); i++){
+				  glm::mat4 matrixAdjustLamp = glm::mat4(1.0f);
+				  matrixAdjustLamp = glm::translate(matrixAdjustLamp, lamp1Position[i]);
+				  matrixAdjustLamp = glm::rotate(matrixAdjustLamp, glm::radians(lamp1Orientation[i]), glm::vec3(0, 1, 0));
+				  matrixAdjustLamp = glm::scale(matrixAdjustLamp, glm::vec3(0.5, 0.5, 0.5));
+				  matrixAdjustLamp = glm::translate(matrixAdjustLamp, glm::vec3(0, 10.3585, 0));
+				  glm::vec3 lampPosition = glm::vec3(matrixAdjustLamp[3]);
+				  shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.ambient", glm::value_ptr(glm::vec3(0.2, 0.16, 0.01)));
+				  shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.32, 0.02)));
+				  shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.specular", glm::value_ptr(glm::vec3(0.6, 0.58, 0.03)));
+				  shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(i) + "].position", glm::value_ptr(lampPosition));
+				  shaderMulLighting.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0);
+				  shaderMulLighting.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.09);
+				  shaderMulLighting.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.01);
+				  shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.ambient", glm::value_ptr(glm::vec3(0.2, 0.16, 0.01)));
+				  shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.32, 0.02)));
+				  shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(i) + "].light.specular", glm::value_ptr(glm::vec3(0.6, 0.58, 0.03)));
+				  shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(i) + "].position", glm::value_ptr(lampPosition));
+				  shaderTerrain.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0);
+				  shaderTerrain.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.09);
+				  shaderTerrain.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.02);
+			  }
+			  for (int i = 0; i < lamp2Position.size(); i++){
+				  glm::mat4 matrixAdjustLamp = glm::mat4(1.0f);
+				  matrixAdjustLamp = glm::translate(matrixAdjustLamp, lamp2Position[i]);
+				  matrixAdjustLamp = glm::rotate(matrixAdjustLamp, glm::radians(lamp2Orientation[i]), glm::vec3(0, 1, 0));
+				  matrixAdjustLamp = glm::scale(matrixAdjustLamp, glm::vec3(1.0, 1.0, 1.0));
+				  matrixAdjustLamp = glm::translate(matrixAdjustLamp, glm::vec3(0.759521, 5.00174, 0));
+				  glm::vec3 lampPosition = glm::vec3(matrixAdjustLamp[3]);
+				  shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.ambient", glm::value_ptr(glm::vec3(0.2, 0.16, 0.01)));
+				  shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.32, 0.02)));
+				  shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.specular", glm::value_ptr(glm::vec3(0.6, 0.58, 0.03)));
+				  shaderMulLighting.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].position", glm::value_ptr(lampPosition));
+				  shaderMulLighting.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].constant", 1.0);
+				  shaderMulLighting.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].linear", 0.09);
+				  shaderMulLighting.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].quadratic", 0.01);
+				  shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.ambient", glm::value_ptr(glm::vec3(0.2, 0.16, 0.01)));
+				  shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.32, 0.02)));
+				  shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].light.specular", glm::value_ptr(glm::vec3(0.6, 0.58, 0.03)));
+				  shaderTerrain.setVectorFloat3("pointLights[" + std::to_string(lamp1Position.size() + i) + "].position", glm::value_ptr(lampPosition));
+				  shaderTerrain.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].constant", 1.0);
+				  shaderTerrain.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].linear", 0.09);
+				  shaderTerrain.setFloat("pointLights[" + std::to_string(lamp1Position.size() + i) + "].quadratic", 0.02);
+			  }
+		*/
+		/*******************************************
+		* Terrain Cesped
+		*******************************************/
+>>>>>>> Stashed changes
 		// Se activa la textura del background
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureTerrainBackgroundID);
@@ -1134,6 +1288,7 @@ void applicationLoop() {
 		// Forze to enable the unit texture to 0 always ----------------- IMPORTANT
 		glActiveTexture(GL_TEXTURE0);
 
+<<<<<<< Updated upstream
 		// Render for the aircraft model
 		modelMatrixAircraft[3][1] = terrain.getHeightTerrain(modelMatrixAircraft[3][0], modelMatrixAircraft[3][2]) + 2.0;
 		modelAircraft.render(modelMatrixAircraft);
@@ -1147,6 +1302,33 @@ void applicationLoop() {
 		modelMatrixHeliHeli = glm::rotate(modelMatrixHeliHeli, rotHelHelY, glm::vec3(0, 1, 0));
 		modelMatrixHeliHeli = glm::translate(modelMatrixHeliHeli, glm::vec3(0.0, 0.0, 0.249548));
 		modelHeliHeli.render(modelMatrixHeliHeli);
+=======
+		//Pandita render
+		matrixModelPanditaR[3][1] = terrain.getHeightTerrain(matrixModelPanditaR[3][0], matrixModelPanditaR[3][2]);
+		modelPanditaR.render(matrixModelPanditaR);
+		glActiveTexture(GL_TEXTURE0);
+
+		matrixModelPanditaAm[3][1] = terrain.getHeightTerrain(matrixModelPanditaAm[3][0], matrixModelPanditaAm[3][2]);
+		modelPanditaAm.render(matrixModelPanditaAm);
+		glActiveTexture(GL_TEXTURE0);
+
+		matrixModelPanditaV[3][1] = terrain.getHeightTerrain(matrixModelPanditaV[3][0], matrixModelPanditaV[3][2]);
+		modelPanditaV.render(matrixModelPanditaV);
+		glActiveTexture(GL_TEXTURE0);
+
+		matrixModelPanditaAz[3][1] = terrain.getHeightTerrain(matrixModelPanditaAz[3][0], matrixModelPanditaAz[3][2]);
+		modelPanditaAz.render(matrixModelPanditaAz);
+		glActiveTexture(GL_TEXTURE0);
+
+		matrixModelPanditaN[3][1] = terrain.getHeightTerrain(matrixModelPanditaN[3][0], matrixModelPanditaN[3][2]);
+		modelPanditaN.render(matrixModelPanditaN);
+		glActiveTexture(GL_TEXTURE0);
+
+		//ChocoPopsicle Render 
+		matrixModelChocoP[3][1] = terrain.getHeightTerrain(matrixModelChocoP[3][0], matrixModelChocoP[3][2]);
+		modelChocoP.render(matrixModelChocoP);
+		glActiveTexture(GL_TEXTURE0);
+>>>>>>> Stashed changes
 
 		// Lambo car
 		glDisable(GL_CULL_FACE);
@@ -1306,6 +1488,50 @@ void applicationLoop() {
 		rockCollider.ratio = modelRock.getSbb().ratio * 1.0;
 		addOrUpdateColliders(collidersSBB, "rock", rockCollider, matrixModelRock);
 
+<<<<<<< Updated upstream
+=======
+		//Collider del los panditas
+		AbstractModel::SBB panditaRCollider;
+		glm::mat4 modelMatrixColliderPanditaR= glm::mat4(matrixModelPanditaR);
+		modelMatrixColliderPanditaR = glm::scale(modelMatrixColliderPanditaR, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderPanditaR = glm::translate(modelMatrixColliderPanditaR, modelPanditaR.getSbb().c);
+		panditaRCollider.c = glm::vec3(modelMatrixColliderPanditaR[3]);
+		panditaRCollider.ratio = modelPanditaR.getSbb().ratio * 1.0;
+		addOrUpdateColliders(collidersSBB, "panditaRojo", panditaRCollider, matrixModelPanditaR);
+
+		AbstractModel::SBB panditaVCollider;
+		glm::mat4 modelMatrixColliderPanditaV = glm::mat4(matrixModelPanditaV);
+		modelMatrixColliderPanditaV = glm::scale(modelMatrixColliderPanditaV, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderPanditaV = glm::translate(modelMatrixColliderPanditaV, modelPanditaV.getSbb().c);
+		panditaVCollider.c = glm::vec3(modelMatrixColliderPanditaV[3]);
+		panditaVCollider.ratio = modelPanditaV.getSbb().ratio * 1.0;
+		addOrUpdateColliders(collidersSBB, "panditaVerde", panditaVCollider, matrixModelPanditaV);
+
+		AbstractModel::SBB panditaAzCollider;
+		glm::mat4 modelMatrixColliderPanditaAz = glm::mat4(matrixModelPanditaAz);
+		modelMatrixColliderPanditaAz = glm::scale(modelMatrixColliderPanditaAz, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderPanditaAz = glm::translate(modelMatrixColliderPanditaAz, modelPanditaAz.getSbb().c);
+		panditaAzCollider.c = glm::vec3(modelMatrixColliderPanditaAz[3]);
+		panditaAzCollider.ratio = modelPanditaAz.getSbb().ratio * 1.0;
+		addOrUpdateColliders(collidersSBB, "panditaAzul", panditaAzCollider, matrixModelPanditaAz);
+
+		AbstractModel::SBB panditaAmCollider;
+		glm::mat4 modelMatrixColliderPanditaAm = glm::mat4(matrixModelPanditaAm);
+		modelMatrixColliderPanditaAm = glm::scale(modelMatrixColliderPanditaAm, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderPanditaAm = glm::translate(modelMatrixColliderPanditaAm, modelPanditaAm.getSbb().c);
+		panditaAmCollider.c = glm::vec3(modelMatrixColliderPanditaAm[3]);
+		panditaAmCollider.ratio = modelPanditaAm.getSbb().ratio * 1.0;
+		addOrUpdateColliders(collidersSBB, "panditaAmarillo", panditaAmCollider, matrixModelPanditaAm);
+
+		AbstractModel::SBB panditaNCollider;
+		glm::mat4 modelMatrixColliderPanditaN = glm::mat4(matrixModelPanditaN);
+		modelMatrixColliderPanditaN = glm::scale(modelMatrixColliderPanditaN, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderPanditaN = glm::translate(modelMatrixColliderPanditaN, modelPanditaN.getSbb().c);
+		panditaNCollider.c = glm::vec3(modelMatrixColliderPanditaN[3]);
+		panditaNCollider.ratio = modelPanditaN.getSbb().ratio * 1.0;
+		addOrUpdateColliders(collidersSBB, "panditaNaranja", panditaNCollider, matrixModelPanditaN);
+		/*
+>>>>>>> Stashed changes
 		// Lamps1 colliders
 		for (int i = 0; i < lamp1Position.size(); i++){
 			AbstractModel::OBB lampCollider;

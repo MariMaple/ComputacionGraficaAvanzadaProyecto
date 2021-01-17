@@ -1,0 +1,80 @@
+newmtl Material2168
+Ka 0.7843137 0.7843137 0.7843137
+Kd 0.972549 0.972549 0.972549
+d 0.2903226
+Tr 0.2903226
+map_Ka Material2168.png
+map_Kd Material2168.png
+map_d Material2168.png
+newmtl Material2169
+Ka 0.7843137 0.7843137 0.7843137
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka Material2169.png
+map_Kd Material2169.png
+map_d Material2169.png
+newmtl Material2170
+Ka 0.7843137 0.7843137 0.7843137
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka Material2170.png
+map_Kd Material2170.png
+map_d Material2170.png
+newmtl Material2171
+Ka 0.7843137 0.7843137 0.7843137
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka Material2171.png
+map_Kd Material2171.png
+map_d Material2171.png
+newmtl Material2172
+Ka 0.7843137 0.7843137 0.7843137
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka Material2172.png
+map_Kd Material2172.png
+map_d Material2172.png
+newmtl Material2173
+Ka 0.7843137 0.7843137 0.7843137
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka Material2173.png
+map_Kd Material2173.png
+map_d Material2173.png
+newmtl Material2174
+Ka 0.7843137 0.7843137 0.7843137
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka Material2174.png
+map_Kd Material2174.png
+map_d Material2174.png
+newmtl Material2175
+Ka 0.7843137 0.7843137 0.7843137
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka Material2175.png
+map_Kd Material2175.png
+map_d Material2175.png
+newmtl Material2176
+Ka 0.7843137 0.7843137 0.7843137
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka Material2176.png
+map_Kd Material2176.png
+map_d Material2176.png
+newmtl Material2362
+Ka 0.7843137 0.7843137 0.7843137
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka Material2362.png
+map_Kd Material2362.png
+map_d Material2362.png
