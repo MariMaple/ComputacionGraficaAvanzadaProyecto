@@ -1,0 +1,20 @@
+# Material file for icecreamsign.obj
+
+newmtl sign_icecream
+	Ns 0
+	d 1
+	illum 2
+	Kd 1.0 1.0 1.0
+	Ks 0.0 0.0 0.0
+	Ka 0.0 0.0 0.0
+	map_Kd sign_icecream.png
+
+newmtl sign_icecream_bottom
+	Ns 0
+	d 1
+	illum 2
+	Kd 1.0 1.0 1.0
+	Ks 0.0 0.0 0.0
+	Ka 0.0 0.0 0.0
+	map_Kd sign_icecream_bottom.png
+

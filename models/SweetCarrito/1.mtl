@@ -1,0 +1,24 @@
+newmtl light
+Ka 0 0 0
+Kd 0.972549 0.972549 0.972549
+d 1
+Tr 1
+map_Ka light.png
+map_Kd light.png
+map_d light.png
+newmtl mt_loco
+Ka 0 0 0
+Kd 0.4705882 0.4705882 0.4705882
+d 1
+Tr 1
+map_Ka mt_loco.png
+map_Kd mt_loco.png
+map_d mt_loco.png
+newmtl wheel_mat
+Ka 0 0 0
+Kd 0.4705882 0.4705882 0.4705882
+d 1
+Tr 1
+map_Ka wheel_mat.png
+map_Kd wheel_mat.png
+map_d wheel_mat.png
