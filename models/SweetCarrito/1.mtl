@@ -1,24 +1,26 @@
-newmtl light
-Ka 0 0 0
-Kd 0.972549 0.972549 0.972549
-d 1
-Tr 1
-map_Ka light.png
-map_Kd light.png
-map_d light.png
+# Blender MTL File: 'None'
+# Material Count: 2
+
 newmtl mt_loco
-Ka 0 0 0
-Kd 0.4705882 0.4705882 0.4705882
-d 1
-Tr 1
-map_Ka mt_loco.png
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.470588 0.470588 0.470588
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
 map_Kd mt_loco.png
 map_d mt_loco.png
+
 newmtl wheel_mat
-Ka 0 0 0
-Kd 0.4705882 0.4705882 0.4705882
-d 1
-Tr 1
-map_Ka wheel_mat.png
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.470588 0.470588 0.470588
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
 map_Kd wheel_mat.png
 map_d wheel_mat.png
