@@ -131,8 +131,8 @@ std::string fileNames[6] = { "../Textures/mp_Cute/Cute_ft.tga",
 		"../Textures/mp_Cute/Cute_bk.tga",
 		"../Textures/mp_Cute/Cute_up.tga",
 		"../Textures/mp_Cute/Cute_dn.tga",
-		"../Textures/mp_Cute/Cute_rt.tga",
-		"../Textures/mp_Cute/Cute_lf.tga" };
+		"../Textures/mp_Cute/Cute_lf.tga",
+		"../Textures/mp_Cute/Cute_rt.tga" };
 
 bool exitApp = false;
 int lastMousePosX, offsetX = 0;
