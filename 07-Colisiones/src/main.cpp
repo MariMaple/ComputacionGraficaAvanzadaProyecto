@@ -396,7 +396,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	CuteGun.setShader(&shaderMulLighting);
 
 	//Mayow Animate Model
-	MayowCuteAnimate.loadModel("../models/Contest May/May.obj");
+	MayowCuteAnimate.loadModel("../models/ChicaMay/MayAnimacionesPistola.fbx");
 	MayowCuteAnimate.setShader(&shaderMulLighting);
 
 	/*modelLamp2.loadModel("../models/Street_Light/Lamp.obj");
@@ -1273,8 +1273,8 @@ void applicationLoop() {
 		 *******************************************/
 		matrixModelMayow[3][1] = terrain.getHeightTerrain(matrixModelMayow[3][0], matrixModelMayow[3][2]);
 		glm::mat4 matrixModelMayowBody = glm::mat4(matrixModelMayow);
-		matrixModelMayowBody = glm::scale(matrixModelMayowBody, glm::vec3(5.0, 5.0, 5.0));
-		MayowCuteAnimate.setAnimationIndex(animationIndex);
+		matrixModelMayowBody = glm::scale(matrixModelMayowBody, glm::vec3(0.02, 0.02, 0.02));
+		MayowCuteAnimate.setAnimationIndex(7);
 		MayowCuteAnimate.render(matrixModelMayowBody);
 		
 
