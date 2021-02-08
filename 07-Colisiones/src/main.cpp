@@ -82,10 +82,10 @@ Shader shaderViewDepth;
 //Shader para dibujar el buffer de profunidad
 Shader shaderDepth;
 
-std::shared_ptr<FollowPersonCamera> followcamera(new FollowPersonCamera());
+//std::shared_ptr<FollowPersonCamera> followcamera(new FollowPersonCamera());
 
 std::shared_ptr<Camera> camera(new ThirdPersonCamera());
-float distanceFromTarget = 7.0;
+float distanceFromTarget = 25.0;
 
 std::shared_ptr<FirstPersonCamera>cameraPP(new FirstPersonCamera());
 
@@ -201,6 +201,9 @@ glm::mat4 matrixModelMayow = glm::mat4(1.0);
 int animationIndex = 7;
 int modelSelected = 1;
 bool enableCountSelected = true;
+
+//Posicion pelotas
+std::vector<glm::vec3> pelotasPosition = {};
 
 // Lamps positions
 std::vector<glm::vec3> lamp1Position = {
@@ -827,7 +830,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	//Para camara en Primera persona inicial
 	posicion_camara = glm::vec3(5.0, 20.0, 5.0);
 	cameraPP->setPosition(posicion_camara);
-	followcamera->setPosition(posicion_camara);
+	//followcamera->setPosition(posicion_camara);
 
 	// Definimos el tamanio de la imagen
 	int imageWidth, imageHeight;
@@ -1299,6 +1302,7 @@ void destroy() {
 */
 }
 
+
 void reshapeCallback(GLFWwindow *Window, int widthRes, int heightRes) {
 	screenWidth = widthRes;
 	screenHeight = heightRes;
@@ -1373,7 +1377,7 @@ bool processInput(bool continueApplication) {
 	}
 	offsetX = 0;
 	offsetY = 0;
-
+	
 	// Seleccionar modelo
 	if (enableCountSelected && glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
 		enableCountSelected = false;
@@ -1400,7 +1404,6 @@ bool processInput(bool continueApplication) {
 		matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, -0.2));
 		animationIndex = 1;
 	}
-	
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && selec_vista) {
 		selec_vista = false;
 		if (camaraActivada == 1) {
@@ -1514,8 +1517,10 @@ void applicationLoop() {
 		camera->setCameraTarget(target);
 		camera->setAngleTarget(angleTarget);
 		camera->updateCamera();
-		if (camaraActivada == true)
-			view = camera->getViewMatrix();
+		if (camaraActivada == true) {
+			//glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), target, glm::vec3(0.0f, 1.0f, 0.0f));
+			view = cameraPP->getViewMatrix();
+		}
 		else
 			view = camera->getViewMatrix();
 
@@ -2357,6 +2362,13 @@ void prepareScene() {
 	MayowCuteAnimate.setShader(&shaderMulLighting);
 }
 
+
+int ronda = 1;
+int cantidad_de_pelotas = 0;
+int posx, posz, posy;
+float y_max = 4.0f;
+float avance = 5.0f, altura = 0.0f;
+int pos_chica, pos_grande, decicion;
 void prepareDepthScene() {
 
 	skyboxSphere.setShader(&shaderDepth);
@@ -2634,13 +2646,6 @@ void renderScene(bool renderParticles) {
 	PiruletaVerde.render(matrixModelPiruletaVerdeBody);
 	glActiveTexture(GL_TEXTURE0);
 
-	//BallKirby render
-	matrixModelBallKirby[3][1] = terrain.getHeightTerrain(matrixModelBallKirby[3][0], matrixModelBallKirby[3][2]);
-	glm::mat4 matrixModelBallKirbyBody = glm::mat4(matrixModelBallKirby);
-	matrixModelBallKirbyBody = glm::scale(matrixModelBallKirbyBody, glm::vec3(1.0, 1.0, 1.10));
-	BallKirby.render(matrixModelBallKirbyBody);
-	glActiveTexture(GL_TEXTURE0);
-
 
 	//Ice Cream Sign render
 	matrixModelIceCreamSign[3][1] = terrain.getHeightTerrain(matrixModelIceCreamSign[3][0], matrixModelIceCreamSign[3][2]);
@@ -2680,11 +2685,97 @@ void renderScene(bool renderParticles) {
 	/*******************************************
 	 * Custom Anim objects obj
 	 *******************************************/
+
 	matrixModelMayow[3][1] = terrain.getHeightTerrain(matrixModelMayow[3][0], matrixModelMayow[3][2]);
 	glm::mat4 matrixModelMayowBody = glm::mat4(matrixModelMayow);
+	glm::mat4 matrixView = glm::mat4(matrixModelMayowBody);
 	matrixModelMayowBody = glm::scale(matrixModelMayowBody, glm::vec3(0.02, 0.02, 0.02));
 	MayowCuteAnimate.setAnimationIndex(animationIndex);
 	MayowCuteAnimate.render(matrixModelMayowBody);
+
+	/*********************************************
+	*Funcion para el span aleatorio de pelotas
+	************************************************/
+
+	//for (int i = 0; i < 10; i++) {
+	if (ronda == 1) {
+		cantidad_de_pelotas = rand() % (ronda * 10 + 1);
+		printf("cantidad de pelotas :%d \n", cantidad_de_pelotas);
+		for (int j = 0; j < cantidad_de_pelotas; j++) {
+			pos_chica = rand() % (101);
+			pos_grande = rand() % (101);
+			pos_grande = -700 + pos_grande;
+			decicion = rand() % (4);
+			if (decicion == 0) {
+				posx = pos_chica;
+				posz = pos_grande;
+			}
+			if (decicion == 1) {
+				posx = pos_grande;
+				posz = pos_chica;
+			}
+			if (decicion == 2) {
+				posx = pos_grande;
+				posz = pos_grande;
+			}
+			if (decicion == 3) {
+				posx = pos_chica;
+				posz = pos_chica;
+			}
+			pelotasPosition.push_back(glm::vec3(posx, 0, posz));
+		}
+		ronda += 1;
+	}
+	while (ronda == 2) {
+		for (int j = 0; j < cantidad_de_pelotas; j++) {
+			while (altura < y_max && avance>0.0f) {
+				altura += 5.0;
+				avance -= 5.0;
+				if (posx > matrixModelMayowBody[3][0]) {
+					posx = -1;
+				}
+				if (posz > matrixModelMayowBody[3][2]) {
+					posz = -1;
+				}
+				if (matrixModelMayowBody[3][0] > posx) {
+					posx = 1;
+				}
+				if (matrixModelMayowBody[3][2] > posz) {
+					posx = 1;
+				}
+				matrixModelBallKirby = glm::translate(matrixModelBallKirby, glm::vec3(posx, altura, posz));
+				pelotasPosition[j] = glm::vec3(matrixModelBallKirby[3][0], matrixModelBallKirby[3][1], matrixModelBallKirby[3][2]);
+			}
+		}
+		/*for (int j = 0; j < cantidad_de_pelotas; j++) {
+			while (altura < y_max && avance>0.0f) {
+				altura -= 5.0;
+				avance -= 5.0;
+				if (posx > matrixModelMayowBody[3][0]) {
+					posx = -0.2;
+				}
+				if (posz > matrixModelMayowBody[3][2]) {
+					posz = -0.2;
+				}
+				if (matrixModelMayowBody[3][0] > posx) {
+					posx = 0.2;
+				}
+				if (matrixModelMayowBody[3][2] > posz) {
+					posx = 0.2;
+				}
+				matrixModelBallKirby = glm::translate(matrixModelBallKirby, glm::vec3(posx, altura, posz));
+				pelotasPosition[j] = glm::vec3(matrixModelBallKirby[3][0], matrixModelBallKirby[3][1], matrixModelBallKirby[3][2]);
+			}*/
+	}
+	
+	for(int i = 0; i < cantidad_de_pelotas; i++) {
+		pelotasPosition[i].y = terrain.getHeightTerrain(pelotasPosition[i].x, pelotasPosition[i].z);
+		BallKirby.setPosition(pelotasPosition[i]);
+		BallKirby.setScale(glm::vec3(3.0, 3.0, 3.0));
+		BallKirby.setOrientation(glm::vec3(0,1.0, 0));
+		BallKirby.render();
+	}
+
 
 	/**********
 	 * Update the position with alpha objects
