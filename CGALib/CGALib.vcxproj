@@ -23,7 +23,6 @@
     <ClCompile Include="src\Box.cpp" />
     <ClCompile Include="src\Cylinder.cpp" />
     <ClCompile Include="src\FirstPersonCamera.cpp" />
-    <ClCompile Include="src\FollowPersonCamera.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -43,7 +42,6 @@
     <ClInclude Include="include\Headers\Colisiones.h" />
     <ClInclude Include="include\Headers\Cylinder.h" />
     <ClInclude Include="include\Headers\FirstPersonCamera.h" />
-    <ClInclude Include="include\Headers\FollowPersonCamera.h" />
     <ClInclude Include="include\Headers\mathUtil.h" />
     <ClInclude Include="include\Headers\Mesh.h" />
     <ClInclude Include="include\Headers\Model.h" />

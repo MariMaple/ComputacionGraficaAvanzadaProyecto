@@ -29,7 +29,7 @@
 #include "Headers/Box.h"
 #include "Headers/FirstPersonCamera.h"
 #include "Headers/ThirdPersonCamera.h"
-#include "Headers/FollowPersonCamera.h"
+
 
 //GLM include
 #define GLM_FORCE_RADIANS
@@ -82,7 +82,6 @@ Shader shaderViewDepth;
 //Shader para dibujar el buffer de profunidad
 Shader shaderDepth;
 
-//std::shared_ptr<FollowPersonCamera> followcamera(new FollowPersonCamera());
 
 std::shared_ptr<Camera> camera(new ThirdPersonCamera());
 float distanceFromTarget = 25.0;
@@ -2698,7 +2697,7 @@ void renderScene(bool renderParticles) {
 	************************************************/
 
 	//for (int i = 0; i < 10; i++) {
-	if (ronda == 1) {
+	/*if (ronda == 1) {
 		cantidad_de_pelotas = rand() % (ronda * 10 + 1);
 		printf("cantidad de pelotas :%d \n", cantidad_de_pelotas);
 		for (int j = 0; j < cantidad_de_pelotas; j++) {
@@ -2725,7 +2724,7 @@ void renderScene(bool renderParticles) {
 			pelotasPosition.push_back(glm::vec3(posx, 0, posz));
 		}
 		ronda += 1;
-	}
+	}*/
 	/*while (ronda == 2) {
 		for (int j = 0; j < cantidad_de_pelotas; j++) {
 			while (altura < y_max && avance>0.0f) {
