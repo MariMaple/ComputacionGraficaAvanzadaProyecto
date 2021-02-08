@@ -29,6 +29,7 @@
 #include "Headers/Box.h"
 #include "Headers/FirstPersonCamera.h"
 #include "Headers/ThirdPersonCamera.h"
+#include "Headers/FollowPersonCamera.h"
 
 //GLM include
 #define GLM_FORCE_RADIANS
@@ -80,6 +81,8 @@ Shader shaderParticlesFire;
 Shader shaderViewDepth;
 //Shader para dibujar el buffer de profunidad
 Shader shaderDepth;
+
+std::shared_ptr<FollowPersonCamera> followcamera(new FollowPersonCamera());
 
 std::shared_ptr<Camera> camera(new ThirdPersonCamera());
 float distanceFromTarget = 7.0;
@@ -195,8 +198,8 @@ glm::mat4 matrixModelCuteGun = glm::mat4(1.0);
 //Model matrix definitions Animate
 glm::mat4 matrixModelMayow = glm::mat4(1.0);
 
-int animationIndex = 1;
-int modelSelected = 2;
+int animationIndex = 7;
+int modelSelected = 1;
 bool enableCountSelected = true;
 
 // Lamps positions
@@ -817,12 +820,14 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	MayowCuteAnimate.setShader(&shaderMulLighting);
 
 	//Posicion de la camara
-	glm::vec3 posicion_camara = glm::vec3(0.0, 0.0, 10.0);
+	glm::vec3 posicion_camara = glm::vec3(0.0, 0.0, 0.0);
 	camera->setPosition(posicion_camara);
 	camera->setDistanceFromTarget(distanceFromTarget);
 	camera->setSensitivity(1.0f); // velocidad de la camara
+	//Para camara en Primera persona inicial
 	posicion_camara = glm::vec3(5.0, 20.0, 5.0);
 	cameraPP->setPosition(posicion_camara);
+	followcamera->setPosition(posicion_camara);
 
 	// Definimos el tamanio de la imagen
 	int imageWidth, imageHeight;
@@ -1384,24 +1389,23 @@ bool processInput(bool continueApplication) {
 	}
 	else if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_RELEASE)
 		enableCountSelected = true;
-	// Desplazamiento y movimiento
-		/*
-	if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		modelMatrixMayow = glm::rotate(modelMatrixMayow, glm::radians(1.0f), glm::vec3(0, 1, 0));
-		animationIndex = 0;
+
+
+//Desplazamiento y movimiento
+	if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS){
+		matrixModelMayow = glm::rotate(matrixModelMayow, glm::radians(1.0f), glm::vec3(0, 1, 0));
+		animationIndex = 1;
+	}else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS){
+		matrixModelMayow = glm::rotate(matrixModelMayow, glm::radians(-1.0f), glm::vec3(0, 1, 0));
+		animationIndex = 1;
+	}if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS){
+		matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, 0.2));
+		animationIndex = 1;
+	}else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS){
+		matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, -0.2));
+		animationIndex = 1;
 	}
-	else if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		modelMatrixMayow = glm::rotate(modelMatrixMayow, glm::radians(-1.0f), glm::vec3(0, 1, 0));
-		animationIndex = 0;
-	}if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		modelMatrixMayow = glm::translate(modelMatrixMayow, glm::vec3(0, 0, 0.02));
-		animationIndex = 0;
-	}
-	else if (modelSelected == 2 && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		modelMatrixMayow = glm::translate(modelMatrixMayow, glm::vec3(0, 0, -0.02));
-		animationIndex = 0;
-	}
-	*/
+	
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && selec_vista) {
 		selec_vista = false;
 		if (camaraActivada == 1) {
@@ -1496,14 +1500,14 @@ void applicationLoop() {
 			(float)screenWidth / (float)screenHeight, 0.1f, 400.0f); //Antes 0.01f, 400.0f
 
 		if (modelSelected == 1) {
-			axis = glm::axis(glm::quat_cast(matrixModelPanditaRojo));
-			angleTarget = glm::angle(glm::quat_cast(matrixModelPanditaRojo));
-			target = matrixModelPanditaRojo[3];
+			axis = glm::axis(glm::quat_cast(matrixModelMayow));
+			angleTarget = glm::angle(glm::quat_cast(matrixModelMayow));
+			target = matrixModelMayow[3];
 		}
-		else {
-			axis = glm::axis(glm::quat_cast(matrixModelPanditaVerde));
-			angleTarget = glm::angle(glm::quat_cast(matrixModelPanditaVerde));
-			target = matrixModelPanditaVerde[3];
+		else{
+			axis = glm::axis(glm::quat_cast(matrixModelMayow));
+			angleTarget = glm::angle(glm::quat_cast(matrixModelMayow));
+			target = matrixModelMayow[3];
 		}
 
 		glm::mat4 view;
@@ -1512,11 +1516,6 @@ void applicationLoop() {
 			angleTarget = 0.0;
 		if (axis.y < 0)
 			angleTarget = -angleTarget;
-		if (modelSelected == 1)
-			angleTarget -= glm::radians(90.0f);
-		if (modelSelected == 3)
-			angleTarget += glm::radians(90.0f);
-		camera->setCameraTarget(target);
 		camera->setAngleTarget(angleTarget);
 		camera->updateCamera();
 		if (camaraActivada == true)
@@ -1666,6 +1665,7 @@ void applicationLoop() {
 		/*******************************************
 		 * Debug to view the texture view map
 		 *******************************************/
+
 		 // reset viewport
 		 /*glViewport(0, 0, screenWidth, screenHeight);
 		 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1687,6 +1687,13 @@ void applicationLoop() {
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		shaderMulLighting.setInt("shadowMap", 10);
 		shaderTerrain.setInt("shadowMap", 10);
+
+		matrixModelMayow[3][1] = terrain.getHeightTerrain(matrixModelMayow[3][0], matrixModelMayow[3][2]);
+		glm::mat4 matrixModelMayowBody = glm::mat4(matrixModelMayow);
+		matrixModelMayowBody = glm::scale(matrixModelMayowBody, glm::vec3(0.02, 0.02, 0.02));
+		MayowCuteAnimate.setAnimationIndex(animationIndex);
+		MayowCuteAnimate.render(matrixModelMayowBody);
+		
 		/*******************************************
 		 * Skybox
 		 *******************************************/
