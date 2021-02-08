@@ -35,7 +35,7 @@
 class DLL_PUBLIC FollowPersonCamera : public Camera
 {
 public:
-	FollowPersonCamera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 worldUp =
+	FollowPersonCamera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 position_personaje = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 worldUp =
 		glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f),
 		float yaw = YAW, float pitch = PITCH, float speed = SPEED, float sensitivity = SENSITIVTY);
 	void mouseMoveCamera(float xoffset, float yoffset, float dt);

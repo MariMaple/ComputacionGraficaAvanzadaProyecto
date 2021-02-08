@@ -1,11 +1,11 @@
 #include "Headers/ThirdPersonCamera.h"
 
 ThirdPersonCamera::ThirdPersonCamera(){
-    pitch = glm::radians(20.0f);
+    pitch = glm::radians(25.0f);
     yaw = 0.0f;
     angleAroundTarget = 0.0f;
     angleTarget = 0.0;
-    distanceFromTarget = 3.0f;
+    distanceFromTarget = 7.0f;
     sensitivity = SENSITIVTY;
     worldUp = glm::vec3(0.0, 1.0, 0.0);
     updateCamera();
