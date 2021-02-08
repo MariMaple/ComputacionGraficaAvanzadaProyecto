@@ -2726,7 +2726,7 @@ void renderScene(bool renderParticles) {
 		}
 		ronda += 1;
 	}
-	while (ronda == 2) {
+	/*while (ronda == 2) {
 		for (int j = 0; j < cantidad_de_pelotas; j++) {
 			while (altura < y_max && avance>0.0f) {
 				altura += 5.0;
@@ -2746,7 +2746,7 @@ void renderScene(bool renderParticles) {
 				matrixModelBallKirby = glm::translate(matrixModelBallKirby, glm::vec3(posx, altura, posz));
 				pelotasPosition[j] = glm::vec3(matrixModelBallKirby[3][0], matrixModelBallKirby[3][1], matrixModelBallKirby[3][2]);
 			}
-		}
+		}*/
 		/*for (int j = 0; j < cantidad_de_pelotas; j++) {
 			while (altura < y_max && avance>0.0f) {
 				altura -= 5.0;
@@ -2766,16 +2766,16 @@ void renderScene(bool renderParticles) {
 				matrixModelBallKirby = glm::translate(matrixModelBallKirby, glm::vec3(posx, altura, posz));
 				pelotasPosition[j] = glm::vec3(matrixModelBallKirby[3][0], matrixModelBallKirby[3][1], matrixModelBallKirby[3][2]);
 			}*/
-	}
 	
-	for(int i = 0; i < cantidad_de_pelotas; i++) {
+	
+	/*for(int i = 0; i < cantidad_de_pelotas; i++) {
 		pelotasPosition[i].y = terrain.getHeightTerrain(pelotasPosition[i].x, pelotasPosition[i].z);
 		BallKirby.setPosition(pelotasPosition[i]);
 		BallKirby.setScale(glm::vec3(3.0, 3.0, 3.0));
 		BallKirby.setOrientation(glm::vec3(0,1.0, 0));
 		BallKirby.render();
 	}
-
+	*/
 
 	/**********
 	 * Update the position with alpha objects
