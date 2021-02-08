@@ -198,57 +198,180 @@ glm::mat4 matrixModelMayow = glm::mat4(1.0);
 int animationIndex = 1;
 int modelSelected = 2;
 bool enableCountSelected = true;
-/************************
-*PRUEBA LAMP POSICIONES 
-**************************/
-float lamX1 = 77.24609375;
-float lamX2 = 97.4609375;
-float lamX3 = 84.86328125;
-float lamX4 = 83.10546875;
-float lamX5 = 67.87109375;
-float lamX6 = 74.609375;
-float lamX7 = 58.203125;
-float lamX8 = 74.0234375;
-float lamX9 = 93.65234375;
-float lamX10 = 124.4140625;
-float lamX11 = 151.0742188;
-float lamX12 = 156.640625;
-float lamX13 = 174.5117188;
-
-float lamY1 = -90.0390625   ;
-float lamY2 = -70.41015625	;
-float lamY3 = -53.125		;
-float lamY4 = -30.2734375	;
-float lamY5 = -11.23046875	;
-float lamY6 = 14.84375		;
-float lamY7 = 31.25			;
-float lamY8 = 53.22265625	;
-float lamY9 = 72.265625		;
-float lamY10 = 58.49609375	;
-float lamY11 = 45.60546875	;
-float lamY12 = 23.6328125	;
-float lamY13 = -1.5625		;
 
 // Lamps positions
 std::vector<glm::vec3> lamp1Position = {
-	glm::vec3(lamX1	, 0, lamY1 ),
-	glm::vec3(lamX2 , 0, lamY2 ),
-	glm::vec3(lamX3 , 0, lamY3 ),
-	glm::vec3(lamX4 , 0, lamY4 ),
-	glm::vec3(lamX5 , 0, lamY5 ),
-	glm::vec3(lamX6 , 0, lamY6 ),
-	glm::vec3(lamX7 , 0, lamY7 ),
-	glm::vec3(lamX8 , 0, lamY8 ),
-	glm::vec3(lamX9 , 0, lamY9 ),
-	glm::vec3(lamX10, 0, lamY10),
-	glm::vec3(lamX11, 0, lamY11),
-	glm::vec3(lamX12, 0, lamY12),
-	glm::vec3(lamX13, 0, lamY13) };
+	glm::vec3(73.4375, 0, -426.5625),
+	glm::vec3(21.09375, 0, -372.65625),
+	glm::vec3(-25, 0, -392.96875),
+	glm::vec3(-85.9375, 0, -388.28125),
+	glm::vec3(-136.71875, 0, -347.65625),
+	glm::vec3(-206.25, 0, -365.625),
+	glm::vec3(-250, 0, -321.875),
+	glm::vec3(-308.59375, 0, -364.0625),
+	glm::vec3(-359.375, 0, -416.40625),
+	glm::vec3(-322.65625, 0, -498.4375),
+	glm::vec3(-288.28125, 0, -569.53125),
+	glm::vec3(-229.6875, 0, -584.375),
+	glm::vec3(-162.5, 0, -632.03125) };
 std::vector<float> lamp1Orientation = { 16.36, - 258.69, - 349.7,
 	- 161.94, 14.53, - 162.72, - 330.26, - 231.71, 19.29, - 326.89,
 	- 141.07, - 326.31,- 145.71};
 
+//CuteHome1 positions
+std::vector<glm::vec3> CutH1Position = {
+	glm::vec3(32.8125	, 0, -15.625),
+	glm::vec3(-589.0625 , 0,-328.125),
+	glm::vec3(-367.96875, 0, -614.0625) };
+std::vector<float> CutH1Orientation = { -235.89, - 58.57, - 68.5};
 
+//CuteHome2 positions
+std::vector<glm::vec3> CutH2Position = {
+	glm::vec3(-227.34375, 0,-71.09375),
+	glm::vec3(-11.71875 , 0,-494.53125),};
+std::vector<float> CutH2Orientation = { -2688.16, - 146.59};
+
+//CuteShop positions
+std::vector<glm::vec3> CutShPosition = {
+	glm::vec3(-667.1875, 0,64.0625),
+	glm::vec3(20.3125, 0,-653.90625), }; 
+std::vector<float> CutShOrientation = { 44.12, - 233 };
+
+// Cake positions
+std::vector<glm::vec3> CakePosition = {
+	glm::vec3(64.0625,0 ,-44.53125),
+	glm::vec3(62.5,0 ,-306.25),
+	glm::vec3(-164.0625,0 ,-94.53125),
+	glm::vec3(-363.28125,0 ,-191.40625),
+	glm::vec3(-527.34375,0 ,82.03125),
+	glm::vec3(-561.71875,0 ,-110.9375),
+	glm::vec3(57.03125,0 ,-604.6875),
+	glm::vec3(-125,0 ,-526.5625),
+	glm::vec3(-325.78125,0 ,-669.53125),
+	glm::vec3(-554.6875,0 ,-488.28125),};
+std::vector<float> CakeOrientation = { -137.64, - 211.72, - 141.04,
+	- 243.92, 15.57, - 57.38, - 239.93, - 158.96, - 240, - 159.65};
+
+// CarameloAmarillo positions
+std::vector<glm::vec3> CarAmPosition = {
+	glm::vec3(25.78125,0,-196.875),
+	glm::vec3(-381.25,0,-46.875),
+	glm::vec3(23.4375,0,-507.8125),
+	glm::vec3(-387.5,0,-560.9375) };
+std::vector<float> CarAmOrientation = { 180, - 137.64, - 180, - 57.65};
+
+// CarameloAzul positions
+std::vector<glm::vec3> CarAzPosition = {
+	glm::vec3(-42.96875, 0, 180),
+	glm::vec3(-449.21875, 0, -137.64),
+	glm::vec3(-84.375, 0, -180),
+	glm::vec3(-521.875, 0, -57.65) };
+std::vector<float> CarAzOrientation = { -334.54, 33.34, - 318.81, - 228.95};
+
+// CarameloRosa positions
+std::vector<glm::vec3> CarRoPosition = {
+	glm::vec3(-167.96875, 0,42.96875),
+	glm::vec3(-667.96875, 0,-204.6875),
+	glm::vec3(-412.5, 0,-351.5625) };
+std::vector<float> CarRoOrientation = { -316.4, - 53.75,- 318.81};
+
+// CarameloVerde positions
+std::vector<glm::vec3> CarVerPosition = {
+	glm::vec3(-210.15625,0,-221.09375),
+	glm::vec3(80.46875,0,-628.90625),
+	glm::vec3(-415.625,0,-352.34375)};
+std::vector<float> CarVerOrientation = { 0, - 232.21,- 59.98};
+
+// Chocolate positions
+std::vector<glm::vec3> ChocoPosition = {
+	glm::vec3(-21.09375, 0 ,12.5),
+	glm::vec3(-153.125, 0 ,5.46875),
+	glm::vec3(-283.59375, 0 ,-221.875),
+	glm::vec3(-584.375, 0 ,-91.40625),
+	glm::vec3(2.34375, 0 ,-585.15625),
+	glm::vec3(-45.3125, 0 ,-348.4375),
+	glm::vec3(-95.3125, 0 ,-487.5),
+	glm::vec3(-489.84375, 0 ,-300),
+	glm::vec3(-611.71875, 0 ,-458.59375),
+	glm::vec3(-533.59375, 0 ,-664.0625)};
+std::vector<float> ChocoOrientation = { -341.32, - 224.4, - 346.29, 
+	- 237.88, - 236.31, - 251.3, - 252.43, - 328.06, - 74.9, 35.97};
+
+// ChocoPaleta positions
+std::vector<glm::vec3> ChocoPPosition = {
+	glm::vec3(-60.9375,0 , -57.03125),
+	glm::vec3(-196.09375,0 , -133.59375),
+	glm::vec3(-153.90625,0 , -292.1875),
+	glm::vec3(-307.03125,0 , 70.3125),
+	glm::vec3(-434.375,0 , -255.46875),
+	glm::vec3(-544.53125,0 , -170.3125),
+	glm::vec3(-589.0625,0 , 48.4375),
+	glm::vec3(37.5,0 , -346.09375),
+	glm::vec3(69.53125,0 , -454.6875),
+	glm::vec3(65.625,0 , -548.4375) };
+std::vector<float> ChocoPOrientation = { 38.45, - 349.02, - 335.16, 0,
+	40.6, 42.2, 0, - 335.73, - 143.88, - 270 };
+
+// Galletas positions
+std::vector<glm::vec3> CookPosition = {
+	glm::vec3(-238.28125,0 ,15.625),
+	glm::vec3(-266.40625,0 ,-152.34375),
+	glm::vec3(-510.15625,0 ,-15.625),
+	glm::vec3(-514.84375,0 ,-250.78125),
+	glm::vec3(-42.96875,0 ,-550),
+	glm::vec3(-282.03125,0 ,-637.5),
+	glm::vec3(-503.125,0 ,-456.25)};
+std::vector<float> CookOrientation = { 0, 0, 0, 0, 0, 0, 0};
+
+// DonaChocolate positions
+std::vector<glm::vec3> DonChoPosition = {
+	glm::vec3(-11.71875,0, -188.28125),
+	glm::vec3(-342.96875,0, -157.03125),
+	glm::vec3(-661.71875,0, -154.6875),
+	glm::vec3(-260.9375,0, -422.65625),
+	glm::vec3(-446.875,0, -507.03125),
+	glm::vec3(-675.78125,0, -510.15625)};
+std::vector<float> DonChoOrientation = { 0,0,0,0,0,0};
+
+// DonaChocolate positions
+std::vector<glm::vec3> DonFrePosition = {
+	glm::vec3(-105.46875,0 ,-31.25),
+	glm::vec3(-411.71875,0 ,-47.65625),
+	glm::vec3(-103.90625,0 ,-440.625),
+	glm::vec3(-385.15625,0 ,-666.40625),
+	glm::vec3(-657.8125,0 ,-678.125)};
+std::vector<float> DonFreOrientation = { 0,0,0,0,0 };
+
+// PanditaAmarillo positions
+std::vector<glm::vec3> PAmPosition = {
+	glm::vec3(-99.21875, 0, -109.375),
+	glm::vec3(-673.4375, 0, -35.9375)};
+std::vector<float> PAmOrientation = { 26.83, - 62.24};
+
+// PanditaAzul positions
+std::vector<glm::vec3> PAzPosition = {
+	glm::vec3(-106.25, 0, -220.3125),
+	glm::vec3(-203.90625, 0, -475.78125) };
+std::vector<float> PAzOrientation = { -239.68, - 252.23};
+
+// PanditaNaranja positions
+std::vector<glm::vec3> PNaPosition = {
+	glm::vec3(-349.21875, 0, -214.84375),
+	glm::vec3(-226.5625, 0, -678.90625) };
+std::vector<float> PNaOrientation = { -340.2, - 162.35};
+
+// PanditaRojo positions
+std::vector<glm::vec3> PRoPosition = {
+	glm::vec3(78.125, 0, -151.5625),
+	glm::vec3(-416.40625, 0, 25.78125),
+	glm::vec3(-655.46875, 0, -613.28125) };
+std::vector<float> PRoOrientation = { -270, - 228.26, - 118.1};
+
+// PanditaVerde positions
+std::vector<glm::vec3> PVePosition = {
+	glm::vec3(-550.78125, 0, -14.84375),
+	glm::vec3(-416.40625, 0, -503.90625) };
+std::vector<float> PVeOrientation = { 17.65, - 65.73};
 
 /*
 // Blending model unsorted
@@ -692,13 +815,6 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	//Mayow Animate Model
 	MayowCuteAnimate.loadModel("../models/ChicaMay/MayAnimacionesPistola.fbx");
 	MayowCuteAnimate.setShader(&shaderMulLighting);
-
-	/*modelLamp2.loadModel("../models/Street_Light/Lamp.obj");
-	modelLamp2.setShader(&shaderMulLighting);
-	modelLampPost2.loadModel("../models/Street_Light/LampPost.obj");
-	modelLampPost2.setShader(&shaderMulLighting);
-	*/
-
 
 	//Posicion de la camara
 	glm::vec3 posicion_camara = glm::vec3(0.0, 0.0, 10.0);
@@ -1310,7 +1426,7 @@ void applicationLoop() {
 	glm::vec3 target;
 	float angleTarget;
 	//Matrix Models
-	matrixModelPanditaRojo = glm::translate(matrixModelPanditaRojo, glm::vec3(-3.0, 0.0, 2.0));
+/*	matrixModelPanditaRojo = glm::translate(matrixModelPanditaRojo, glm::vec3(-3.0, 0.0, 2.0));
 	matrixModelPanditaAmarillo = glm::translate(matrixModelPanditaAmarillo, glm::vec3(-5.0, 0.0, 2.0));
 	matrixModelPanditaVerde = glm::translate(matrixModelPanditaVerde, glm::vec3(-7.0, 0.0, 2.0));
 	matrixModelPanditaNaranja = glm::translate(matrixModelPanditaNaranja, glm::vec3(-9.0, 0.0, 2.0));
@@ -1320,7 +1436,7 @@ void applicationLoop() {
 	matrixModelCaramRosa = glm::translate(matrixModelCaramRosa, glm::vec3(-7.0, 0.0, -1.5));
 	matrixModelCaramVerde = glm::translate(matrixModelCaramVerde, glm::vec3(-9.0, 0.0, -1.5));
 	matrixModelDonaChocolate = glm::translate(matrixModelDonaChocolate, glm::vec3(6.0, 10.0, 2.0));//Problemas con las donas
-	matrixModelDonaFresa = glm::translate(matrixModelDonaFresa, glm::vec3(9.0, 10.0, 2.0));//Problemas con las donas
+	matrixModelDonaFresa = glm::translate(matrixModelDonaFresa, glm::vec3(9.0, 10.0, 2.0));//Problemas con las donas*/
 	matrixModelHeladoChocolate = glm::translate(matrixModelHeladoChocolate, glm::vec3(12.0, 10.0, 2.0));
 	matrixModelHeladoFresa = glm::translate(matrixModelHeladoFresa, glm::vec3(16.0, 10.0, 2.0));
 	matrixModelHeladoMenta = glm::translate(matrixModelHeladoMenta, glm::vec3(20.0, 10.0, 2.0));
@@ -1331,13 +1447,13 @@ void applicationLoop() {
 	matrixModelPiruletaVerde = glm::translate(matrixModelPiruletaVerde, glm::vec3(-48.0, 10.0, 4.0));
 	matrixModelBallKirby = glm::translate(matrixModelBallKirby, glm::vec3(-14.0, 0.0, 2.0));
 //	matrixModelBastonLampara = glm::translate(matrixModelBastonLampara, glm::vec3(-16.0, 0.0, 2.0));
-	matrixModelCake = glm::translate(matrixModelCake, glm::vec3(1.5, 0.0, 2.0));
-	matrixModelChocolate = glm::translate(matrixModelChocolate, glm::vec3(-21.0, 0.0, 2.0));
-	matrixModelChocoPaleta = glm::translate(matrixModelChocoPaleta, glm::vec3(-16.0, 0.0, -1.5));
-	matrixModelCookie = glm::translate(matrixModelCookie, glm::vec3(-600.0,0.0,90.0));
-	matrixModelCuteHome1 = glm::translate(matrixModelCuteHome1, glm::vec3(14.84, 0.0, -35.9375));
-	matrixModelCuteHome2 = glm::translate(matrixModelCuteHome2, glm::vec3(-12.0, 0.0, -30.0));
-	matrixModelCuteShop = glm::translate(matrixModelCuteShop, glm::vec3(-60.0, 0.0, -30.0));
+//	matrixModelCake = glm::translate(matrixModelCake, glm::vec3(1.5, 0.0, 2.0));
+//	matrixModelChocolate = glm::translate(matrixModelChocolate, glm::vec3(-21.0, 0.0, 2.0));
+//	matrixModelChocoPaleta = glm::translate(matrixModelChocoPaleta, glm::vec3(-16.0, 0.0, -1.5));
+//	matrixModelCookie = glm::translate(matrixModelCookie, glm::vec3(-600.0,0.0,90.0));
+//	matrixModelCuteHome1 = glm::translate(matrixModelCuteHome1, glm::vec3(14.84, 0.0, -35.9375));
+//	matrixModelCuteHome2 = glm::translate(matrixModelCuteHome2, glm::vec3(-12.0, 0.0, -30.0));
+//	matrixModelCuteShop = glm::translate(matrixModelCuteShop, glm::vec3(-60.0, 0.0, -30.0));
 	matrixModelIceCreamSign = glm::translate(matrixModelIceCreamSign, glm::vec3(-25.0, 0.0, 2.0));
 	matrixModelNube = glm::translate(matrixModelIceCreamSign, glm::vec3(0.0, 20.0, 2.0));
 	matrixModelPaleta = glm::translate(matrixModelPaleta, glm::vec3(-30.0, 0.0, 2.0));
@@ -2028,56 +2144,152 @@ void renderScene(bool renderParticles) {
 		BastonLampara.render();
 	}
 
-	//Panditas render
-	matrixModelPanditaRojo[3][1] = terrain.getHeightTerrain(matrixModelPanditaRojo[3][0], matrixModelPanditaRojo[3][2]);
-	panditaRojo.render(matrixModelPanditaRojo);
-	glActiveTexture(GL_TEXTURE0);
-	matrixModelPanditaAmarillo[3][1] = terrain.getHeightTerrain(matrixModelPanditaAmarillo[3][0], matrixModelPanditaAmarillo[3][2]);
-	panditaAmarillo.render(matrixModelPanditaAmarillo);
-	glActiveTexture(GL_TEXTURE0);
-	matrixModelPanditaVerde[3][1] = terrain.getHeightTerrain(matrixModelPanditaVerde[3][0], matrixModelPanditaVerde[3][2]);
-	panditaVerde.render(matrixModelPanditaVerde);
-	glActiveTexture(GL_TEXTURE0);
-	matrixModelPanditaAzul[3][1] = terrain.getHeightTerrain(matrixModelPanditaAzul[3][0], matrixModelPanditaAzul[3][2]);
-	panditaAzul.render(matrixModelPanditaAzul);
-	glActiveTexture(GL_TEXTURE0);
-	matrixModelPanditaNaranja[3][1] = terrain.getHeightTerrain(matrixModelPanditaNaranja[3][0], matrixModelPanditaNaranja[3][2]);
-	panditaNaranja.render(matrixModelPanditaNaranja);
-	glActiveTexture(GL_TEXTURE0);
+	// Render the CuteHouse1
+	for (int i = 0; i < CutH1Position.size(); i++) {
+		CutH1Position[i].y = terrain.getHeightTerrain(CutH1Position[i].x, CutH1Position[i].z);
+		CuteHome1.setPosition(CutH1Position[i]);
+		CuteHome1.setScale(glm::vec3(4.0, 4.0, 4.0));
+		CuteHome1.setOrientation(glm::vec3(0, CutH1Orientation[i], 0));
+		CuteHome1.render();
+	}
 
-	//Caramelos redner
-	matrixModelCaramAmarillo[3][1] = terrain.getHeightTerrain(matrixModelCaramAmarillo[3][0], matrixModelCaramAmarillo[3][2]);
-	glm::mat4 matrixModelCaramAmarilloBody = glm::mat4(matrixModelCaramAmarillo);
-	matrixModelCaramAmarilloBody = glm::scale(matrixModelCaramAmarilloBody, glm::vec3(1.0, 1.0, 1.0));
-	CaramAmarillo.render(matrixModelCaramAmarilloBody);
-	glActiveTexture(GL_TEXTURE0);
-	matrixModelCaramAzul[3][1] = terrain.getHeightTerrain(matrixModelCaramAzul[3][0], matrixModelCaramAzul[3][2]);
-	glm::mat4 matrixModelCaramAzulBody = glm::mat4(matrixModelCaramAzul);
-	matrixModelCaramAzulBody = glm::scale(matrixModelCaramAzulBody, glm::vec3(1.0, 1.0, 1.0));
-	CaramAzul.render(matrixModelCaramAzulBody);
-	glActiveTexture(GL_TEXTURE0);
-	matrixModelCaramRosa[3][1] = terrain.getHeightTerrain(matrixModelCaramRosa[3][0], matrixModelCaramRosa[3][2]);
-	glm::mat4 matrixModelCaramRosaBody = glm::mat4(matrixModelCaramRosa);
-	matrixModelCaramRosaBody = glm::scale(matrixModelCaramRosaBody, glm::vec3(1.0, 1.0, 1.0));
-	CaramRosa.render(matrixModelCaramRosaBody);
-	glActiveTexture(GL_TEXTURE0);
-	matrixModelCaramVerde[3][1] = terrain.getHeightTerrain(matrixModelCaramVerde[3][0], matrixModelCaramVerde[3][2]);
-	glm::mat4 matrixModelCaramVerdeBody = glm::mat4(matrixModelCaramVerde);
-	matrixModelCaramVerdeBody = glm::scale(matrixModelCaramVerdeBody, glm::vec3(1.0, 1.0, 1.0));
-	CaramVerde.render(matrixModelCaramVerdeBody);
-	glActiveTexture(GL_TEXTURE0);
+	// Render the CuteHouse2
+	for (int i = 0; i < CutH2Position.size(); i++) {
+		CutH2Position[i].y = terrain.getHeightTerrain(CutH2Position[i].x, CutH2Position[i].z);
+		CuteHome2.setPosition(CutH2Position[i]);
+		CuteHome2.setScale(glm::vec3(2.0, 2.0, 2.0));
+		CuteHome2.setOrientation(glm::vec3(0, CutH2Orientation[i], 0));
+		CuteHome2.render();
+	}
 
-	//Donas redner
-	matrixModelDonaChocolate[3][1] = terrain.getHeightTerrain(matrixModelDonaChocolate[3][0], matrixModelDonaChocolate[3][2]);
-	glm::mat4 matrixModelDonaChocolateBody = glm::mat4(matrixModelDonaChocolate);
-	matrixModelDonaChocolateBody = glm::scale(matrixModelDonaChocolateBody, glm::vec3(1.0, 1.0, 1.0));
-	DonaChocolate.render(matrixModelDonaChocolateBody);
-	glActiveTexture(GL_TEXTURE0);
-	matrixModelDonaFresa[3][1] = terrain.getHeightTerrain(matrixModelDonaFresa[3][0], matrixModelDonaFresa[3][2]);
-	glm::mat4 matrixModelDonaFresaBody = glm::mat4(matrixModelDonaFresa);
-	matrixModelDonaFresaBody = glm::scale(matrixModelDonaFresaBody, glm::vec3(1.0, 1.0, 1.0));
-	DonaFresa.render(matrixModelDonaFresaBody);
-	glActiveTexture(GL_TEXTURE0);
+	// Render the CuteShop
+	for (int i = 0; i < CutShPosition.size(); i++) {
+		CutShPosition[i].y = terrain.getHeightTerrain(CutShPosition[i].x, CutShPosition[i].z);
+		CuteShop.setPosition(CutShPosition[i]);
+		CuteShop.setScale(glm::vec3(4.0, 4.0, 4.0));
+		CuteShop.setOrientation(glm::vec3(0, CutShOrientation[i], 0));
+		CuteShop.render();
+	}
+
+	// Render the Cake
+	for (int i = 0; i < CakePosition.size(); i++) {
+		CakePosition[i].y = terrain.getHeightTerrain(CakePosition[i].x, CakePosition[i].z);
+		Cake.setPosition(CakePosition[i]);
+		Cake.setScale(glm::vec3(40.0, 40.0, 40.0));
+		Cake.setOrientation(glm::vec3(0, CakeOrientation[i], 0));
+		Cake.render();
+	}
+
+	// Render the Caramelos
+	for (int i = 0; i < CarAmPosition.size(); i++) {
+		CarAmPosition[i].y = terrain.getHeightTerrain(CarAmPosition[i].x, CarAmPosition[i].z);
+		CaramAmarillo.setPosition(CarAmPosition[i]);
+		CaramAmarillo.setScale(glm::vec3(3.0, 3.0, 3.0));
+		CaramAmarillo.setOrientation(glm::vec3(0, CarAmOrientation[i], 0));
+		CaramAmarillo.render();
+	}
+	for (int i = 0; i < CarAzPosition.size(); i++) {
+		CarAzPosition[i].y = terrain.getHeightTerrain(CarAzPosition[i].x, CarAzPosition[i].z);
+		CaramAzul.setPosition(CarAzPosition[i]);
+		CaramAzul.setScale(glm::vec3(4.0, 4.0, 4.0));
+		CaramAzul.setOrientation(glm::vec3(0, CarAzOrientation[i], 0));
+		CaramAzul.render();
+	}
+	for (int i = 0; i < CarRoPosition.size(); i++) {
+		CarRoPosition[i].y = terrain.getHeightTerrain(CarRoPosition[i].x, CarRoPosition[i].z);
+		CaramRosa.setPosition(CarRoPosition[i]);
+		CaramRosa.setScale(glm::vec3(3.0, 3.0, 3.0));
+		CaramRosa.setOrientation(glm::vec3(0, CarRoOrientation[i], 0));
+		CaramRosa.render();
+	}
+	for (int i = 0; i < CarVerPosition.size(); i++) {
+		CarVerPosition[i].y = terrain.getHeightTerrain(CarVerPosition[i].x, CarVerPosition[i].z);
+		CaramVerde.setPosition(CarVerPosition[i]);
+		CaramVerde.setScale(glm::vec3(2.0, 2.0, 2.0));
+		CaramVerde.setOrientation(glm::vec3(0, CarVerOrientation[i], 0));
+		CaramVerde.render();
+	}
+	// Render the Chocolate
+	for (int i = 0; i < ChocoPosition.size(); i++) {
+		ChocoPosition[i].y = terrain.getHeightTerrain(ChocoPosition[i].x, ChocoPosition[i].z);
+		Chocolate.setPosition(ChocoPosition[i]);
+		Chocolate.setScale(glm::vec3(35.0, 35.0, 35.0));
+		Chocolate.setOrientation(glm::vec3(0, ChocoOrientation[i], 0));
+		Chocolate.render();
+	}
+	// Render the ChocoPaleta
+	for (int i = 0; i < ChocoPPosition.size(); i++) {
+		ChocoPPosition[i].y = terrain.getHeightTerrain(ChocoPPosition[i].x, ChocoPPosition[i].z);
+		ChocoPaleta.setPosition(ChocoPPosition[i]);
+		ChocoPaleta.setScale(glm::vec3(4.0, 4.0, 4.0));
+		ChocoPaleta.setOrientation(glm::vec3(0, ChocoPOrientation[i], 0));
+		ChocoPaleta.render();
+	}
+
+	// Render the Cookies
+	for (int i = 0; i < CookPosition.size(); i++) {
+		CookPosition[i].y = terrain.getHeightTerrain(CookPosition[i].x, CookPosition[i].z);
+		Cookie.setPosition(CookPosition[i]);
+		Cookie.setScale(glm::vec3(50.0, 50.0, 50.0));
+		Cookie.setOrientation(glm::vec3(0, CookOrientation[i], 0));
+		Cookie.render();
+	}
+
+	// Render the DonaChoco
+	for (int i = 0; i < DonChoPosition.size(); i++) {
+		DonChoPosition[i].y = terrain.getHeightTerrain(DonChoPosition[i].x, DonChoPosition[i].z);
+		DonaChocolate.setPosition(DonChoPosition[i]);
+		DonaChocolate.setScale(glm::vec3(9.0, 9.0, 9.0));
+		DonaChocolate.setOrientation(glm::vec3(0, DonChoOrientation[i], 0));
+		DonaChocolate.render();
+	}
+
+	// Render the DonaFresa
+	for (int i = 0; i < DonFrePosition.size(); i++) {
+		DonFrePosition[i].y = terrain.getHeightTerrain(DonFrePosition[i].x, DonFrePosition[i].z);
+		DonaFresa.setPosition(DonFrePosition[i]);
+		DonaFresa.setScale(glm::vec3(9.0, 9.0, 9.0));
+		DonaFresa.setOrientation(glm::vec3(0, DonFreOrientation[i], 0));
+		DonaFresa.render();
+	}
+
+	// Render the Panditas
+	for (int i = 0; i < PAmPosition.size(); i++) {
+		PAmPosition[i].y = terrain.getHeightTerrain(PAmPosition[i].x, PAmPosition[i].z);
+		panditaAmarillo.setPosition(PAmPosition[i]);
+		panditaAmarillo.setScale(glm::vec3(9.0, 9.0, 9.0));
+		panditaAmarillo.setOrientation(glm::vec3(0, PAmOrientation[i], 0));
+		panditaAmarillo.render();
+	}
+	for (int i = 0; i < PAzPosition.size(); i++) {
+		PAzPosition[i].y = terrain.getHeightTerrain(PAzPosition[i].x, PAzPosition[i].z);
+		panditaAzul.setPosition(PAzPosition[i]);
+		panditaAzul.setScale(glm::vec3(9.0, 9.0, 9.0));
+		panditaAzul.setOrientation(glm::vec3(0, PAzOrientation[i], 0));
+		panditaAzul.render();
+	}
+	for (int i = 0; i < PNaPosition.size(); i++) {
+		PNaPosition[i].y = terrain.getHeightTerrain(PNaPosition[i].x, PNaPosition[i].z);
+		panditaNaranja.setPosition(PNaPosition[i]);
+		panditaNaranja.setScale(glm::vec3(5.0, 5.0, 5.0));
+		panditaNaranja.setOrientation(glm::vec3(0, PNaOrientation[i], 0));
+		panditaNaranja.render();
+	}
+	for (int i = 0; i < PRoPosition.size(); i++) {
+		PRoPosition[i].y = terrain.getHeightTerrain(PRoPosition[i].x, PRoPosition[i].z);
+		panditaRojo.setPosition(PRoPosition[i]);
+		panditaRojo.setScale(glm::vec3(3.0, 3.0, 3.0));
+		panditaRojo.setOrientation(glm::vec3(0, PRoOrientation[i], 0));
+		panditaRojo.render();
+	}
+	for (int i = 0; i < PVePosition.size(); i++) {
+		PVePosition[i].y = terrain.getHeightTerrain(PVePosition[i].x, PVePosition[i].z);
+		panditaVerde.setPosition(PVePosition[i]);
+		panditaVerde.setScale(glm::vec3(2.0, 2.0, 2.0));
+		panditaVerde.setOrientation(glm::vec3(0, PVeOrientation[i], 0));
+		panditaVerde.render();
+	}
+
 
 	//Helados render
 	matrixModelHeladoChocolate[3][1] = terrain.getHeightTerrain(matrixModelHeladoChocolate[3][0], matrixModelHeladoChocolate[3][2]);
@@ -2130,61 +2342,6 @@ void renderScene(bool renderParticles) {
 	BallKirby.render(matrixModelBallKirbyBody);
 	glActiveTexture(GL_TEXTURE0);
 
-	//BastonLampara render
-	/*matrixModelBastonLampara[3][1] = terrain.getHeightTerrain(matrixModelBastonLampara[3][0], matrixModelBastonLampara[3][2]);
-	glm::mat4 matrixModelBastonLamparaBody = glm::mat4(matrixModelBastonLampara);
-	matrixModelBastonLamparaBody = glm::scale(matrixModelBastonLamparaBody, glm::vec3(3.0, 3.0, 3.0));
-	BastonLampara.render(matrixModelBastonLamparaBody);
-	glActiveTexture(GL_TEXTURE0);
-	*/
-	//Cake render
-	matrixModelCake[3][1] = terrain.getHeightTerrain(matrixModelCake[3][0], matrixModelCake[3][2]);
-	glm::mat4 matrixModelCakeBody = glm::mat4(matrixModelCake);
-	matrixModelCakeBody = glm::scale(matrixModelCakeBody, glm::vec3(35.0, 35.0, 35.0));
-	Cake.render(matrixModelCakeBody);
-	glActiveTexture(GL_TEXTURE0);
-
-	//Chocolate render
-	matrixModelChocolate[3][1] = terrain.getHeightTerrain(matrixModelChocolate[3][0], matrixModelChocolate[3][2]);
-	glm::mat4 matrixModelChocolateBody = glm::mat4(matrixModelChocolate);
-	matrixModelChocolateBody = glm::scale(matrixModelChocolateBody, glm::vec3(35.0, 35.0, 35.0));
-	Chocolate.render(matrixModelChocolateBody);
-	glActiveTexture(GL_TEXTURE0);
-
-	//ChocoPaleta render
-	matrixModelChocoPaleta[3][1] = terrain.getHeightTerrain(matrixModelChocoPaleta[3][0], matrixModelChocoPaleta[3][2]);
-	glm::mat4 matrixModelChocoPaletaBody = glm::mat4(matrixModelChocoPaleta);
-	matrixModelChocoPaletaBody = glm::scale(matrixModelChocoPaletaBody, glm::vec3(1.0, 1.0, 1.0));
-	ChocoPaleta.render(matrixModelChocoPaletaBody);
-	glActiveTexture(GL_TEXTURE0);
-
-	//Cookie render
-	matrixModelCookie[3][1] = terrain.getHeightTerrain(matrixModelCookie[3][0], matrixModelCookie[3][2]);
-	glm::mat4 matrixModelCookieBody = glm::mat4(matrixModelCookie);
-	matrixModelCookieBody = glm::scale(matrixModelCookieBody, glm::vec3(100.0, 100.0, 100.0));
-	Cookie.render(matrixModelCookieBody);
-	glActiveTexture(GL_TEXTURE0);
-
-	//Cute Home 1 render
-	matrixModelCuteHome1[3][1] = terrain.getHeightTerrain(matrixModelCuteHome1[3][0], matrixModelCuteHome1[3][2]);
-	glm::mat4 matrixModelCuteHome1Body = glm::mat4(matrixModelCuteHome1);
-	matrixModelCuteHome1Body = glm::scale(matrixModelCuteHome1Body, glm::vec3(3.0, 3.0, 3.0));
-	CuteHome1.render(matrixModelCuteHome1Body);
-	glActiveTexture(GL_TEXTURE0);
-
-	//Cute Home 2 render
-	matrixModelCuteHome2[3][1] = terrain.getHeightTerrain(matrixModelCuteHome2[3][0], matrixModelCuteHome2[3][2]);
-	glm::mat4 matrixModelCuteHome2Body = glm::mat4(matrixModelCuteHome2);
-	matrixModelCuteHome2Body = glm::scale(matrixModelCuteHome2Body, glm::vec3(1.4, 1.4, 1.4));
-	CuteHome2.render(matrixModelCuteHome2Body);
-	glActiveTexture(GL_TEXTURE0);
-
-	//Cute Shop render
-	matrixModelCuteShop[3][1] = terrain.getHeightTerrain(matrixModelCuteShop[3][0], matrixModelCuteShop[3][2]);
-	glm::mat4 matrixModelCuteShopBody = glm::mat4(matrixModelCuteShop);
-	matrixModelCuteShopBody = glm::scale(matrixModelCuteShopBody, glm::vec3(3.0, 3.0, 3.0));
-	CuteShop.render(matrixModelCuteShopBody);
-	glActiveTexture(GL_TEXTURE0);
 
 	//Ice Cream Sign render
 	matrixModelIceCreamSign[3][1] = terrain.getHeightTerrain(matrixModelIceCreamSign[3][0], matrixModelIceCreamSign[3][2]);
@@ -2219,13 +2376,6 @@ void renderScene(bool renderParticles) {
 	glm::mat4 matrixModelSweetCarritoBody = glm::mat4(matrixModelSweetCarrito);
 	matrixModelSweetCarritoBody = glm::scale(matrixModelSweetCarritoBody, glm::vec3(20.0, 20.0, 20.0));
 	SweetCarrito.render(matrixModelSweetCarritoBody);
-	glActiveTexture(GL_TEXTURE0);
-
-	//CuteGun 
-	matrixModelCuteGun[3][1] = terrain.getHeightTerrain(matrixModelCuteGun[3][0], matrixModelCuteGun[3][2]);
-	glm::mat4 matrixModelCuteGunBody = glm::mat4(matrixModelCuteGun);
-	matrixModelCuteGunBody = glm::scale(matrixModelCuteGunBody, glm::vec3(50.0, 50.0, 50.0));
-	CuteGun.render(matrixModelCuteGunBody);
 	glActiveTexture(GL_TEXTURE0);
 
 	/*******************************************
