@@ -1688,11 +1688,6 @@ void applicationLoop() {
 		shaderMulLighting.setInt("shadowMap", 10);
 		shaderTerrain.setInt("shadowMap", 10);
 
-		matrixModelMayow[3][1] = terrain.getHeightTerrain(matrixModelMayow[3][0], matrixModelMayow[3][2]);
-		glm::mat4 matrixModelMayowBody = glm::mat4(matrixModelMayow);
-		matrixModelMayowBody = glm::scale(matrixModelMayowBody, glm::vec3(0.02, 0.02, 0.02));
-		MayowCuteAnimate.setAnimationIndex(animationIndex);
-		MayowCuteAnimate.render(matrixModelMayowBody);
 		
 		/*******************************************
 		 * Skybox
