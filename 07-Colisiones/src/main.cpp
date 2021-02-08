@@ -130,9 +130,9 @@ Model CuteGun;
 Model BastonLampara;
 // Model animate instance
 // Mayow
-Model mayowModelAnimate;
+Model MayowCuteAnimate;
 // Terrain model instance
-Terrain terrain(-1, -1, 300, 16, "../Textures/heightmap.png"); //Valores practica 14: -1, -1, 200, 16
+Terrain terrain(-1, -1, 800, 16, "../Textures/heightmap.png"); //Valores practica 14: -1, -1, 200, 16
 
 GLuint textureCespedID, textureWallID, textureWindowID, textureHighwayID, textureLandingPadID;
 GLuint textureTerrainBackgroundID, textureTerrainRID, textureTerrainGID, textureTerrainBID, textureTerrainBlendMapID;
@@ -750,8 +750,8 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	// Enlazar esa textura a una tipo de textura de 2D.
 	glBindTexture(GL_TEXTURE_2D, textureTerrainBackgroundID);
 	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	// set texture filtering parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -798,8 +798,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 			GL_BGRA, GL_UNSIGNED_BYTE, data);
 		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
 		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
+	} else
 		std::cout << "Failed to load texture" << std::endl;
 	// Libera la memoria de la textura
 	textureTerrainR.freeImage(bitmap);
@@ -831,8 +830,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 			GL_BGRA, GL_UNSIGNED_BYTE, data);
 		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
 		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
+	} else
 		std::cout << "Failed to load texture" << std::endl;
 	// Libera la memoria de la textura
 	textureTerrainG.freeImage(bitmap);
@@ -862,7 +860,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 		// a los datos
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
 			GL_BGRA, GL_UNSIGNED_BYTE, data);
-		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
+		// Generan los niveles del mipmap (OpenGL es el encargado de realizarlos)
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
@@ -870,8 +868,51 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	// Libera la memoria de la textura
 	textureTerrainB.freeImage(bitmap);
 
-	/*
-	Texture textureParticlesFountain("../Textures/bluewater.png");
+	// Definiendo la textura a utilizar
+	Texture textureTerrainBlendMap("../Textures/blendMap.png");
+	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
+	bitmap = textureTerrainBlendMap.loadImage(true);
+	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
+	data = textureTerrainBlendMap.convertToData(bitmap, imageWidth,
+		imageHeight);
+	// Creando la textura con id 1
+	glGenTextures(1, &textureTerrainBlendMapID);
+	// Enlazar esa textura a una tipo de textura de 2D.
+	glBindTexture(GL_TEXTURE_2D, textureTerrainBlendMapID);
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Verifica si se pudo abrir la textura
+	if (data) {
+		// Transferis los datos de la imagen a memoria
+		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
+		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
+		// a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	// Libera la memoria de la textura
+	textureTerrainBlendMap.freeImage(bitmap);
+}
+
+
+
+
+
+
+
+
+
+
+	
+	/*Texture textureParticlesFountain("../Textures/bluewater.png");
 	bitmap = textureParticlesFountain.loadImage();
 	data = textureParticlesFountain.convertToData(bitmap, imageWidth, imageHeight);
 	glGenTextures(1, &textureParticleFountainID);
@@ -1043,7 +1084,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	alSourcei(source[2], AL_BUFFER, buffer[2]);
 	alSourcei(source[2], AL_LOOPING, AL_TRUE);
 	alSourcef(source[2], AL_MAX_DISTANCE, 500);*/
-}
+
 
 void destroy() {
 	glfwDestroyWindow(window);
@@ -1106,7 +1147,7 @@ void destroy() {
 	CuteGun.destroy();
 
 	// Custom objects animate
-	mayowModelAnimate.destroy();
+	MayowCuteAnimate.destroy();
 
 	// Textures Delete
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -1293,8 +1334,8 @@ void applicationLoop() {
 	matrixModelCake = glm::translate(matrixModelCake, glm::vec3(1.5, 0.0, 2.0));
 	matrixModelChocolate = glm::translate(matrixModelChocolate, glm::vec3(-21.0, 0.0, 2.0));
 	matrixModelChocoPaleta = glm::translate(matrixModelChocoPaleta, glm::vec3(-16.0, 0.0, -1.5));
-	matrixModelCookie = glm::translate(matrixModelCookie, glm::vec3(1.5, 0.0, -4.0));
-	matrixModelCuteHome1 = glm::translate(matrixModelCuteHome1, glm::vec3(12.0, 0.0, -30.0));
+	matrixModelCookie = glm::translate(matrixModelCookie, glm::vec3(-600.0,0.0,90.0));
+	matrixModelCuteHome1 = glm::translate(matrixModelCuteHome1, glm::vec3(14.84, 0.0, -35.9375));
 	matrixModelCuteHome2 = glm::translate(matrixModelCuteHome2, glm::vec3(-12.0, 0.0, -30.0));
 	matrixModelCuteShop = glm::translate(matrixModelCuteShop, glm::vec3(-60.0, 0.0, -30.0));
 	matrixModelIceCreamSign = glm::translate(matrixModelIceCreamSign, glm::vec3(-25.0, 0.0, 2.0));
@@ -1305,7 +1346,7 @@ void applicationLoop() {
 	matrixModelCuteGun = glm::translate(matrixModelCuteGun, glm::vec3(-10.0, 0.0, 10.0));
 
 	//Matrix Models Animate
-	matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(-11.0, 0.0, -1.5));
+	matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0.0, 0.0, 0.0));
 	
 	lastTime = TimeManager::Instance().GetTime();
 
@@ -1336,7 +1377,7 @@ void applicationLoop() {
 		std::vector<glm::mat4> matrixDart;
 
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f),
-			(float)screenWidth / (float)screenHeight, 0.1f, 100.0f); //Antes 0.01f, 400.0f
+			(float)screenWidth / (float)screenHeight, 0.1f, 400.0f); //Antes 0.01f, 400.0f
 
 		if (modelSelected == 1) {
 			axis = glm::axis(glm::quat_cast(matrixModelPanditaRojo));
@@ -1898,7 +1939,7 @@ void prepareScene() {
 	modelGrass.setShader(&shaderMulLighting);
 */
 	//Mayow
-	mayowModelAnimate.setShader(&shaderMulLighting);
+	MayowCuteAnimate.setShader(&shaderMulLighting);
 }
 
 void prepareDepthScene() {
@@ -1939,29 +1980,26 @@ void prepareDepthScene() {
 	modelGrass.setShader(&shaderDepth);
 */
 	//Mayow
-	mayowModelAnimate.setShader(&shaderDepth);
+	MayowCuteAnimate.setShader(&shaderDepth);
 }
 
 void renderScene(bool renderParticles) {
 	/*******************************************
-	 * Terrain Cesped
+	 * Terrain 
 	 *******************************************/
-	glm::mat4 modelCesped = glm::mat4(1.0);
-	modelCesped = glm::translate(modelCesped, glm::vec3(0.0, 0.0, 0.0));
-	modelCesped = glm::scale(modelCesped, glm::vec3(200.0, 0.001, 200.0));
 	// Se activa la textura del background
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureTerrainBackgroundID);
 	shaderTerrain.setInt("backgroundTexture", 0);
-	// Se activa la textura de tierra
+	// Se activa la textura de ColorNube
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, textureTerrainRID);
 	shaderTerrain.setInt("rTexture", 1);
-	// Se activa la textura de hierba
+	// Se activa la textura de ColorNube
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, textureTerrainGID);
 	shaderTerrain.setInt("gTexture", 2);
-	// Se activa la textura del camino
+	// Se activa la textura del ColorNube
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, textureTerrainBID);
 	shaderTerrain.setInt("bTexture", 3);
@@ -1969,7 +2007,7 @@ void renderScene(bool renderParticles) {
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, textureTerrainBlendMapID);
 	shaderTerrain.setInt("blendMapTexture", 4);
-	shaderTerrain.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(40, 40)));
+	shaderTerrain.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(1, 1)));
 	terrain.render();
 	shaderTerrain.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(0, 0)));
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -2123,7 +2161,7 @@ void renderScene(bool renderParticles) {
 	//Cookie render
 	matrixModelCookie[3][1] = terrain.getHeightTerrain(matrixModelCookie[3][0], matrixModelCookie[3][2]);
 	glm::mat4 matrixModelCookieBody = glm::mat4(matrixModelCookie);
-	matrixModelCookieBody = glm::scale(matrixModelCookieBody, glm::vec3(35.0, 35.0, 35.0));
+	matrixModelCookieBody = glm::scale(matrixModelCookieBody, glm::vec3(100.0, 100.0, 100.0));
 	Cookie.render(matrixModelCookieBody);
 	glActiveTexture(GL_TEXTURE0);
 
