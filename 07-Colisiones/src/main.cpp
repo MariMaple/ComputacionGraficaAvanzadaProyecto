@@ -1368,11 +1368,15 @@ bool processInput(bool continueApplication) {
 			cameraPP->moveRightCamera(false, deltaTime + 0.3);
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 			cameraPP->moveRightCamera(true, deltaTime + 0.3);
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+			cameraPP->mouseMoveCamera(offsetX, offsetY, deltaTime);
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 			cameraPP->mouseMoveCamera(offsetX, offsetY, deltaTime);
 
 	}
 	else {
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+			camera->mouseMoveCamera(offsetX, 0.0, deltaTime);
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 			camera->mouseMoveCamera(offsetX, offsetY, deltaTime);
 	}
@@ -1383,7 +1387,7 @@ bool processInput(bool continueApplication) {
 	if (enableCountSelected && glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
 		enableCountSelected = false;
 		modelSelected++;
-		if (modelSelected > 9)
+		if (modelSelected > 1)
 			modelSelected = 0;
 		std::cout << "modelSelected:" << modelSelected << std::endl;
 	}
@@ -1516,10 +1520,11 @@ void applicationLoop() {
 			angleTarget = 0.0;
 		if (axis.y < 0)
 			angleTarget = -angleTarget;
+		camera->setCameraTarget(target);
 		camera->setAngleTarget(angleTarget);
 		camera->updateCamera();
 		if (camaraActivada == true)
-			view = cameraPP->getViewMatrix();
+			view = camera->getViewMatrix();
 		else
 			view = camera->getViewMatrix();
 
@@ -2386,7 +2391,7 @@ void renderScene(bool renderParticles) {
 	matrixModelMayow[3][1] = terrain.getHeightTerrain(matrixModelMayow[3][0], matrixModelMayow[3][2]);
 	glm::mat4 matrixModelMayowBody = glm::mat4(matrixModelMayow);
 	matrixModelMayowBody = glm::scale(matrixModelMayowBody, glm::vec3(0.02, 0.02, 0.02));
-	MayowCuteAnimate.setAnimationIndex(7);
+	MayowCuteAnimate.setAnimationIndex(animationIndex);
 	MayowCuteAnimate.render(matrixModelMayowBody);
 
 	/**********
