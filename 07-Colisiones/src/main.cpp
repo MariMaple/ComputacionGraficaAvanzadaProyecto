@@ -2278,7 +2278,7 @@ void applicationLoop() {
 		alSourcefv(source[2], AL_POSITION, source2Pos);
 		*/
 		// Listener for the Thris person camera
-		listenerPos[0] = matrixModelMayow[3].x;
+	/*	listenerPos[0] = matrixModelMayow[3].x;
 		listenerPos[1] = matrixModelMayow[3].y;
 		listenerPos[2] = matrixModelMayow[3].z;
 		alListenerfv(AL_POSITION, listenerPos);
@@ -2292,9 +2292,9 @@ void applicationLoop() {
 		listenerOri[3] = upModel.x;
 		listenerOri[4] = upModel.y;
 		listenerOri[5] = upModel.z;
-
+		*/
 		// Listener for the First person camera
-		/*listenerPos[0] = camera->getPosition().x;
+		listenerPos[0] = camera->getPosition().x;
 		listenerPos[1] = camera->getPosition().y;
 		listenerPos[2] = camera->getPosition().z;
 		alListenerfv(AL_POSITION, listenerPos);
@@ -2303,7 +2303,7 @@ void applicationLoop() {
 		listenerOri[2] = camera->getFront().z;
 		listenerOri[3] = camera->getUp().x;
 		listenerOri[4] = camera->getUp().y;
-		listenerOri[5] = camera->getUp().z;*/
+		listenerOri[5] = camera->getUp().z;
 		alListenerfv(AL_ORIENTATION, listenerOri);
 
 		for (unsigned int i = 0; i < sourcesPlay.size(); i++) {
