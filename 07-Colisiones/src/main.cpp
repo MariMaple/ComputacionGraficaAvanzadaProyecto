@@ -132,7 +132,7 @@ Model BastonLampara;
 // Mayow
 Model MayowCuteAnimate;
 // Terrain model instance
-Terrain terrain(-1, -1, 800, 16, "../Textures/heightmap.png"); //Valores practica 14: -1, -1, 200, 16
+Terrain terrain(-1, -1, 800, 60, "../Textures/heightmap.png"); //Valores practica 14: -1, -1, 200, 16
 
 GLuint textureCespedID, textureWallID, textureWindowID, textureHighwayID, textureLandingPadID;
 GLuint textureTerrainBackgroundID, textureTerrainRID, textureTerrainGID, textureTerrainBID, textureTerrainBlendMapID;
@@ -262,17 +262,17 @@ std::vector<float> CarAmOrientation = { 180, - 137.64, - 180, - 57.65};
 
 // CarameloAzul positions
 std::vector<glm::vec3> CarAzPosition = {
-	glm::vec3(-42.96875, 0, 180),
-	glm::vec3(-449.21875, 0, -137.64),
-	glm::vec3(-84.375, 0, -180),
-	glm::vec3(-521.875, 0, -57.65) };
+	glm::vec3(-42.96875, 0, -253.90625),
+	glm::vec3(-449.21875, 0,83.59375),
+	glm::vec3(-84.375, 0,	-583.59375),
+	glm::vec3(-521.875, 0,	-547.65625) };
 std::vector<float> CarAzOrientation = { -334.54, 33.34, - 318.81, - 228.95};
 
 // CarameloRosa positions
 std::vector<glm::vec3> CarRoPosition = {
 	glm::vec3(-167.96875, 0,42.96875),
 	glm::vec3(-667.96875, 0,-204.6875),
-	glm::vec3(-412.5, 0,-351.5625) };
+	glm::vec3(-450.5, 0 ,- 160) };
 std::vector<float> CarRoOrientation = { -316.4, - 53.75,- 318.81};
 
 // CarameloVerde positions
@@ -1016,18 +1016,8 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 		std::cout << "Failed to load texture" << std::endl;
 	// Libera la memoria de la textura
 	textureTerrainBlendMap.freeImage(bitmap);
-}
 
 
-
-
-
-
-
-
-
-
-	
 	/*Texture textureParticlesFountain("../Textures/bluewater.png");
 	bitmap = textureParticlesFountain.loadImage();
 	data = textureParticlesFountain.convertToData(bitmap, imageWidth, imageHeight);
@@ -1142,7 +1132,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/*******************************************
 	 * OpenAL init
 	 *******************************************/
-/*	alutInit(0, nullptr);
+	alutInit(0, nullptr);
 	alListenerfv(AL_POSITION, listenerPos);
 	alListenerfv(AL_VELOCITY, listenerVel);
 	alListenerfv(AL_ORIENTATION, listenerOri);
@@ -1157,9 +1147,9 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	// Config source 0
 	// Generate buffers, or else no sound will happen!
 	alGenBuffers(NUM_BUFFERS, buffer);
-	buffer[0] = alutCreateBufferFromFile("../sounds/fountain.wav");
-	buffer[1] = alutCreateBufferFromFile("../sounds/fire.wav");
-	buffer[2] = alutCreateBufferFromFile("../sounds/darth_vader.wav");
+	buffer[0] = alutCreateBufferFromFile("../sounds/cuteMusicFondo");
+//	buffer[1] = alutCreateBufferFromFile("../sounds/fire.wav");
+//	buffer[2] = alutCreateBufferFromFile("../sounds/darth_vader.wav");
 	int errorAlut = alutGetError();
 	if (errorAlut != ALUT_ERROR_NO_ERROR) {
 		printf("- Error open files with alut %d !!\n", errorAlut);
@@ -1168,7 +1158,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
 
 	alGetError(); /* clear error */
-/*	alGenSources(NUM_SOURCES, source);
+	alGenSources(NUM_SOURCES, source);
 
 	if (alGetError() != AL_NO_ERROR) {
 		printf("- Error creating sources !!\n");
@@ -1177,6 +1167,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	else {
 		printf("init - no errors after alGenSources\n");
 	}
+	//Musica de fondo
 	alSourcef(source[0], AL_PITCH, 1.0f);
 	alSourcef(source[0], AL_GAIN, 3.0f);
 	alSourcefv(source[0], AL_POSITION, source0Pos);
@@ -1199,8 +1190,8 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	alSourcefv(source[2], AL_VELOCITY, source2Vel);
 	alSourcei(source[2], AL_BUFFER, buffer[2]);
 	alSourcei(source[2], AL_LOOPING, AL_TRUE);
-	alSourcef(source[2], AL_MAX_DISTANCE, 500);*/
-
+	alSourcef(source[2], AL_MAX_DISTANCE, 500);
+}
 
 void destroy() {
 	glfwDestroyWindow(window);
@@ -1437,29 +1428,29 @@ void applicationLoop() {
 	matrixModelCaramVerde = glm::translate(matrixModelCaramVerde, glm::vec3(-9.0, 0.0, -1.5));
 	matrixModelDonaChocolate = glm::translate(matrixModelDonaChocolate, glm::vec3(6.0, 10.0, 2.0));//Problemas con las donas
 	matrixModelDonaFresa = glm::translate(matrixModelDonaFresa, glm::vec3(9.0, 10.0, 2.0));//Problemas con las donas*/
-	matrixModelHeladoChocolate = glm::translate(matrixModelHeladoChocolate, glm::vec3(12.0, 10.0, 2.0));
-	matrixModelHeladoFresa = glm::translate(matrixModelHeladoFresa, glm::vec3(16.0, 10.0, 2.0));
-	matrixModelHeladoMenta = glm::translate(matrixModelHeladoMenta, glm::vec3(20.0, 10.0, 2.0));
-	matrixModelHeladoMoraAzul = glm::translate(matrixModelHeladoMoraAzul, glm::vec3(24.0, 10.0, 2.0));
-	matrixModelHeladoMoraAzulFresa = glm::translate(matrixModelHeladoMoraAzulFresa, glm::vec3(28.0, 10.0, 2.0));
-	matrixModelPiruletaAmarillo = glm::translate(matrixModelPiruletaAmarillo, glm::vec3(-36.0, 10.0, 4.0));
-	matrixModelPiruletaRojo = glm::translate(matrixModelPiruletaRojo, glm::vec3(-42.0, 10.0, 4.0));
-	matrixModelPiruletaVerde = glm::translate(matrixModelPiruletaVerde, glm::vec3(-48.0, 10.0, 4.0));
+	matrixModelHeladoChocolate = glm::translate(matrixModelHeladoChocolate, glm::vec3(-200.4375, 0, -200.5));
+	matrixModelHeladoFresa = glm::translate(matrixModelHeladoFresa, glm::vec3(-576.5625, 0, -354.6875));
+	matrixModelHeladoMenta = glm::translate(matrixModelHeladoMenta, glm::vec3(-169.53125, 0, -478.125));
+	matrixModelHeladoMoraAzul = glm::translate(matrixModelHeladoMoraAzul, glm::vec3(-400.78125, 0, -623.4375));
+	matrixModelHeladoMoraAzulFresa = glm::translate(matrixModelHeladoMoraAzulFresa, glm::vec3(-10.0, 0.0, 50.0));
+	matrixModelPiruletaAmarillo = glm::translate(matrixModelPiruletaAmarillo, glm::vec3(-100.0, 0.0, 10.0));
+	matrixModelPiruletaRojo = glm::translate(matrixModelPiruletaRojo, glm::vec3(-222.65625, 0, 61.71875));
+	matrixModelPiruletaVerde = glm::translate(matrixModelPiruletaVerde, glm::vec3(-7.8125, 0, -278.125));
 	matrixModelBallKirby = glm::translate(matrixModelBallKirby, glm::vec3(-14.0, 0.0, 2.0));
-//	matrixModelBastonLampara = glm::translate(matrixModelBastonLampara, glm::vec3(-16.0, 0.0, 2.0));
-//	matrixModelCake = glm::translate(matrixModelCake, glm::vec3(1.5, 0.0, 2.0));
-//	matrixModelChocolate = glm::translate(matrixModelChocolate, glm::vec3(-21.0, 0.0, 2.0));
-//	matrixModelChocoPaleta = glm::translate(matrixModelChocoPaleta, glm::vec3(-16.0, 0.0, -1.5));
-//	matrixModelCookie = glm::translate(matrixModelCookie, glm::vec3(-600.0,0.0,90.0));
-//	matrixModelCuteHome1 = glm::translate(matrixModelCuteHome1, glm::vec3(14.84, 0.0, -35.9375));
-//	matrixModelCuteHome2 = glm::translate(matrixModelCuteHome2, glm::vec3(-12.0, 0.0, -30.0));
-//	matrixModelCuteShop = glm::translate(matrixModelCuteShop, glm::vec3(-60.0, 0.0, -30.0));
-	matrixModelIceCreamSign = glm::translate(matrixModelIceCreamSign, glm::vec3(-25.0, 0.0, 2.0));
+	//	matrixModelBastonLampara = glm::translate(matrixModelBastonLampara, glm::vec3(-16.0, 0.0, 2.0));
+	//	matrixModelCake = glm::translate(matrixModelCake, glm::vec3(1.5, 0.0, 2.0));
+	//	matrixModelChocolate = glm::translate(matrixModelChocolate, glm::vec3(-21.0, 0.0, 2.0));
+	//	matrixModelChocoPaleta = glm::translate(matrixModelChocoPaleta, glm::vec3(-16.0, 0.0, -1.5));
+	//	matrixModelCookie = glm::translate(matrixModelCookie, glm::vec3(-600.0,0.0,90.0));
+	//	matrixModelCuteHome1 = glm::translate(matrixModelCuteHome1, glm::vec3(14.84, 0.0, -35.9375));
+	//	matrixModelCuteHome2 = glm::translate(matrixModelCuteHome2, glm::vec3(-12.0, 0.0, -30.0));
+	//	matrixModelCuteShop = glm::translate(matrixModelCuteShop, glm::vec3(-60.0, 0.0, -30.0));
+	matrixModelIceCreamSign = glm::translate(matrixModelIceCreamSign, glm::vec3(-25.0, 0.0, -85.0));
 	matrixModelNube = glm::translate(matrixModelIceCreamSign, glm::vec3(0.0, 20.0, 2.0));
-	matrixModelPaleta = glm::translate(matrixModelPaleta, glm::vec3(-30.0, 0.0, 2.0));
-	matrixModelStrawberry = glm::translate(matrixModelStrawberry, glm::vec3(0.0, 0.0, 10.0));
-	matrixModelSweetCarrito = glm::translate(matrixModelSweetCarrito, glm::vec3(10.0, 0.0, 10.0));
-	matrixModelCuteGun = glm::translate(matrixModelCuteGun, glm::vec3(-10.0, 0.0, 10.0));
+	matrixModelPaleta = glm::translate(matrixModelPaleta, glm::vec3(-78.90625, 0, -670.3125));
+	matrixModelStrawberry = glm::translate(matrixModelStrawberry, glm::vec3(-200.0, 0.0, -300.0));
+	matrixModelSweetCarrito = glm::translate(matrixModelSweetCarrito, glm::vec3(15.0, 0.0, -70.0));
+	matrixModelCuteGun = glm::translate(matrixModelCuteGun, glm::vec3(-523.4375 - 400.78125));
 
 	//Matrix Models Animate
 	matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0.0, 0.0, 0.0));
@@ -1720,51 +1711,10 @@ void applicationLoop() {
 		 boxLightViewBox.render(boxViewTransform);
 		 glEnable(GL_CULL_FACE);*/
 
-		 /*******************************************
-		  * Creacion de colliders
-		  * IMPORTANT do this before interpolations
-		  *******************************************/
-		  //Collider del los panditas
-		AbstractModel::SBB panditaRojoCollider;
-		glm::mat4 modelMatrixColliderPanditaRojo = glm::mat4(matrixModelPanditaRojo);
-		modelMatrixColliderPanditaRojo = glm::scale(modelMatrixColliderPanditaRojo, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderPanditaRojo = glm::translate(modelMatrixColliderPanditaRojo, panditaRojo.getSbb().c);
-		panditaRojoCollider.c = glm::vec3(modelMatrixColliderPanditaRojo[3]);
-		panditaRojoCollider.ratio = panditaRojo.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "panditaRojo", panditaRojoCollider, matrixModelPanditaRojo);
-
-		AbstractModel::SBB panditaVerdeCollider;
-		glm::mat4 modelMatrixColliderPanditaVerde = glm::mat4(matrixModelPanditaVerde);
-		modelMatrixColliderPanditaVerde = glm::scale(modelMatrixColliderPanditaVerde, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderPanditaVerde = glm::translate(modelMatrixColliderPanditaVerde, panditaVerde.getSbb().c);
-		panditaVerdeCollider.c = glm::vec3(modelMatrixColliderPanditaVerde[3]);
-		panditaVerdeCollider.ratio = panditaVerde.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "panditaVerde", panditaVerdeCollider, matrixModelPanditaVerde);
-
-		AbstractModel::SBB panditaAzulCollider;
-		glm::mat4 modelMatrixColliderPanditaAzul = glm::mat4(matrixModelPanditaAzul);
-		modelMatrixColliderPanditaAzul = glm::scale(modelMatrixColliderPanditaAzul, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderPanditaAzul = glm::translate(modelMatrixColliderPanditaAzul, panditaAzul.getSbb().c);
-		panditaAzulCollider.c = glm::vec3(modelMatrixColliderPanditaAzul[3]);
-		panditaAzulCollider.ratio = panditaAzul.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "panditaAzul", panditaAzulCollider, matrixModelPanditaAzul);
-
-		AbstractModel::SBB panditaAmarilloCollider;
-		glm::mat4 modelMatrixColliderPanditaAmarillo = glm::mat4(matrixModelPanditaAmarillo);
-		modelMatrixColliderPanditaAmarillo = glm::scale(modelMatrixColliderPanditaAmarillo, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderPanditaAmarillo = glm::translate(modelMatrixColliderPanditaAmarillo, panditaAmarillo.getSbb().c);
-		panditaAmarilloCollider.c = glm::vec3(modelMatrixColliderPanditaAmarillo[3]);
-		panditaAmarilloCollider.ratio = panditaAmarillo.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "panditaAmarillo", panditaAmarilloCollider, matrixModelPanditaAmarillo);
-
-		AbstractModel::SBB panditaNaranjaCollider;
-		glm::mat4 modelMatrixColliderPanditaNaranja = glm::mat4(matrixModelPanditaNaranja);
-		modelMatrixColliderPanditaNaranja = glm::scale(modelMatrixColliderPanditaNaranja, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderPanditaNaranja = glm::translate(modelMatrixColliderPanditaNaranja, panditaNaranja.getSbb().c);
-		panditaNaranjaCollider.c = glm::vec3(modelMatrixColliderPanditaNaranja[3]);
-		panditaNaranjaCollider.ratio = panditaNaranja.getSbb().ratio * 1.0;
-		addOrUpdateColliders(collidersSBB, "panditaNaranja", panditaNaranjaCollider, matrixModelPanditaNaranja);
-		/*
+		/*******************************************
+		* Creacion de colliders
+		* IMPORTANT do this before interpolations
+		*******************************************/
 		// Lamps1 colliders
 		for (int i = 0; i < lamp1Position.size(); i++) {
 			AbstractModel::OBB lampCollider;
@@ -1772,53 +1722,399 @@ void applicationLoop() {
 			modelMatrixColliderLamp = glm::translate(modelMatrixColliderLamp, lamp1Position[i]);
 			modelMatrixColliderLamp = glm::rotate(modelMatrixColliderLamp, glm::radians(lamp1Orientation[i]),
 				glm::vec3(0, 1, 0));
-			addOrUpdateColliders(collidersOBB, "lamp1-" + std::to_string(i), lampCollider, modelMatrixColliderLamp);
+			addOrUpdateColliders(collidersOBB, "BastonLampara-" + std::to_string(i), lampCollider, modelMatrixColliderLamp);
 			// Set the orientation of collider before doing the scale
 			lampCollider.u = glm::quat_cast(modelMatrixColliderLamp);
-			modelMatrixColliderLamp = glm::scale(modelMatrixColliderLamp, glm::vec3(0.5, 0.5, 0.5));
-			modelMatrixColliderLamp = glm::translate(modelMatrixColliderLamp, modelLamp1.getObb().c);
+			modelMatrixColliderLamp = glm::scale(modelMatrixColliderLamp, glm::vec3(2.0, 9.5, 10.0));
+			modelMatrixColliderLamp = glm::translate(modelMatrixColliderLamp, BastonLampara.getObb().c);
 			lampCollider.c = glm::vec3(modelMatrixColliderLamp[3]);
-			lampCollider.e = modelLamp1.getObb().e * glm::vec3(0.5, 0.5, 0.5);
-			std::get<0>(collidersOBB.find("lamp1-" + std::to_string(i))->second) = lampCollider;
+			lampCollider.e = BastonLampara.getObb().e * glm::vec3(2.0, 9.5, 10.0);
+			std::get<0>(collidersOBB.find("BastonLampara-" + std::to_string(i))->second) = lampCollider;
 		}
 
-		// Lamps2 colliders
-		for (int i = 0; i < lamp2Position.size(); i++) {
-			AbstractModel::OBB lampCollider;
-			glm::mat4 modelMatrixColliderLamp = glm::mat4(1.0);
-			modelMatrixColliderLamp = glm::translate(modelMatrixColliderLamp, lamp2Position[i]);
-			modelMatrixColliderLamp = glm::rotate(modelMatrixColliderLamp, glm::radians(lamp2Orientation[i]),
+		//Cute Home1 Colliders 
+		for (int i = 0; i < CutH1Position.size(); i++) {
+			AbstractModel::OBB CutH1Collider;
+			glm::mat4 modelMatrixColliderCutH1 = glm::mat4(1.0);
+			modelMatrixColliderCutH1 = glm::translate(modelMatrixColliderCutH1, CutH1Position[i]);
+			modelMatrixColliderCutH1 = glm::rotate(modelMatrixColliderCutH1, glm::radians(CutH1Orientation[i]),
 				glm::vec3(0, 1, 0));
-			addOrUpdateColliders(collidersOBB, "lamp2-" + std::to_string(i), lampCollider, modelMatrixColliderLamp);
+			addOrUpdateColliders(collidersOBB, "CuteHome1-" + std::to_string(i), CutH1Collider, modelMatrixColliderCutH1);
 			// Set the orientation of collider before doing the scale
-			lampCollider.u = glm::quat_cast(modelMatrixColliderLamp);
-			modelMatrixColliderLamp = glm::scale(modelMatrixColliderLamp, glm::vec3(1.0, 1.0, 1.0));
-			modelMatrixColliderLamp = glm::translate(modelMatrixColliderLamp, modelLampPost2.getObb().c);
-			lampCollider.c = glm::vec3(modelMatrixColliderLamp[3]);
-			lampCollider.e = modelLampPost2.getObb().e * glm::vec3(1.0, 1.0, 1.0);
-			std::get<0>(collidersOBB.find("lamp2-" + std::to_string(i))->second) = lampCollider;
+			CutH1Collider.u = glm::quat_cast(modelMatrixColliderCutH1);
+			modelMatrixColliderCutH1 = glm::scale(modelMatrixColliderCutH1, glm::vec3(3.5, 3.5, 3.5));
+			modelMatrixColliderCutH1 = glm::translate(modelMatrixColliderCutH1, CuteHome1.getObb().c);
+			CutH1Collider.c = glm::vec3(modelMatrixColliderCutH1[3]);
+			CutH1Collider.e = CuteHome1.getObb().e * glm::vec3(3.5, 3.5, 3.5);
+			std::get<0>(collidersOBB.find("CuteHome1-" + std::to_string(i))->second) = CutH1Collider;
 		}
 
+		//Cute Home2 Colliders 
+		for (int i = 0; i < CutH2Position.size(); i++) {
+			AbstractModel::OBB CutH2Collider;
+			glm::mat4 modelMatrixColliderCutH2 = glm::mat4(1.0);
+			modelMatrixColliderCutH2 = glm::translate(modelMatrixColliderCutH2, CutH2Position[i]);
+			modelMatrixColliderCutH2 = glm::rotate(modelMatrixColliderCutH2, glm::radians(CutH2Orientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "CuteHome2-" + std::to_string(i), CutH2Collider, modelMatrixColliderCutH2);
+			// Set the orientation of collider before doing the scale
+			CutH2Collider.u = glm::quat_cast(modelMatrixColliderCutH2);
+			modelMatrixColliderCutH2 = glm::scale(modelMatrixColliderCutH2, glm::vec3(1.9, 1.7, 1.8));
+			modelMatrixColliderCutH2 = glm::translate(modelMatrixColliderCutH2, CuteHome2.getObb().c);
+			CutH2Collider.c = glm::vec3(modelMatrixColliderCutH2[3]);
+			CutH2Collider.e = CuteHome2.getObb().e * glm::vec3(1.9, 1.7, 1.8);
+			std::get<0>(collidersOBB.find("CuteHome2-" + std::to_string(i))->second) = CutH2Collider;
+		}
+		//Cute Shop Colliders 
+		for (int i = 0; i < CutShPosition.size(); i++) {
+			AbstractModel::OBB CutShCollider;
+			glm::mat4 modelMatrixColliderCutSh = glm::mat4(1.0);
+			modelMatrixColliderCutSh = glm::translate(modelMatrixColliderCutSh, CutShPosition[i]);
+			modelMatrixColliderCutSh = glm::rotate(modelMatrixColliderCutSh, glm::radians(CutShOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "CuteShop-" + std::to_string(i), CutShCollider, modelMatrixColliderCutSh);
+			// Set the orientation of collider before doing the scale
+			CutShCollider.u = glm::quat_cast(modelMatrixColliderCutSh);
+			modelMatrixColliderCutSh = glm::scale(modelMatrixColliderCutSh, glm::vec3(3.5, 3.5, 3.5));
+			modelMatrixColliderCutSh = glm::translate(modelMatrixColliderCutSh, CuteShop.getObb().c);
+			CutShCollider.c = glm::vec3(modelMatrixColliderCutSh[3]);
+			CutShCollider.e = CuteShop.getObb().e * glm::vec3(3.5, 3.5, 3.5);
+			std::get<0>(collidersOBB.find("CuteShop-" + std::to_string(i))->second) = CutShCollider;
+		}
+		//Cake Colliders 
+		for (int i = 0; i < CakePosition.size(); i++) {
+			AbstractModel::OBB CakeCollider;
+			glm::mat4 modelMatrixColliderCake = glm::mat4(1.0);
+			modelMatrixColliderCake = glm::translate(modelMatrixColliderCake, CakePosition[i]);
+			modelMatrixColliderCake = glm::rotate(modelMatrixColliderCake, glm::radians(CakeOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "Cake-" + std::to_string(i), CakeCollider, modelMatrixColliderCake);
+			// Set the orientation of collider before doing the scale
+			CakeCollider.u = glm::quat_cast(modelMatrixColliderCake);
+			modelMatrixColliderCake = glm::scale(modelMatrixColliderCake, glm::vec3(80.0, 75.0, 80.0));
+			modelMatrixColliderCake = glm::translate(modelMatrixColliderCake, Cake.getObb().c);
+			CakeCollider.c = glm::vec3(modelMatrixColliderCake[3]);
+			CakeCollider.e = Cake.getObb().e * glm::vec3(80.0, 75.0, 80.0);
+			std::get<0>(collidersOBB.find("Cake-" + std::to_string(i))->second) = CakeCollider;
+		}
+
+		//Caramelos Colliders 
+		for (int i = 0; i < CarAmPosition.size(); i++) {
+			AbstractModel::SBB CarAmCollider;
+			glm::mat4 modelMatrixColliderCarAm = glm::mat4(1.0);
+			modelMatrixColliderCarAm = glm::translate(modelMatrixColliderCarAm, CarAmPosition[i]);
+			modelMatrixColliderCarAm = glm::rotate(modelMatrixColliderCarAm, glm::radians(CarAmOrientation[i]),
+				glm::vec3(0, 1, 0));
+			// Set the orientation of collider before doing the scale
+			modelMatrixColliderCarAm = glm::scale(modelMatrixColliderCarAm, glm::vec3(10.0, 10.0, 10.0));
+			modelMatrixColliderCarAm = glm::translate(modelMatrixColliderCarAm, CaramAmarillo.getSbb().c);
+			CarAmCollider.c = glm::vec3(modelMatrixColliderCarAm[3]);
+			CarAmCollider.ratio = CaramAmarillo.getSbb().ratio * 6.0;
+			std::get<0>(collidersSBB.find("CarameloAmarillo-" + std::to_string(i))->second) = CarAmCollider;
+			addOrUpdateColliders(collidersSBB, "CarameloAmarillo-" + std::to_string(i), CarAmCollider, modelMatrixColliderCarAm);
+		}
+		for (int i = 0; i < CarAzPosition.size(); i++) {
+			AbstractModel::SBB CarAzCollider;
+			glm::mat4 modelMatrixColliderCarAz = glm::mat4(1.0);
+			modelMatrixColliderCarAz = glm::translate(modelMatrixColliderCarAz, CarAzPosition[i]);
+			modelMatrixColliderCarAz = glm::rotate(modelMatrixColliderCarAz, glm::radians(CarAzOrientation[i]),
+				glm::vec3(0, 1, 0));
+			// Set the orientation of collider before doing the scale
+			modelMatrixColliderCarAz = glm::scale(modelMatrixColliderCarAz, glm::vec3(15.5, 15.5, 15.5));
+			modelMatrixColliderCarAz = glm::translate(modelMatrixColliderCarAz, CaramAzul.getSbb().c);
+			CarAzCollider.c = glm::vec3(modelMatrixColliderCarAz[3]);
+			CarAzCollider.ratio = CaramAzul.getSbb().ratio * 5.4;
+			std::get<0>(collidersSBB.find("CarameloAzul-" + std::to_string(i))->second) = CarAzCollider;
+			addOrUpdateColliders(collidersSBB, "CarameloAzul-" + std::to_string(i), CarAzCollider, modelMatrixColliderCarAz);
+		}
+		for (int i = 0; i < CarRoPosition.size(); i++) {
+			AbstractModel::SBB CarRoCollider;
+			glm::mat4 modelMatrixColliderCarRo = glm::mat4(1.0);
+			modelMatrixColliderCarRo = glm::translate(modelMatrixColliderCarRo, CarRoPosition[i]);
+			modelMatrixColliderCarRo = glm::rotate(modelMatrixColliderCarRo, glm::radians(CarRoOrientation[i]),
+				glm::vec3(0, 1, 0));
+			// Set the orientation of collider before doing the scale
+			modelMatrixColliderCarRo = glm::scale(modelMatrixColliderCarRo, glm::vec3(30.5, 20.5, 1.5));
+			modelMatrixColliderCarRo = glm::translate(modelMatrixColliderCarRo, CaramRosa.getSbb().c);
+			CarRoCollider.c = glm::vec3(modelMatrixColliderCarRo[3]);
+			CarRoCollider.ratio = CaramRosa.getSbb().ratio * 7.0;
+			std::get<0>(collidersSBB.find("CarameloRosa-" + std::to_string(i))->second) = CarRoCollider;
+			addOrUpdateColliders(collidersSBB, "CarameloRosa-" + std::to_string(i), CarRoCollider, modelMatrixColliderCarRo);
+		}
+		for (int i = 0; i < CarVerPosition.size(); i++) {
+			AbstractModel::SBB CarVerCollider;
+			glm::mat4 modelMatrixColliderCarVer = glm::mat4(1.0);
+			modelMatrixColliderCarVer = glm::translate(modelMatrixColliderCarVer, CarVerPosition[i]);
+			modelMatrixColliderCarVer = glm::rotate(modelMatrixColliderCarVer, glm::radians(CarVerOrientation[i]),
+				glm::vec3(0, 1, 0));
+			// Set the orientation of collider before doing the scale
+			modelMatrixColliderCarVer = glm::scale(modelMatrixColliderCarVer, glm::vec3(15.0, 15.0, 15.0));
+			modelMatrixColliderCarVer = glm::translate(modelMatrixColliderCarVer, CaramVerde.getSbb().c);
+			CarVerCollider.c = glm::vec3(modelMatrixColliderCarVer[3]);
+			CarVerCollider.ratio = CaramVerde.getSbb().ratio * 9.0;
+			std::get<0>(collidersSBB.find("CarameloVerde-" + std::to_string(i))->second) = CarVerCollider;
+			addOrUpdateColliders(collidersSBB, "CarameloVerde-" + std::to_string(i), CarVerCollider, modelMatrixColliderCarVer);
+		}
+
+		//Collider del los chocolate
+		for (int i = 0; i < ChocoPosition.size(); i++) {
+			AbstractModel::OBB ChocoCollider;
+			glm::mat4 modelMatrixColliderChoco = glm::mat4(1.0);
+			modelMatrixColliderChoco = glm::translate(modelMatrixColliderChoco, ChocoPosition[i]);
+			modelMatrixColliderChoco = glm::rotate(modelMatrixColliderChoco, glm::radians(ChocoOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "Chocolate-" + std::to_string(i), ChocoCollider, modelMatrixColliderChoco);
+			// Set the orientation of collider before doing the scale
+			ChocoCollider.u = glm::quat_cast(modelMatrixColliderChoco);
+			modelMatrixColliderChoco = glm::scale(modelMatrixColliderChoco, glm::vec3(70.5, 70.8, 70.0));
+			modelMatrixColliderChoco = glm::translate(modelMatrixColliderChoco, Chocolate.getObb().c);
+			ChocoCollider.c = glm::vec3(modelMatrixColliderChoco[3]);
+			ChocoCollider.e = Chocolate.getObb().e * glm::vec3(70.5, 70.8, 70.0);
+			std::get<0>(collidersOBB.find("Chocolate-" + std::to_string(i))->second) = ChocoCollider;
+		}
+
+		//Collider de las chocoPaleta
+		for (int i = 0; i < ChocoPPosition.size(); i++) {
+			AbstractModel::OBB ChocoPCollider;
+			glm::mat4 modelMatrixColliderChocoP = glm::mat4(1.0);
+			modelMatrixColliderChocoP = glm::translate(modelMatrixColliderChocoP, ChocoPPosition[i]);
+			modelMatrixColliderChocoP = glm::rotate(modelMatrixColliderChocoP, glm::radians(ChocoPOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "ChocoPaleta-" + std::to_string(i), ChocoPCollider, modelMatrixColliderChocoP);
+			// Set the orientation of collider before doing the scale
+			ChocoPCollider.u = glm::quat_cast(modelMatrixColliderChocoP);
+			modelMatrixColliderChocoP = glm::scale(modelMatrixColliderChocoP, glm::vec3(2.0, 1.5, 1.5));
+			modelMatrixColliderChocoP = glm::translate(modelMatrixColliderChocoP, ChocoPaleta.getObb().c);
+			ChocoPCollider.c = glm::vec3(modelMatrixColliderChocoP[3]);
+			ChocoPCollider.e = ChocoPaleta.getObb().e * glm::vec3(2.0, 1.5, 1.5);
+			std::get<0>(collidersOBB.find("ChocoPaleta-" + std::to_string(i))->second) = ChocoPCollider;
+		}
+		//Collider de las Cookies
+		for (int i = 0; i < CookPosition.size(); i++) {
+			AbstractModel::OBB CookCollider;
+			glm::mat4 modelMatrixColliderCook = glm::mat4(1.0);
+			modelMatrixColliderCook = glm::translate(modelMatrixColliderCook, CookPosition[i]);
+			modelMatrixColliderCook = glm::rotate(modelMatrixColliderCook, glm::radians(CookOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "Cookie-" + std::to_string(i), CookCollider, modelMatrixColliderCook);
+			// Set the orientation of collider before doing the scale
+			CookCollider.u = glm::quat_cast(modelMatrixColliderCook);
+			modelMatrixColliderCook = glm::scale(modelMatrixColliderCook, glm::vec3(150.0, 100.5, 150.5));
+			modelMatrixColliderCook = glm::translate(modelMatrixColliderCook, Cookie.getObb().c);
+			CookCollider.c = glm::vec3(modelMatrixColliderCook[3]);
+			CookCollider.e = Cookie.getObb().e * glm::vec3(140.0, 100.5, 140.5);
+			std::get<0>(collidersOBB.find("Cookie-" + std::to_string(i))->second) = CookCollider;
+		}
+
+		//Collider de las Donas
+		for (int i = 0; i < DonChoPosition.size(); i++) {
+			AbstractModel::OBB DonChoCollider;
+			glm::mat4 modelMatrixColliderDonCho = glm::mat4(1.0);
+			modelMatrixColliderDonCho = glm::translate(modelMatrixColliderDonCho, DonChoPosition[i]);
+			modelMatrixColliderDonCho = glm::rotate(modelMatrixColliderDonCho, glm::radians(DonChoOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "DonaChocolate-" + std::to_string(i), DonChoCollider, modelMatrixColliderDonCho);
+			// Set the orientation of collider before doing the scale
+			DonChoCollider.u = glm::quat_cast(modelMatrixColliderDonCho);
+			modelMatrixColliderDonCho = glm::scale(modelMatrixColliderDonCho, glm::vec3(8.7, 8.7, 9.0));
+			modelMatrixColliderDonCho = glm::translate(modelMatrixColliderDonCho, DonaChocolate.getObb().c);
+			DonChoCollider.c = glm::vec3(modelMatrixColliderDonCho[3]);
+			DonChoCollider.e = DonaChocolate.getObb().e * glm::vec3(8.7, 8.7, 9.0);
+			std::get<0>(collidersOBB.find("DonaChocholate-" + std::to_string(i))->second) = DonChoCollider;
+		}
+		for (int i = 0; i < DonFrePosition.size(); i++) {
+			AbstractModel::OBB DonFreCollider;
+			glm::mat4 modelMatrixColliderDonFre = glm::mat4(1.0);
+			modelMatrixColliderDonFre = glm::translate(modelMatrixColliderDonFre, DonFrePosition[i]);
+			modelMatrixColliderDonFre = glm::rotate(modelMatrixColliderDonFre, glm::radians(DonFreOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "DonaFresa-" + std::to_string(i), DonFreCollider, modelMatrixColliderDonFre);
+			// Set the orientation of collider before doing the scale
+			DonFreCollider.u = glm::quat_cast(modelMatrixColliderDonFre);
+			modelMatrixColliderDonFre = glm::scale(modelMatrixColliderDonFre, glm::vec3(8.7, 8.7, 9.0));
+			modelMatrixColliderDonFre = glm::translate(modelMatrixColliderDonFre, DonaFresa.getObb().c);
+			DonFreCollider.c = glm::vec3(modelMatrixColliderDonFre[3]);
+			DonFreCollider.e = DonaFresa.getObb().e * glm::vec3(8.7, 8.7, 9.0);
+			std::get<0>(collidersOBB.find("DonaFresa-" + std::to_string(i))->second) = DonFreCollider;
+		}
+
+		//Collider del los panditas
+		for (int i = 0; i < PRoPosition.size(); i++) {
+			AbstractModel::OBB panditaRojoCollider;
+			glm::mat4 modelMatrixColliderPRo = glm::mat4(1.0);
+			modelMatrixColliderPRo = glm::translate(modelMatrixColliderPRo, PRoPosition[i]);
+			modelMatrixColliderPRo = glm::rotate(modelMatrixColliderPRo, glm::radians(PRoOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "panditaRojo-" + std::to_string(i), panditaRojoCollider, modelMatrixColliderPRo);
+			// Set the orientation of collider before doing the scale
+			panditaRojoCollider.u = glm::quat_cast(modelMatrixColliderPRo);
+			modelMatrixColliderPRo = glm::scale(modelMatrixColliderPRo, glm::vec3(5.5, 5.8, 6.0));
+			modelMatrixColliderPRo = glm::translate(modelMatrixColliderPRo, panditaRojo.getObb().c);
+			panditaRojoCollider.c = glm::vec3(modelMatrixColliderPRo[3]);
+			panditaRojoCollider.e = panditaRojo.getObb().e * glm::vec3(5.5, 5.8, 6.0);
+			std::get<0>(collidersOBB.find("panditaRojo-" + std::to_string(i))->second) = panditaRojoCollider;
+		}
+		for (int i = 0; i < PVePosition.size(); i++) {
+			AbstractModel::OBB panditaVerdeCollider;
+			glm::mat4 modelMatrixColliderPVe = glm::mat4(1.0);
+			modelMatrixColliderPVe = glm::translate(modelMatrixColliderPVe, PVePosition[i]);
+			modelMatrixColliderPVe = glm::rotate(modelMatrixColliderPVe, glm::radians(PVeOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "panditaVerde-" + std::to_string(i), panditaVerdeCollider, modelMatrixColliderPVe);
+			// Set the orientation of collider before doing the scale
+			panditaVerdeCollider.u = glm::quat_cast(modelMatrixColliderPVe);
+			modelMatrixColliderPVe = glm::scale(modelMatrixColliderPVe, glm::vec3(5.5, 5.8, 6.0));
+			modelMatrixColliderPVe = glm::translate(modelMatrixColliderPVe, panditaVerde.getObb().c);
+			panditaVerdeCollider.c = glm::vec3(modelMatrixColliderPVe[3]);
+			panditaVerdeCollider.e = panditaVerde.getObb().e * glm::vec3(5.5, 5.8, 6.0);
+			std::get<0>(collidersOBB.find("panditaVerde-" + std::to_string(i))->second) = panditaVerdeCollider;
+		}
+		for (int i = 0; i < PAzPosition.size(); i++) {
+			AbstractModel::OBB panditaAzulCollider;
+			glm::mat4 modelMatrixColliderPAz = glm::mat4(1.0);
+			modelMatrixColliderPAz = glm::translate(modelMatrixColliderPAz, PAzPosition[i]);
+			modelMatrixColliderPAz = glm::rotate(modelMatrixColliderPAz, glm::radians(PAzOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "panditaAzul-" + std::to_string(i), panditaAzulCollider, modelMatrixColliderPAz);
+			// Set the orientation of collider before doing the scale
+			panditaAzulCollider.u = glm::quat_cast(modelMatrixColliderPAz);
+			modelMatrixColliderPAz = glm::scale(modelMatrixColliderPAz, glm::vec3(8.5, 8.8, 9.0));
+			modelMatrixColliderPAz = glm::translate(modelMatrixColliderPAz, panditaAzul.getObb().c);
+			panditaAzulCollider.c = glm::vec3(modelMatrixColliderPAz[3]);
+			panditaAzulCollider.e = panditaAzul.getObb().e * glm::vec3(8.5, 8.8, 9.0);
+			std::get<0>(collidersOBB.find("panditaAzul-" + std::to_string(i))->second) = panditaAzulCollider;
+		}
+		for (int i = 0; i < PAmPosition.size(); i++) {
+			AbstractModel::OBB panditaAmarilloCollider;
+			glm::mat4 modelMatrixColliderPAm= glm::mat4(1.0);
+			modelMatrixColliderPAm = glm::translate(modelMatrixColliderPAm, PAmPosition[i]);
+			modelMatrixColliderPAm = glm::rotate(modelMatrixColliderPAm, glm::radians(PAmOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "panditaAmarillo-" + std::to_string(i), panditaAmarilloCollider, modelMatrixColliderPAm);
+			// Set the orientation of collider before doing the scale
+			panditaAmarilloCollider.u = glm::quat_cast(modelMatrixColliderPAm);
+			modelMatrixColliderPAm = glm::scale(modelMatrixColliderPAm, glm::vec3(8.5, 8.8, 9.0));
+			modelMatrixColliderPAm = glm::translate(modelMatrixColliderPAm, panditaAmarillo.getObb().c);
+			panditaAmarilloCollider.c = glm::vec3(modelMatrixColliderPAm[3]);
+			panditaAmarilloCollider.e = panditaAmarillo.getObb().e * glm::vec3(8.5, 8.8, 9.0);
+			std::get<0>(collidersOBB.find("panditaAmarillo-" + std::to_string(i))->second) = panditaAmarilloCollider;
+		}
+		for (int i = 0; i < PNaPosition.size(); i++) {
+			AbstractModel::OBB panditaNaranjaCollider;
+			glm::mat4 modelMatrixColliderPNa = glm::mat4(1.0);
+			modelMatrixColliderPNa = glm::translate(modelMatrixColliderPNa, PNaPosition[i]);
+			modelMatrixColliderPNa = glm::rotate(modelMatrixColliderPNa, glm::radians(PNaOrientation[i]),
+				glm::vec3(0, 1, 0));
+			addOrUpdateColliders(collidersOBB, "panditaNaranja-" + std::to_string(i), panditaNaranjaCollider, modelMatrixColliderPNa);
+			// Set the orientation of collider before doing the scale
+			panditaNaranjaCollider.u = glm::quat_cast(modelMatrixColliderPNa);
+			modelMatrixColliderPNa = glm::scale(modelMatrixColliderPNa, glm::vec3(4.5, 4.8, 5.0));
+			modelMatrixColliderPNa = glm::translate(modelMatrixColliderPNa, panditaNaranja.getObb().c);
+			panditaNaranjaCollider.c = glm::vec3(modelMatrixColliderPNa[3]);
+			panditaNaranjaCollider.e = panditaNaranja.getObb().e * glm::vec3(4.5, 4.8, 5.0);
+			std::get<0>(collidersOBB.find("panditaNaranja-" + std::to_string(i))->second) = panditaNaranjaCollider;
+		}
+
+		//Collider HeladoChocolate
+		AbstractModel::OBB HeladoChocolateCollider;
+		glm::mat4 modelmatrixColliderHeladoChocolate = glm::mat4(matrixModelHeladoChocolate);
+		modelmatrixColliderHeladoChocolate = glm::rotate(modelmatrixColliderHeladoChocolate,
+			glm::radians(0.0f), glm::vec3(0, 0, 1));
+		// Set the orientation of collider before doing the scale
+		HeladoChocolateCollider.u = glm::quat_cast(modelmatrixColliderHeladoChocolate);
+		modelmatrixColliderHeladoChocolate = glm::scale(modelmatrixColliderHeladoChocolate, glm::vec3(4.0, 5.0, 4.0));
+		modelmatrixColliderHeladoChocolate = glm::translate(modelmatrixColliderHeladoChocolate,
+			glm::vec3(HeladoChocolate.getObb().c.x,
+				HeladoChocolate.getObb().c.y,
+				HeladoChocolate.getObb().c.z));
+		HeladoChocolateCollider.e = HeladoChocolate.getObb().e * glm::vec3(4.0, 5.0, 4.0) * glm::vec3(1.0, 1.0, 1.0);
+		HeladoChocolateCollider.c = glm::vec3(modelmatrixColliderHeladoChocolate[3]);
+		addOrUpdateColliders(collidersOBB, "HeladoChocolate", HeladoChocolateCollider, matrixModelHeladoChocolate);
+
+		//Collider HeladoFresa 
+		AbstractModel::OBB HeladoFresaCollider;
+		glm::mat4 modelmatrixColliderHeladoFresa = glm::mat4(matrixModelHeladoFresa);
+		modelmatrixColliderHeladoFresa = glm::rotate(modelmatrixColliderHeladoFresa,
+			glm::radians(0.0f), glm::vec3(0, 0, 1));
+		// Set the orientation of collider before doing the scale
+		HeladoFresaCollider.u = glm::quat_cast(modelmatrixColliderHeladoFresa);
+		modelmatrixColliderHeladoFresa = glm::scale(modelmatrixColliderHeladoFresa, glm::vec3(5.0, 7.0, 5.0));
+		modelmatrixColliderHeladoFresa = glm::translate(modelmatrixColliderHeladoFresa,
+			glm::vec3(HeladoFresa.getObb().c.x,
+				HeladoFresa.getObb().c.y,
+				HeladoFresa.getObb().c.z));
+		HeladoFresaCollider.e = HeladoFresa.getObb().e * glm::vec3(5.0, 7.0, 5.0) * glm::vec3(1.0, 1.0, 1.0);
+		HeladoFresaCollider.c = glm::vec3(modelmatrixColliderHeladoFresa[3]);
+		addOrUpdateColliders(collidersOBB, "HeladoFresa", HeladoFresaCollider, matrixModelHeladoFresa);
+
+		//Collider HeladoMenta
+		AbstractModel::OBB HeladoMentaCollider;
+		glm::mat4 modelmatrixColliderHeladoMenta = glm::mat4(matrixModelHeladoMenta);
+		modelmatrixColliderHeladoMenta = glm::rotate(modelmatrixColliderHeladoMenta,
+			glm::radians(0.0f), glm::vec3(0, 0, 1));
+		// Set the orientation of collider before doing the scale
+		HeladoMentaCollider.u = glm::quat_cast(modelmatrixColliderHeladoMenta);
+		modelmatrixColliderHeladoMenta = glm::scale(modelmatrixColliderHeladoMenta, glm::vec3(5.0, 8.0, 5.0));
+		modelmatrixColliderHeladoMenta = glm::translate(modelmatrixColliderHeladoMenta,
+			glm::vec3(HeladoMenta.getObb().c.x,
+				HeladoMenta.getObb().c.y,
+				HeladoMenta.getObb().c.z));
+		HeladoMentaCollider.e = HeladoMenta.getObb().e * glm::vec3(5.0, 8.0, 5.0) * glm::vec3(1.0, 1.0, 1.0);
+		HeladoMentaCollider.c = glm::vec3(modelmatrixColliderHeladoMenta[3]);
+		addOrUpdateColliders(collidersOBB, "HeladoMenta", HeladoMentaCollider, matrixModelHeladoMenta);
+
+		//Collider HeladoMoraAzul
+		AbstractModel::OBB HeladoMoraAzulCollider;
+		glm::mat4 modelmatrixColliderHeladoMoraAzul = glm::mat4(matrixModelHeladoMoraAzul);
+		modelmatrixColliderHeladoMoraAzul = glm::rotate(modelmatrixColliderHeladoMoraAzul,
+			glm::radians(0.0f), glm::vec3(0, 0, 1));
+		// Set the orientation of collider before doing the scale
+		HeladoMoraAzulCollider.u = glm::quat_cast(modelmatrixColliderHeladoMoraAzul);
+		modelmatrixColliderHeladoMoraAzul = glm::scale(modelmatrixColliderHeladoMoraAzul, glm::vec3(4.0, 5.0, 4.0));
+		modelmatrixColliderHeladoMoraAzul = glm::translate(modelmatrixColliderHeladoMoraAzul,
+			glm::vec3(HeladoMoraAzul.getObb().c.x,
+				HeladoMoraAzul.getObb().c.y,
+				HeladoMoraAzul.getObb().c.z));
+		HeladoMoraAzulCollider.e = HeladoMoraAzul.getObb().e * glm::vec3(4.0, 5.0, 4.0) * glm::vec3(1.0, 1.0, 1.0);
+		HeladoMoraAzulCollider.c = glm::vec3(modelmatrixColliderHeladoMoraAzul[3]);
+		addOrUpdateColliders(collidersOBB, "HeladoMoraAzul", HeladoMoraAzulCollider, matrixModelHeladoMoraAzul);
+
+		//Collider HeladoMoraAzulFresa
+		AbstractModel::OBB HeladoMoraAzulFresaCollider;
+		glm::mat4 modelmatrixColliderHeladoMoraAzulFresa = glm::mat4(matrixModelHeladoMoraAzulFresa);
+		modelmatrixColliderHeladoMoraAzulFresa = glm::rotate(modelmatrixColliderHeladoMoraAzulFresa,
+			glm::radians(0.0f), glm::vec3(0, 0, 1));
+		// Set the orientation of collider before doing the scale
+		HeladoMoraAzulFresaCollider.u = glm::quat_cast(modelmatrixColliderHeladoMoraAzulFresa);
+		modelmatrixColliderHeladoMoraAzulFresa = glm::scale(modelmatrixColliderHeladoMoraAzulFresa, glm::vec3(4.0, 5.0, 4.0));
+		modelmatrixColliderHeladoMoraAzulFresa = glm::translate(modelmatrixColliderHeladoMoraAzulFresa,
+			glm::vec3(HeladoMoraAzulFresa.getObb().c.x,
+				HeladoMoraAzulFresa.getObb().c.y,
+				HeladoMoraAzulFresa.getObb().c.z));
+		HeladoMoraAzulFresaCollider.e = HeladoMoraAzulFresa.getObb().e * glm::vec3(4.0, 5.0, 4.0) * glm::vec3(1.0, 1.0, 1.0);
+		HeladoMoraAzulFresaCollider.c = glm::vec3(modelmatrixColliderHeladoMoraAzulFresa[3]);
+		addOrUpdateColliders(collidersOBB, "HeladoMoraAzul", HeladoMoraAzulFresaCollider, matrixModelHeladoMoraAzulFresa);
+				
 		// Collider de mayow
-		AbstractModel::OBB mayowCollider;
-		glm::mat4 modelmatrixColliderMayow = glm::mat4(modelMatrixMayow);
+		AbstractModel::OBB mayowCollider; 
+		glm::mat4 modelmatrixColliderMayow = glm::mat4(matrixModelMayow);
 		modelmatrixColliderMayow = glm::rotate(modelmatrixColliderMayow,
-			glm::radians(-90.0f), glm::vec3(1, 0, 0));
+			glm::radians(0.0f), glm::vec3(0, 0, 1));
 		// Set the orientation of collider before doing the scale
 		mayowCollider.u = glm::quat_cast(modelmatrixColliderMayow);
-		modelmatrixColliderMayow = glm::scale(modelmatrixColliderMayow, glm::vec3(0.021, 0.021, 0.021));
+		modelmatrixColliderMayow = glm::scale(modelmatrixColliderMayow, glm::vec3(1.0, 2.0, 2.0));
 		modelmatrixColliderMayow = glm::translate(modelmatrixColliderMayow,
-			glm::vec3(mayowModelAnimate.getObb().c.x,
-				mayowModelAnimate.getObb().c.y,
-				mayowModelAnimate.getObb().c.z));
-		mayowCollider.e = mayowModelAnimate.getObb().e * glm::vec3(0.021, 0.021, 0.021) * glm::vec3(0.787401574, 0.787401574, 0.787401574);
+			glm::vec3(MayowCuteAnimate.getObb().c.x,
+				MayowCuteAnimate.getObb().c.y,
+				MayowCuteAnimate.getObb().c.z));
+		mayowCollider.e = MayowCuteAnimate.getObb().e * glm::vec3(1.0, 2.0, 2.0) * glm::vec3(1.0, 1.0, 1.0);
 		mayowCollider.c = glm::vec3(modelmatrixColliderMayow[3]);
-		addOrUpdateColliders(collidersOBB, "mayow", mayowCollider, modelMatrixMayow);
-		*/
+		addOrUpdateColliders(collidersOBB, "mayow", mayowCollider, matrixModelMayow);
+	
 		/*******************************************
-		 * Render de colliders
+		 * Render de ders
 		 *******************************************/
-/*		for (std::map<std::string, std::tuple<AbstractModel::OBB, glm::mat4, glm::mat4> >::iterator it =
+		for (std::map<std::string, std::tuple<AbstractModel::OBB, glm::mat4, glm::mat4> >::iterator it =
 			collidersOBB.begin(); it != collidersOBB.end(); it++) {
 			glm::mat4 matrixCollider = glm::mat4(1.0);
 			matrixCollider = glm::translate(matrixCollider, std::get<0>(it->second).c);
@@ -1840,7 +2136,7 @@ void applicationLoop() {
 		}
 
 		// Esto es para ilustrar la transformacion inversa de los coliders
-		/*glm::vec3 cinv = glm::inverse(mayowCollider.u) * glm::vec4(rockCollider.c, 1.0);
+/*		glm::vec3 cinv = glm::inverse(mayowCollider.u) * glm::vec4(rockCollider.c, 1.0);
 		glm::mat4 invColliderS = glm::mat4(1.0);
 		invColliderS = glm::translate(invColliderS, cinv);
 		invColliderS =  invColliderS * glm::mat4(mayowCollider.u);
@@ -1862,7 +2158,7 @@ void applicationLoop() {
 		/*******************************************
 		 * Test Colisions
 		 *******************************************/
-/*		for (std::map<std::string,
+		for (std::map<std::string,
 			std::tuple<AbstractModel::OBB, glm::mat4, glm::mat4> >::iterator it =
 			collidersOBB.begin(); it != collidersOBB.end(); it++) {
 			bool isCollision = false;
@@ -1935,14 +2231,10 @@ void applicationLoop() {
 					addOrUpdateColliders(collidersOBB, jt->first);
 				else {
 					if (jt->first.compare("mayow") == 0)
-						modelMatrixMayow = std::get<1>(jt->second);
-					if (jt->first.compare("dart") == 0)
-						modelMatrixDart = std::get<1>(jt->second);
+						matrixModelMayow= std::get<1>(jt->second);
 				}
 			}
 		}
-*/
-	
 		/*******************************************
 		 * State machines
 		 *******************************************/
@@ -1968,24 +2260,24 @@ void applicationLoop() {
 		/****************************+
 		 * Open AL sound data
 		 */
-/*		source0Pos[0] = modelMatrixFountain[3].x;
-		source0Pos[1] = modelMatrixFountain[3].y;
-		source0Pos[2] = modelMatrixFountain[3].z;
+		source0Pos[0] = matrixModelMayow[3].x;
+		source0Pos[1] = matrixModelMayow[3].y;
+		source0Pos[2] = matrixModelMayow[3].z;
 		alSourcefv(source[0], AL_POSITION, source0Pos);
 
-		source2Pos[0] = modelMatrixDart[3].x;
+	/*	source2Pos[0] = modelMatrixDart[3].x;
 		source2Pos[1] = modelMatrixDart[3].y;
 		source2Pos[2] = modelMatrixDart[3].z;
 		alSourcefv(source[2], AL_POSITION, source2Pos);
-
+		*/
 		// Listener for the Thris person camera
-		listenerPos[0] = modelMatrixMayow[3].x;
-		listenerPos[1] = modelMatrixMayow[3].y;
-		listenerPos[2] = modelMatrixMayow[3].z;
+		listenerPos[0] = matrixModelMayow[3].x;
+		listenerPos[1] = matrixModelMayow[3].y;
+		listenerPos[2] = matrixModelMayow[3].z;
 		alListenerfv(AL_POSITION, listenerPos);
 
-		glm::vec3 upModel = glm::normalize(modelMatrixMayow[1]);
-		glm::vec3 frontModel = glm::normalize(modelMatrixMayow[2]);
+		glm::vec3 upModel = glm::normalize(matrixModelMayow[1]);
+		glm::vec3 frontModel = glm::normalize(matrixModelMayow[2]);
 
 		listenerOri[0] = frontModel.x;
 		listenerOri[1] = frontModel.y;
@@ -1993,7 +2285,7 @@ void applicationLoop() {
 		listenerOri[3] = upModel.x;
 		listenerOri[4] = upModel.y;
 		listenerOri[5] = upModel.z;
-*/
+
 		// Listener for the First person camera
 		/*listenerPos[0] = camera->getPosition().x;
 		listenerPos[1] = camera->getPosition().y;
@@ -2005,14 +2297,14 @@ void applicationLoop() {
 		listenerOri[3] = camera->getUp().x;
 		listenerOri[4] = camera->getUp().y;
 		listenerOri[5] = camera->getUp().z;*/
-/*		alListenerfv(AL_ORIENTATION, listenerOri);
+		alListenerfv(AL_ORIENTATION, listenerOri);
 
 		for (unsigned int i = 0; i < sourcesPlay.size(); i++) {
 			if (sourcesPlay[i]) {
 				sourcesPlay[i] = false;
 				alSourcePlay(source[i]);
 			}
-		}*/
+		}
 	}
 }
 
@@ -2101,9 +2393,9 @@ void prepareDepthScene() {
 
 void renderScene(bool renderParticles) {
 	/*******************************************
-	 * Terrain 
+	 * Terrain
 	 *******************************************/
-	// Se activa la textura del background
+	 // Se activa la textura del background
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureTerrainBackgroundID);
 	shaderTerrain.setInt("backgroundTexture", 0);
@@ -2131,8 +2423,8 @@ void renderScene(bool renderParticles) {
 	/*******************************************
 	 * Custom objects obj
 	 *******************************************/
-	 
-	// Forze to enable the unit texture to 0 always ----------------- IMPORTANT
+
+	 // Forze to enable the unit texture to 0 always ----------------- IMPORTANT
 	glActiveTexture(GL_TEXTURE0);
 
 	// Render the lamps
@@ -2175,7 +2467,7 @@ void renderScene(bool renderParticles) {
 	for (int i = 0; i < CakePosition.size(); i++) {
 		CakePosition[i].y = terrain.getHeightTerrain(CakePosition[i].x, CakePosition[i].z);
 		Cake.setPosition(CakePosition[i]);
-		Cake.setScale(glm::vec3(40.0, 40.0, 40.0));
+		Cake.setScale(glm::vec3(100.0, 100.0, 100.0));
 		Cake.setOrientation(glm::vec3(0, CakeOrientation[i], 0));
 		Cake.render();
 	}
@@ -2184,28 +2476,28 @@ void renderScene(bool renderParticles) {
 	for (int i = 0; i < CarAmPosition.size(); i++) {
 		CarAmPosition[i].y = terrain.getHeightTerrain(CarAmPosition[i].x, CarAmPosition[i].z);
 		CaramAmarillo.setPosition(CarAmPosition[i]);
-		CaramAmarillo.setScale(glm::vec3(3.0, 3.0, 3.0));
+		CaramAmarillo.setScale(glm::vec3(10.0, 10.0, 10.0));
 		CaramAmarillo.setOrientation(glm::vec3(0, CarAmOrientation[i], 0));
 		CaramAmarillo.render();
 	}
 	for (int i = 0; i < CarAzPosition.size(); i++) {
 		CarAzPosition[i].y = terrain.getHeightTerrain(CarAzPosition[i].x, CarAzPosition[i].z);
 		CaramAzul.setPosition(CarAzPosition[i]);
-		CaramAzul.setScale(glm::vec3(4.0, 4.0, 4.0));
+		CaramAzul.setScale(glm::vec3(15.0, 15.0, 15.0));
 		CaramAzul.setOrientation(glm::vec3(0, CarAzOrientation[i], 0));
 		CaramAzul.render();
 	}
 	for (int i = 0; i < CarRoPosition.size(); i++) {
 		CarRoPosition[i].y = terrain.getHeightTerrain(CarRoPosition[i].x, CarRoPosition[i].z);
 		CaramRosa.setPosition(CarRoPosition[i]);
-		CaramRosa.setScale(glm::vec3(3.0, 3.0, 3.0));
+		CaramRosa.setScale(glm::vec3(20.0, 20.0, 20.0));
 		CaramRosa.setOrientation(glm::vec3(0, CarRoOrientation[i], 0));
 		CaramRosa.render();
 	}
 	for (int i = 0; i < CarVerPosition.size(); i++) {
 		CarVerPosition[i].y = terrain.getHeightTerrain(CarVerPosition[i].x, CarVerPosition[i].z);
 		CaramVerde.setPosition(CarVerPosition[i]);
-		CaramVerde.setScale(glm::vec3(2.0, 2.0, 2.0));
+		CaramVerde.setScale(glm::vec3(15.0, 15.0, 15.0));
 		CaramVerde.setOrientation(glm::vec3(0, CarVerOrientation[i], 0));
 		CaramVerde.render();
 	}
@@ -2213,7 +2505,7 @@ void renderScene(bool renderParticles) {
 	for (int i = 0; i < ChocoPosition.size(); i++) {
 		ChocoPosition[i].y = terrain.getHeightTerrain(ChocoPosition[i].x, ChocoPosition[i].z);
 		Chocolate.setPosition(ChocoPosition[i]);
-		Chocolate.setScale(glm::vec3(35.0, 35.0, 35.0));
+		Chocolate.setScale(glm::vec3(100.0, 100.0, 100.0));
 		Chocolate.setOrientation(glm::vec3(0, ChocoOrientation[i], 0));
 		Chocolate.render();
 	}
@@ -2221,7 +2513,7 @@ void renderScene(bool renderParticles) {
 	for (int i = 0; i < ChocoPPosition.size(); i++) {
 		ChocoPPosition[i].y = terrain.getHeightTerrain(ChocoPPosition[i].x, ChocoPPosition[i].z);
 		ChocoPaleta.setPosition(ChocoPPosition[i]);
-		ChocoPaleta.setScale(glm::vec3(4.0, 4.0, 4.0));
+		ChocoPaleta.setScale(glm::vec3(1.5, 1.5, 1.5));
 		ChocoPaleta.setOrientation(glm::vec3(0, ChocoPOrientation[i], 0));
 		ChocoPaleta.render();
 	}
@@ -2230,7 +2522,7 @@ void renderScene(bool renderParticles) {
 	for (int i = 0; i < CookPosition.size(); i++) {
 		CookPosition[i].y = terrain.getHeightTerrain(CookPosition[i].x, CookPosition[i].z);
 		Cookie.setPosition(CookPosition[i]);
-		Cookie.setScale(glm::vec3(50.0, 50.0, 50.0));
+		Cookie.setScale(glm::vec3(150.0, 150.0, 150.0));
 		Cookie.setOrientation(glm::vec3(0, CookOrientation[i], 0));
 		Cookie.render();
 	}
@@ -2278,14 +2570,14 @@ void renderScene(bool renderParticles) {
 	for (int i = 0; i < PRoPosition.size(); i++) {
 		PRoPosition[i].y = terrain.getHeightTerrain(PRoPosition[i].x, PRoPosition[i].z);
 		panditaRojo.setPosition(PRoPosition[i]);
-		panditaRojo.setScale(glm::vec3(3.0, 3.0, 3.0));
+		panditaRojo.setScale(glm::vec3(6.0, 6.0, 6.0));
 		panditaRojo.setOrientation(glm::vec3(0, PRoOrientation[i], 0));
 		panditaRojo.render();
 	}
 	for (int i = 0; i < PVePosition.size(); i++) {
 		PVePosition[i].y = terrain.getHeightTerrain(PVePosition[i].x, PVePosition[i].z);
 		panditaVerde.setPosition(PVePosition[i]);
-		panditaVerde.setScale(glm::vec3(2.0, 2.0, 2.0));
+		panditaVerde.setScale(glm::vec3(6.0, 6.0, 6.0));
 		panditaVerde.setOrientation(glm::vec3(0, PVeOrientation[i], 0));
 		panditaVerde.render();
 	}
@@ -2294,51 +2586,51 @@ void renderScene(bool renderParticles) {
 	//Helados render
 	matrixModelHeladoChocolate[3][1] = terrain.getHeightTerrain(matrixModelHeladoChocolate[3][0], matrixModelHeladoChocolate[3][2]);
 	glm::mat4 matrixModelHeladoChocolateBody = glm::mat4(matrixModelHeladoChocolate);
-	matrixModelHeladoChocolateBody = glm::scale(matrixModelHeladoChocolateBody, glm::vec3(1.0, 1.0, 1.0));
+	matrixModelHeladoChocolateBody = glm::scale(matrixModelHeladoChocolateBody, glm::vec3(5.0, 5.0, 5.0));
 	HeladoChocolate.render(matrixModelHeladoChocolateBody);
 	glActiveTexture(GL_TEXTURE0);
 	matrixModelHeladoFresa[3][1] = terrain.getHeightTerrain(matrixModelHeladoFresa[3][0], matrixModelHeladoFresa[3][2]);
 	glm::mat4 matrixModelHeladoFresaBody = glm::mat4(matrixModelHeladoFresa);
-	matrixModelHeladoFresaBody = glm::scale(matrixModelHeladoFresaBody, glm::vec3(1.0, 1.0, 1.0));
+	matrixModelHeladoFresaBody = glm::scale(matrixModelHeladoFresaBody, glm::vec3(7.0, 7.0, 7.0));
 	HeladoFresa.render(matrixModelHeladoFresaBody);
 	glActiveTexture(GL_TEXTURE0);
 	matrixModelHeladoMenta[3][1] = terrain.getHeightTerrain(matrixModelHeladoMenta[3][0], matrixModelHeladoMenta[3][2]);
 	glm::mat4 matrixModelHeladoMentaBody = glm::mat4(matrixModelHeladoMenta);
-	matrixModelHeladoMentaBody = glm::scale(matrixModelHeladoMentaBody, glm::vec3(1.0, 1.0, 1.0));
+	matrixModelHeladoMentaBody = glm::scale(matrixModelHeladoMentaBody, glm::vec3(8.0, 8.0, 8.0));
 	HeladoMenta.render(matrixModelHeladoMentaBody);
 	glActiveTexture(GL_TEXTURE0);
 	matrixModelHeladoMoraAzul[3][1] = terrain.getHeightTerrain(matrixModelHeladoMoraAzul[3][0], matrixModelHeladoMoraAzul[3][2]);
 	glm::mat4 matrixModelHeladoMoraAzulBody = glm::mat4(matrixModelHeladoMoraAzul);
-	matrixModelHeladoMoraAzulBody = glm::scale(matrixModelHeladoMoraAzulBody, glm::vec3(1.0, 1.0, 1.0));
+	matrixModelHeladoMoraAzulBody = glm::scale(matrixModelHeladoMoraAzulBody, glm::vec3(6.0, 6.0, 6.0));
 	HeladoMoraAzul.render(matrixModelHeladoMoraAzulBody);
 	glActiveTexture(GL_TEXTURE0);
 	matrixModelHeladoMoraAzulFresa[3][1] = terrain.getHeightTerrain(matrixModelHeladoMoraAzulFresa[3][0], matrixModelHeladoMoraAzulFresa[3][2]);
 	glm::mat4 matrixModelHeladoMoraAzulFresaBody = glm::mat4(matrixModelHeladoMoraAzulFresa);
-	matrixModelHeladoMoraAzulFresaBody = glm::scale(matrixModelHeladoMoraAzulFresaBody, glm::vec3(1.0, 1.0, 1.0));
+	matrixModelHeladoMoraAzulFresaBody = glm::scale(matrixModelHeladoMoraAzulFresaBody, glm::vec3(5.0, 5.0, 5.0));
 	HeladoMoraAzulFresa.render(matrixModelHeladoMoraAzulFresaBody);
 	glActiveTexture(GL_TEXTURE0);
 
 	//Piruletas render
 	matrixModelPiruletaAmarillo[3][1] = terrain.getHeightTerrain(matrixModelPiruletaAmarillo[3][0], matrixModelPiruletaAmarillo[3][2]);
 	glm::mat4 matrixModelPiruletaAmarilloBody = glm::mat4(matrixModelPiruletaAmarillo);
-	matrixModelPiruletaAmarilloBody = glm::scale(matrixModelPiruletaAmarilloBody, glm::vec3(1.0, 1.0, 1.0));
+	matrixModelPiruletaAmarilloBody = glm::scale(matrixModelPiruletaAmarilloBody, glm::vec3(3.0, 3.0, 3.0));
 	PiruletaAmarillo.render(matrixModelPiruletaAmarilloBody);
 	glActiveTexture(GL_TEXTURE0);
 	matrixModelPiruletaRojo[3][1] = terrain.getHeightTerrain(matrixModelPiruletaRojo[3][0], matrixModelPiruletaRojo[3][2]);
 	glm::mat4 matrixModelPiruletaRojoBody = glm::mat4(matrixModelPiruletaRojo);
-	matrixModelPiruletaRojoBody = glm::scale(matrixModelPiruletaRojoBody, glm::vec3(1.0, 1.0, 1.0));
+	matrixModelPiruletaRojoBody = glm::scale(matrixModelPiruletaRojoBody, glm::vec3(3.0, 3.0, 3.0));
 	PiruletaRojo.render(matrixModelPiruletaRojoBody);
 	glActiveTexture(GL_TEXTURE0);
 	matrixModelPiruletaVerde[3][1] = terrain.getHeightTerrain(matrixModelPiruletaVerde[3][0], matrixModelPiruletaVerde[3][2]);
 	glm::mat4 matrixModelPiruletaVerdeBody = glm::mat4(matrixModelPiruletaVerde);
-	matrixModelPiruletaVerdeBody = glm::scale(matrixModelPiruletaVerdeBody, glm::vec3(1.0, 1.0, 1.0));
+	matrixModelPiruletaVerdeBody = glm::scale(matrixModelPiruletaVerdeBody, glm::vec3(4.0, 4.0, 4.0));
 	PiruletaVerde.render(matrixModelPiruletaVerdeBody);
 	glActiveTexture(GL_TEXTURE0);
 
 	//BallKirby render
 	matrixModelBallKirby[3][1] = terrain.getHeightTerrain(matrixModelBallKirby[3][0], matrixModelBallKirby[3][2]);
 	glm::mat4 matrixModelBallKirbyBody = glm::mat4(matrixModelBallKirby);
-	matrixModelBallKirbyBody = glm::scale(matrixModelBallKirbyBody, glm::vec3(0.30, 0.30, 0.30));
+	matrixModelBallKirbyBody = glm::scale(matrixModelBallKirbyBody, glm::vec3(1.0, 1.0, 1.10));
 	BallKirby.render(matrixModelBallKirbyBody);
 	glActiveTexture(GL_TEXTURE0);
 
@@ -2346,35 +2638,35 @@ void renderScene(bool renderParticles) {
 	//Ice Cream Sign render
 	matrixModelIceCreamSign[3][1] = terrain.getHeightTerrain(matrixModelIceCreamSign[3][0], matrixModelIceCreamSign[3][2]);
 	glm::mat4 matrixModelIceCreamSignBody = glm::mat4(matrixModelIceCreamSign);
-	matrixModelIceCreamSignBody = glm::scale(matrixModelIceCreamSignBody, glm::vec3(1.0, 1.0, 1.0));
+	matrixModelIceCreamSignBody = glm::scale(matrixModelIceCreamSignBody, glm::vec3(5.0, 5.0, 5.0));
 	IceCreamSign.render(matrixModelIceCreamSignBody);
 	glActiveTexture(GL_TEXTURE0);
 
 	//Nube Sign render
 	//matrixModelNube[3][1] = terrain.getHeightTerrain(matrixModelNube[3][0], matrixModelNube[3][2]);
 	glm::mat4 matrixModelNubeBody = glm::mat4(matrixModelNube);
-	matrixModelNubeBody = glm::scale(matrixModelNubeBody, glm::vec3(10.0, 10.0, 10.0));
+	matrixModelNubeBody = glm::scale(matrixModelNubeBody, glm::vec3(30.0, 30.0, 30.0));
 	Nube.render(matrixModelNubeBody);
 	glActiveTexture(GL_TEXTURE0);
 
 	//Paleta render
 	matrixModelPaleta[3][1] = terrain.getHeightTerrain(matrixModelPaleta[3][0], matrixModelPaleta[3][2]);
 	glm::mat4 matrixModelPaletaBody = glm::mat4(matrixModelPaleta);
-	matrixModelPaletaBody = glm::scale(matrixModelPaletaBody, glm::vec3(5.0, 5.0, 5.0));
+	matrixModelPaletaBody = glm::scale(matrixModelPaletaBody, glm::vec3(30.0, 30.0, 30.0));
 	Paleta.render(matrixModelPaletaBody);
 	glActiveTexture(GL_TEXTURE0);
 
 	//Strawberry render
 	matrixModelStrawberry[3][1] = terrain.getHeightTerrain(matrixModelStrawberry[3][0], matrixModelStrawberry[3][2]);
 	glm::mat4 matrixModelStrawberryBody = glm::mat4(matrixModelStrawberry);
-	matrixModelStrawberryBody = glm::scale(matrixModelStrawberryBody, glm::vec3(20.0, 20.0, 20.0));
+	matrixModelStrawberryBody = glm::scale(matrixModelStrawberryBody, glm::vec3(200.0, 200.0, 200.0));
 	Strawberry.render(matrixModelStrawberryBody);
 	glActiveTexture(GL_TEXTURE0);
 
 	//SweerCarrito render
 	matrixModelSweetCarrito[3][1] = terrain.getHeightTerrain(matrixModelSweetCarrito[3][0], matrixModelSweetCarrito[3][2]);
 	glm::mat4 matrixModelSweetCarritoBody = glm::mat4(matrixModelSweetCarrito);
-	matrixModelSweetCarritoBody = glm::scale(matrixModelSweetCarritoBody, glm::vec3(20.0, 20.0, 20.0));
+	matrixModelSweetCarritoBody = glm::scale(matrixModelSweetCarritoBody, glm::vec3(80.0, 80.0, 80.0));
 	SweetCarrito.render(matrixModelSweetCarritoBody);
 	glActiveTexture(GL_TEXTURE0);
 
