@@ -1,5 +1,5 @@
 //Mariana Arguelles Macosay
-//Diana Anayanssi Mart�nez Santana
+//Diana Anayanssi Martínez Santana
 
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -151,8 +151,8 @@ std::string fileNames[6] = { "../Textures/mp_Cute/Cute_ft.tga",
 		"../Textures/mp_Cute/Cute_bk.tga",
 		"../Textures/mp_Cute/Cute_up.tga",
 		"../Textures/mp_Cute/Cute_dn.tga",
-		"../Textures/mp_Cute/Cute_rt.tga",
-		"../Textures/mp_Cute/Cute_lf.tga" };
+		"../Textures/mp_Cute/Cute_lf.tga",
+		"../Textures/mp_Cute/Cute_rt.tga" };
 
 bool exitApp = false;
 int lastMousePosX, offsetX = 0;
@@ -546,7 +546,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	// Inicialización de los shaders
+	// InicializaciÃ³n de los shaders
 	shader.initialize("../Shaders/colorShader.vs", "../Shaders/colorShader.fs");
 	shaderSkybox.initialize("../Shaders/skyBox.vs", "../Shaders/skyBox_fog.fs");
 	shaderMulLighting.initialize("../Shaders/iluminacion_textura_animation_shadow.vs", "../Shaders/multipleLights_shadow.fs");
@@ -688,9 +688,17 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	CuteGun.loadModel("../models/Water Gun (DR)/Water Gun (DR).obj");
 	CuteGun.setShader(&shaderMulLighting);
 
-	//Mayow
-	mayowModelAnimate.loadModel("../models/Contest May/May.obj");
-	mayowModelAnimate.setShader(&shaderMulLighting);
+
+	//Mayow Animate Model
+	MayowCuteAnimate.loadModel("../models/ChicaMay/MayAnimacionesPistola.fbx");
+	MayowCuteAnimate.setShader(&shaderMulLighting);
+
+	/*modelLamp2.loadModel("../models/Street_Light/Lamp.obj");
+	modelLamp2.setShader(&shaderMulLighting);
+	modelLampPost2.loadModel("../models/Street_Light/LampPost.obj");
+	modelLampPost2.setShader(&shaderMulLighting);
+	*/
+
 
 	//Posicion de la camara
 	glm::vec3 posicion_camara = glm::vec3(0.0, 0.0, 10.0);
@@ -1359,7 +1367,7 @@ void applicationLoop() {
 		else
 			view = camera->getViewMatrix();
 
-		// Matriz de proyección del shadow mapping
+		// Matriz de proyecciÃ³n del shadow mapping
 		glm::mat4 lightProjection, lightView;
 		glm::mat4 lightSpaceMatrix;
 		float near_plane = 0.1f, far_plane = 20.0f;
@@ -1484,6 +1492,7 @@ void applicationLoop() {
 		/*******************************************
 		 * 1.- We render the depth buffer
 		 *******************************************/
+
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// render scene from light's point of view
@@ -1495,6 +1504,7 @@ void applicationLoop() {
 		renderScene(false);
 		//glCullFace(GL_BACK);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 
 		/*******************************************
 		 * Debug to view the texture view map
@@ -2185,9 +2195,9 @@ void renderScene(bool renderParticles) {
 	 *******************************************/
 	matrixModelMayow[3][1] = terrain.getHeightTerrain(matrixModelMayow[3][0], matrixModelMayow[3][2]);
 	glm::mat4 matrixModelMayowBody = glm::mat4(matrixModelMayow);
-	matrixModelMayowBody = glm::scale(matrixModelMayowBody, glm::vec3(5.0, 5.0, 5.0));
-	mayowModelAnimate.setAnimationIndex(animationIndex);
-	mayowModelAnimate.render(matrixModelMayowBody);
+	matrixModelMayowBody = glm::scale(matrixModelMayowBody, glm::vec3(0.02, 0.02, 0.02));
+	MayowCuteAnimate.setAnimationIndex(7);
+	MayowCuteAnimate.render(matrixModelMayowBody);
 
 	/**********
 	 * Update the position with alpha objects
