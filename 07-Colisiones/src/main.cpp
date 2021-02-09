@@ -1176,7 +1176,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	}
 	//Musica de fondo
 	alSourcef(source[0], AL_PITCH, 1.0f);
-	alSourcef(source[0], AL_GAIN, 1.0f);//Cambie aquí
+	alSourcef(source[0], AL_GAIN, 3.0f);
 	alSourcefv(source[0], AL_POSITION, source0Pos);
 	alSourcefv(source[0], AL_VELOCITY, source0Vel);
 	alSourcei(source[0], AL_BUFFER, buffer[0]);
@@ -2086,15 +2086,21 @@ void applicationLoop() {
 		mayowCollider.c = glm::vec3(modelmatrixColliderMayow[3]);
 		addOrUpdateColliders(collidersOBB, "mayow", mayowCollider, matrixModelMayow);
 
-		//Collider ballKirby 
-		AbstractModel::SBB BallKirbyCollider;
-		glm::mat4 modelMatrixColliderBallKirby = glm::mat4(matrixModelBallKirby);
-		modelMatrixColliderBallKirby = glm::scale(modelMatrixColliderBallKirby, glm::vec3(1.0, 1.0, 1.0));
-		modelMatrixColliderBallKirby = glm::translate(modelMatrixColliderBallKirby, BallKirby.getSbb().c);
-		BallKirbyCollider.c = glm::vec3(modelMatrixColliderBallKirby[3]);
-		BallKirbyCollider.ratio = BallKirby.getSbb().ratio * 10.0;
-		addOrUpdateColliders(collidersSBB, "BallKirby", BallKirbyCollider, matrixModelBallKirby);
-
+		//Collider ballKirby pelotasPosition
+		for (int i = 0; i < pelotasPosition.size(); i++) {
+			AbstractModel::SBB BallKirbyCollider;
+			glm::mat4 modelMatrixColliderBallKirby = glm::mat4(1.0);
+			modelMatrixColliderBallKirby = glm::translate(modelMatrixColliderBallKirby, pelotasPosition[i]);
+			modelMatrixColliderBallKirby = glm::rotate(modelMatrixColliderBallKirby, glm::radians(0.0f),
+				glm::vec3(0, 1, 0));
+			// Set the orientation of collider before doing the scale
+			modelMatrixColliderBallKirby = glm::scale(modelMatrixColliderBallKirby, glm::vec3(5.0, 5.0, 5.0));
+			modelMatrixColliderBallKirby = glm::translate(modelMatrixColliderBallKirby, BallKirby.getSbb().c);
+			BallKirbyCollider.c = glm::vec3(modelMatrixColliderBallKirby[3]);
+			BallKirbyCollider.ratio = BallKirby.getSbb().ratio * 3.5;
+			std::get<0>(collidersSBB.find("BallKirby-" + std::to_string(i))->second) = BallKirbyCollider;
+			addOrUpdateColliders(collidersSBB, "BallKirby-" + std::to_string(i), BallKirbyCollider, modelMatrixColliderBallKirby);
+		}
 
 	
 		/*******************************************
@@ -2740,7 +2746,7 @@ void renderScene(bool renderParticles) {
 	for(int i = 0; i < cantidad_de_pelotas; i++) {
 		pelotasPosition[i].y = terrain.getHeightTerrain(pelotasPosition[i].x, pelotasPosition[i].z);
 		BallKirby.setPosition(pelotasPosition[i]);
-		BallKirby.setScale(glm::vec3(4.0, 4.0, 4.0));
+		BallKirby.setScale(glm::vec3(5.0, 5.0, 5.0));
 		BallKirby.setOrientation(glm::vec3(0,1.0, 0));
 		BallKirby.render();
 	}
