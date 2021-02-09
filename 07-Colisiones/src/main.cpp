@@ -2174,7 +2174,7 @@ void applicationLoop() {
 			matrixCollider = glm::scale(matrixCollider, std::get<0>(it->second).e * 2.0f);
 			boxCollider.setColor(glm::vec4(1.0, 1.0, 1.0, 1.0));
 			boxCollider.enableWireMode();
-			boxCollider.render(matrixCollider);
+			//boxCollider.render(matrixCollider);
 		}
 
 		for (std::map<std::string, std::tuple<AbstractModel::SBB, glm::mat4, glm::mat4> >::iterator it =
@@ -2184,7 +2184,7 @@ void applicationLoop() {
 			matrixCollider = glm::scale(matrixCollider, glm::vec3(std::get<0>(it->second).ratio * 2.0f));
 			sphereCollider.setColor(glm::vec4(1.0, 1.0, 1.0, 1.0));
 			sphereCollider.enableWireMode();
-			sphereCollider.render(matrixCollider);
+			//sphereCollider.render(matrixCollider);
 		}
 
 		// Esto es para ilustrar la transformacion inversa de los coliders
