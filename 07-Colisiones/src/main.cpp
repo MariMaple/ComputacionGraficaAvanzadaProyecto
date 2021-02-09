@@ -143,7 +143,7 @@ Terrain terrain(-1, -1, 800, 60, "../Textures/heightmap.png"); //Valores practic
 
 GLuint textureCespedID, textureWallID, textureWindowID, textureHighwayID, textureLandingPadID;
 GLuint textureTerrainBackgroundID, textureTerrainRID, textureTerrainGID, textureTerrainBID, textureTerrainBlendMapID;
-//GLuint textureParticleFountainID, textureParticleFireID, texId;
+GLuint textureParticleFountainID, textureParticleFireID, texId;
 GLuint skyboxTextureID;
 
 GLenum types[6] = {
@@ -383,7 +383,7 @@ std::vector<glm::vec3> PVePosition = {
 	glm::vec3(-416.40625, 0, -503.90625) };
 std::vector<float> PVeOrientation = { 17.65, - 65.73};
 
-/*
+
 // Blending model unsorted
 std::map<std::string, glm::vec3> blendingUnsorted = {
 		{"aircraft", glm::vec3(10.0, 0.0, -17.5)},
@@ -392,10 +392,10 @@ std::map<std::string, glm::vec3> blendingUnsorted = {
 		{"fountain", glm::vec3(5.0, 0.0, -40.0)},
 		{"fire", glm::vec3(0.0, 0.0, 7.0)}
 };
-*/
+
 double deltaTime;
 double currTime, lastTime;
-/*
+
 // Definition for the particle system
 GLuint initVel, startTime;
 GLuint VAOParticles;
@@ -412,7 +412,7 @@ GLuint feedback[2];
 GLuint drawBuf = 1;
 float particleSize = 0.5, particleLifetime = 3.0;
 double currTimeParticlesAnimationFire, lastTimeParticlesAnimationFire;
-*/
+
 
 // Colliders
 std::map<std::string, std::tuple<AbstractModel::OBB, glm::mat4, glm::mat4> > collidersOBB;
@@ -469,7 +469,7 @@ void prepareScene();
 void prepareDepthScene();
 void renderScene(bool renderParticles = true);
 
-/*
+
 void initParticleBuffers() {
 	// Generate the buffers
 	glGenBuffers(1, &initVel);   // Initial velocity buffer
@@ -532,9 +532,8 @@ void initParticleBuffers() {
 
 	glBindVertexArray(0);
 }
-*/
 
-/*
+
 void initParticleBuffersFire() {
 	// Generate the buffers
 	glGenBuffers(2, posBuf);    // position buffers
@@ -623,7 +622,7 @@ void initParticleBuffersFire() {
 
 	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
 }
-*/
+
 
 // Implementacion de todas las funciones.
 void init(int width, int height, std::string strTitle, bool bFullScreen) {
@@ -1030,7 +1029,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	textureTerrainBlendMap.freeImage(bitmap);
 
 
-	/*Texture textureParticlesFountain("../Textures/bluewater.png");
+	Texture textureParticlesFountain("../Textures/Particulas/Estrellas.png");
 	bitmap = textureParticlesFountain.loadImage();
 	data = textureParticlesFountain.convertToData(bitmap, imageWidth, imageHeight);
 	glGenTextures(1, &textureParticleFountainID);
@@ -1049,7 +1048,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	else
 		std::cout << "Failed to load texture" << std::endl;
 	textureParticlesFountain.freeImage(bitmap);
-
+	/*
 	Texture textureParticleFire("../Textures/fire.png");
 	bitmap = textureParticleFire.loadImage();
 	data = textureParticleFire.convertToData(bitmap, imageWidth, imageHeight);
@@ -1111,7 +1110,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/*******************************************
 	 * Inicializacion de los buffers de la fuente
 	 *******************************************/
-	//initParticleBuffers();
+	initParticleBuffers();
 
 	/*******************************************
 	 * Inicializacion de los buffers del fuego
@@ -1263,7 +1262,7 @@ void destroy() {
 	glDeleteTextures(1, &textureTerrainGID);
 	glDeleteTextures(1, &textureTerrainBID);
 	glDeleteTextures(1, &textureTerrainBlendMapID);
-	//glDeleteTextures(1, &textureParticleFountainID);
+	glDeleteTextures(1, &textureParticleFountainID);
 	//glDeleteTextures(1, &textureParticleFireID);
 
 	// Cube Maps Delete
@@ -1271,12 +1270,12 @@ void destroy() {
 	glDeleteTextures(1, &skyboxTextureID);
 
 	// Remove the buffer of the fountain particles
-/*	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDeleteBuffers(1, &initVel);
 	glDeleteBuffers(1, &startTime);
 	glBindVertexArray(0);
 	glDeleteVertexArrays(1, &VAOParticles);
-
+	/*
 	// Remove the buffer of the fire particles
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDeleteBuffers(2, posBuf);
@@ -1391,6 +1390,9 @@ bool processInput(bool continueApplication) {
 		matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, -0.3));
 		animationIndex = 1;
 	}
+	else {
+		animationIndex = 7;
+	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && selec_vista) {
 		selec_vista = false;
 		if (camaraActivada == 1) {
@@ -1437,12 +1439,12 @@ void applicationLoop() {
 	lastTime = TimeManager::Instance().GetTime();
 
 	// Time for the particles animation
-/*	currTimeParticlesAnimation = lastTime;
+	currTimeParticlesAnimation = lastTime;
 	lastTimeParticlesAnimation = lastTime;
 
-	currTimeParticlesAnimationFire = lastTime;
-	lastTimeParticlesAnimationFire = lastTime;
-*/
+	//currTimeParticlesAnimationFire = lastTime;
+	//lastTimeParticlesAnimationFire = lastTime;
+
 	glm::vec3 lightPos = glm::vec3(20.0, 50.0, 0.0);
 	shadowBox = new ShadowBox(-lightPos, camera.get(), 60.0f, 20.0f, 60.0f);
 
@@ -2352,10 +2354,6 @@ void prepareScene() {
 	*/
 	//Mayow
 
-
-
-
-
 	MayowCuteAnimate.setShader(&shaderMulLighting);
 	panditaRojo.setShader(&shaderMulLighting);
 	panditaAzul.setShader(&shaderMulLighting);
@@ -2404,9 +2402,8 @@ int pos_chica, pos_grande, decicion;
 void prepareDepthScene() {
 
 	skyboxSphere.setShader(&shaderDepth);
-
 	terrain.setShader(&shaderDepth);
-/*
+	/*
 	// Helicopter
 	modelHeliChasis.setShader(&shaderDepth);
 	modelHeliHeli.setShader(&shaderDepth);
@@ -2437,7 +2434,7 @@ void prepareDepthScene() {
 
 	//Grass
 	modelGrass.setShader(&shaderDepth);
-*/
+	*/
 	//Mayow
 	MayowCuteAnimate.setShader(&shaderDepth);
 	panditaRojo.setShader(&shaderDepth);
@@ -2722,7 +2719,7 @@ void renderScene(bool renderParticles) {
 	//Nube Sign render
 	//matrixModelNube[3][1] = terrain.getHeightTerrain(matrixModelNube[3][0], matrixModelNube[3][2]);
 	glm::mat4 matrixModelNubeBody = glm::mat4(matrixModelNube);
-	matrixModelNubeBody = glm::scale(matrixModelNubeBody, glm::vec3(30.0, 30.0, 30.0));
+	matrixModelNubeBody = glm::scale(matrixModelNubeBody, glm::vec3(60.0, 30.0, 60.0));
 	Nube.render(matrixModelNubeBody);
 	glActiveTexture(GL_TEXTURE0);
 
@@ -2856,19 +2853,19 @@ void renderScene(bool renderParticles) {
 	 */
 	std::map<float, std::pair<std::string, glm::vec3>> blendingSorted;
 	std::map<std::string, glm::vec3>::iterator itblend;
-/*	for (itblend = blendingUnsorted.begin(); itblend != blendingUnsorted.end(); itblend++) {
+	for (itblend = blendingUnsorted.begin(); itblend != blendingUnsorted.end(); itblend++) {
 		float distanceFromView = glm::length(camera->getPosition() - itblend->second);
 		blendingSorted[distanceFromView] = std::make_pair(itblend->first, itblend->second);
 	}
-*/
+
 	/**********
 	 * Render de las transparencias
 	 */
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_CULL_FACE);
-/*	for (std::map<float, std::pair<std::string, glm::vec3> >::reverse_iterator it = blendingSorted.rbegin(); it != blendingSorted.rend(); it++) {
-		if (it->second.first.compare("aircraft") == 0) {
+	for (std::map<float, std::pair<std::string, glm::vec3> >::reverse_iterator it = blendingSorted.rbegin(); it != blendingSorted.rend(); it++) {
+		/*if (it->second.first.compare("aircraft") == 0) {
 			// Render for the aircraft model
 			glm::mat4 modelMatrixAircraftBlend = glm::mat4(modelMatrixAircraft);
 			modelMatrixAircraftBlend[3][1] = terrain.getHeightTerrain(modelMatrixAircraftBlend[3][0], modelMatrixAircraftBlend[3][2]) + 2.0;
@@ -2905,11 +2902,11 @@ void renderScene(bool renderParticles) {
 			modelHeliHeli.render(modelMatrixHeliHeli);
 		}
 	*/
-//		else if (renderParticles && it->second.first.compare("fountain") == 0) {
+		    if (renderParticles && it->second.first.compare("fountain") == 0) {
 			/**********
 			 * Init Render particles systems
 			 */
-/*			glm::mat4 modelMatrixParticlesFountain = glm::mat4(1.0);
+			glm::mat4 modelMatrixParticlesFountain = glm::mat4(1.0);
 			modelMatrixParticlesFountain = glm::translate(modelMatrixParticlesFountain, it->second.second);
 			modelMatrixParticlesFountain[3][1] = terrain.getHeightTerrain(modelMatrixParticlesFountain[3][0], modelMatrixParticlesFountain[3][2]) + 0.36 * 10.0;
 			modelMatrixParticlesFountain = glm::scale(modelMatrixParticlesFountain, glm::vec3(3.0, 3.0, 3.0));
@@ -2932,11 +2929,11 @@ void renderScene(bool renderParticles) {
 			glDrawArrays(GL_POINTS, 0, nParticles);
 			glDepthMask(GL_TRUE);
 			//glEnable(GL_DEPTH_TEST);
-			shaderParticlesFountain.turnOff();*/
+			shaderParticlesFountain.turnOff();
 			/**********
 			 * End Render particles systems
 			 */
-//		}
+		}
 	//	else if (renderParticles && it->second.first.compare("fire") == 0) {
 			/**********
 			 * Init Render particles systems
@@ -2992,7 +2989,7 @@ void renderScene(bool renderParticles) {
 			/**********
 			 * End Render particles systems
 			 */
-	//	}
+		}
 
 //	}
 	glEnable(GL_CULL_FACE);
