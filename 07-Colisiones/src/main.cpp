@@ -1361,9 +1361,8 @@ bool processInput(bool continueApplication) {
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 			camera->mouseMoveCamera(offsetX, offsetY, deltaTime);
 	}
-	offsetX = 0;
-	offsetY = 0;
 	
+
 	// Seleccionar modelo
 	if (enableCountSelected && glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
 		enableCountSelected = false;
@@ -1375,9 +1374,51 @@ bool processInput(bool continueApplication) {
 	else if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_RELEASE)
 		enableCountSelected = true;
 
+	int present = glfwJoystickPresent(GLFW_JOYSTICK_1);
 
+	
+	if (present == 1) {
+		int count;
+		const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+		if (axes[0] < -0.5) {
+			matrixModelMayow = glm::rotate(matrixModelMayow, glm::radians(1.0f), glm::vec3(0, 1, 0));
+			animationIndex = 1;
+		}
+		else if (axes[0] > 0.5) {
+			matrixModelMayow = glm::rotate(matrixModelMayow, glm::radians(-1.0f), glm::vec3(0, 1, 0));
+			animationIndex = 1;
+		}
+		else if (axes[1] > 0.5) {
+			matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, 0.3));
+			animationIndex = 1;
+		}
+		else if(axes[1] < -0.5) {
+			matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, -0.3));
+			animationIndex = 1;
+		}
+		else if (axes[2] < -0.5) {
+			camera->mouseMoveCamera(offsetX, 0.0, deltaTime);
+		}
+		else if (axes[2] > 0.5) {
+			camera->mouseMoveCamera(offsetX, offsetY, deltaTime);
+		}
+		else if (axes[4] > 0.5) {
+			animationIndex = 0;
+		}
+		else if (axes[5] > 0.5) {
+			animationIndex = 2;
+		}
+		else {
+			animationIndex = 7;
+		}
+		const char *Control_name = glfwGetJoystickName(GLFW_JOYSTICK_1);
+		
+	}
+	offsetX = 0;
+	offsetY = 0;
 //Desplazamiento y movimiento
-	if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS){
+
+	if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_LEFT  ) == GLFW_PRESS){
 		matrixModelMayow = glm::rotate(matrixModelMayow, glm::radians(1.0f), glm::vec3(0, 1, 0));
 		animationIndex = 1;
 	}else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS){
@@ -1390,9 +1431,10 @@ bool processInput(bool continueApplication) {
 		matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, -0.3));
 		animationIndex = 1;
 	}
-	else {
+	else if (present == 0) {
 		animationIndex = 7;
 	}
+
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && selec_vista) {
 		selec_vista = false;
 		if (camaraActivada == 1) {
