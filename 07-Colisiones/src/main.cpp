@@ -389,7 +389,7 @@ std::map<std::string, glm::vec3> blendingUnsorted = {
 		{"aircraft", glm::vec3(10.0, 0.0, -17.5)},
 		{"lambo", glm::vec3(23.0, 0.0, 0.0)},
 		{"heli", glm::vec3(5.0, 10.0, -5.0)},
-		{"fountain", glm::vec3(5.0, 0.0, -40.0)},
+		{"fountain", glm::vec3(0.0, 0.0, 0.0)},
 		{"fire", glm::vec3(0.0, 0.0, 7.0)}
 };
 
@@ -2908,6 +2908,7 @@ void renderScene(bool renderParticles) {
 			 */
 			glm::mat4 modelMatrixParticlesFountain = glm::mat4(1.0);
 			modelMatrixParticlesFountain = glm::translate(modelMatrixParticlesFountain, it->second.second);
+			modelMatrixParticlesFountain = glm::translate(modelMatrixParticlesFountain, pelotasPosition[1]);
 			modelMatrixParticlesFountain[3][1] = terrain.getHeightTerrain(modelMatrixParticlesFountain[3][0], modelMatrixParticlesFountain[3][2]) + 0.36 * 10.0;
 			modelMatrixParticlesFountain = glm::scale(modelMatrixParticlesFountain, glm::vec3(3.0, 3.0, 3.0));
 			currTimeParticlesAnimation = TimeManager::Instance().GetTime();
