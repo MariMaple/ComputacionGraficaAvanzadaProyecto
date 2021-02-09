@@ -164,6 +164,7 @@ std::string fileNames[6] = { "../Textures/mp_Cute/Cute_ft.tga",
 bool exitApp = false;
 int lastMousePosX, offsetX = 0;
 int lastMousePosY, offsetY = 0;
+bool ColisionMP = false; //Colisión entre May y Pelotas
 
 // Model matrix definitions
 glm::mat4 matrixModelPanditaRojo = glm::mat4(1.0);
@@ -1159,7 +1160,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	// Generate buffers, or else no sound will happen!
 	alGenBuffers(NUM_BUFFERS, buffer);
 	buffer[0] = alutCreateBufferFromFile("../sounds/cuteMusicFondo.wav");
-//	buffer[1] = alutCreateBufferFromFile("../sounds/fire.wav");
+	buffer[1] = alutCreateBufferFromFile("../sounds/Saltito.wav");
 //	buffer[2] = alutCreateBufferFromFile("../sounds/darth_vader.wav");
 	int errorAlut = alutGetError();
 	if (errorAlut != ALUT_ERROR_NO_ERROR) {
@@ -1186,6 +1187,15 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	alSourcei(source[0], AL_BUFFER, buffer[0]);
 	alSourcei(source[0], AL_LOOPING, AL_TRUE);
 	alSourcef(source[0], AL_MAX_DISTANCE, 2000);
+
+	//Sonido Pelotas
+	alSourcef(source[1], AL_PITCH, 1.0f);
+	alSourcef(source[1], AL_GAIN, 3.0f);
+	alSourcefv(source[1], AL_POSITION, source1Pos);
+	alSourcefv(source[1], AL_VELOCITY, source1Vel);
+	alSourcei(source[1], AL_BUFFER, buffer[1]);
+	alSourcei(source[1], AL_LOOPING, AL_TRUE);
+	alSourcef(source[1], AL_MAX_DISTANCE, 40);
 }
 
 void destroy() {
@@ -2312,10 +2322,16 @@ void applicationLoop() {
 		/****************************+
 		 * Open AL sound data
 		 */
+		//SonidoMusicaFondo
 		source0Pos[0] = matrixModelMayow[3].x;
 		source0Pos[1] = matrixModelMayow[3].y;
 		source0Pos[2] = matrixModelMayow[3].z;
 		alSourcefv(source[0], AL_POSITION, source0Pos);
+		//SonidoPelota
+		source1Pos[0] = matrixModelBallKirby[3].x;
+		source1Pos[1] = matrixModelBallKirby[3].y;
+		source1Pos[2] = matrixModelBallKirby[3].z;
+		alSourcefv(source[1], AL_POSITION, source1Pos);
 
 		// Listener for the Thris person camera
 		listenerPos[0] = matrixModelMayow[3].x;
@@ -2869,15 +2885,27 @@ void renderScene(bool renderParticles) {
 				matrixModelBallKirby = glm::translate(matrixModelBallKirby, glm::vec3(posx, altura, posz));
 				pelotasPosition[j] = glm::vec3(matrixModelBallKirby[3][0], matrixModelBallKirby[3][1], matrixModelBallKirby[3][2]);
 			}*/
-	
-	
-	for(int i = 0; i < cantidad_de_pelotas; i++) {
+
+
+
+	for (int i = 0; i < cantidad_de_pelotas; i++) {
 		pelotasPosition[i].y = terrain.getHeightTerrain(pelotasPosition[i].x, pelotasPosition[i].z);
 		BallKirby.setPosition(pelotasPosition[i]);
 		BallKirby.setScale(glm::vec3(5.0, 5.0, 5.0));
-		BallKirby.setOrientation(glm::vec3(0,1.0, 0));
-		BallKirby.render();
+		BallKirby.setOrientation(glm::vec3(0, 1.0, 0));
+		if (ColisionMP == true) {
+			BallKirby.render();
+		}
+		else {//Aqui va la renderización en este mismo punto de la particula
+			glm::mat4 modelMatrixParticlesFountain = glm::mat4(1.0);
+			modelMatrixParticlesFountain = glm::translate(modelMatrixParticlesFountain, pelotasPosition[i]);
+			modelMatrixParticlesFountain[3][1] = terrain.getHeightTerrain(modelMatrixParticlesFountain[3][0], modelMatrixParticlesFountain[3][2]) + 0.36 * 10.0;
+			modelMatrixParticlesFountain = glm::scale(modelMatrixParticlesFountain, glm::vec3(3.0, 3.0, 3.0));
+			currTimeParticlesAnimation = TimeManager::Instance().GetTime();
+		}
 	}
+
+		
 	
 
 	/**********
