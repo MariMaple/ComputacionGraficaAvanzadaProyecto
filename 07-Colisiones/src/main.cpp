@@ -2697,7 +2697,7 @@ void renderScene(bool renderParticles) {
 	************************************************/
 
 	//for (int i = 0; i < 10; i++) {
-	/*if (ronda == 1) {
+	if (ronda == 1) {
 		cantidad_de_pelotas = rand() % (ronda * 10 + 1);
 		printf("cantidad de pelotas :%d \n", cantidad_de_pelotas);
 		for (int j = 0; j < cantidad_de_pelotas; j++) {
@@ -2724,7 +2724,7 @@ void renderScene(bool renderParticles) {
 			pelotasPosition.push_back(glm::vec3(posx, 0, posz));
 		}
 		ronda += 1;
-	}*/
+	}
 	/*while (ronda == 2) {
 		for (int j = 0; j < cantidad_de_pelotas; j++) {
 			while (altura < y_max && avance>0.0f) {
@@ -2767,14 +2767,14 @@ void renderScene(bool renderParticles) {
 			}*/
 	
 	
-	/*for(int i = 0; i < cantidad_de_pelotas; i++) {
+	for(int i = 0; i < cantidad_de_pelotas; i++) {
 		pelotasPosition[i].y = terrain.getHeightTerrain(pelotasPosition[i].x, pelotasPosition[i].z);
 		BallKirby.setPosition(pelotasPosition[i]);
 		BallKirby.setScale(glm::vec3(3.0, 3.0, 3.0));
 		BallKirby.setOrientation(glm::vec3(0,1.0, 0));
 		BallKirby.render();
 	}
-	*/
+	
 
 	/**********
 	 * Update the position with alpha objects
