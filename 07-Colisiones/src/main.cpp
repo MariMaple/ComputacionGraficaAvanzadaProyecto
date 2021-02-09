@@ -1139,7 +1139,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/*******************************************
 	 * OpenAL init
 	 *******************************************/
-	/*alutInit(0, nullptr);
+	alutInit(0, nullptr);
 	alListenerfv(AL_POSITION, listenerPos);
 	alListenerfv(AL_VELOCITY, listenerVel);
 	alListenerfv(AL_ORIENTATION, listenerOri);
@@ -1154,7 +1154,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	// Config source 0
 	// Generate buffers, or else no sound will happen!
 	alGenBuffers(NUM_BUFFERS, buffer);
-	buffer[0] = alutCreateBufferFromFile("../sounds/cuteMusicFondo");
+	buffer[0] = alutCreateBufferFromFile("../sounds/cuteMusicFondo.wav");
 //	buffer[1] = alutCreateBufferFromFile("../sounds/fire.wav");
 //	buffer[2] = alutCreateBufferFromFile("../sounds/darth_vader.wav");
 	int errorAlut = alutGetError();
@@ -1165,7 +1165,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
 
 	alGetError(); /* clear error */
-	/*alGenSources(NUM_SOURCES, source);
+	alGenSources(NUM_SOURCES, source);
 
 	if (alGetError() != AL_NO_ERROR) {
 		printf("- Error creating sources !!\n");
@@ -1176,28 +1176,12 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	}
 	//Musica de fondo
 	alSourcef(source[0], AL_PITCH, 1.0f);
-	alSourcef(source[0], AL_GAIN, 3.0f);
+	alSourcef(source[0], AL_GAIN, 1.0f);//Cambie aquí
 	alSourcefv(source[0], AL_POSITION, source0Pos);
 	alSourcefv(source[0], AL_VELOCITY, source0Vel);
 	alSourcei(source[0], AL_BUFFER, buffer[0]);
 	alSourcei(source[0], AL_LOOPING, AL_TRUE);
 	alSourcef(source[0], AL_MAX_DISTANCE, 2000);
-
-	alSourcef(source[1], AL_PITCH, 1.0f);
-	alSourcef(source[1], AL_GAIN, 3.0f);
-	alSourcefv(source[1], AL_POSITION, source1Pos);
-	alSourcefv(source[1], AL_VELOCITY, source1Vel);
-	alSourcei(source[1], AL_BUFFER, buffer[1]);
-	alSourcei(source[1], AL_LOOPING, AL_TRUE);
-	alSourcef(source[1], AL_MAX_DISTANCE, 2000);
-
-	alSourcef(source[2], AL_PITCH, 1.0f);
-	alSourcef(source[2], AL_GAIN, 0.3f);
-	alSourcefv(source[2], AL_POSITION, source2Pos);
-	alSourcefv(source[2], AL_VELOCITY, source2Vel);
-	alSourcei(source[2], AL_BUFFER, buffer[2]);
-	alSourcei(source[2], AL_LOOPING, AL_TRUE);
-	alSourcef(source[2], AL_MAX_DISTANCE, 500);*/
 }
 
 void destroy() {
@@ -1258,7 +1242,6 @@ void destroy() {
 	Paleta.destroy();
 	Strawberry.destroy();
 	SweetCarrito.destroy();
-	CuteGun.destroy();
 
 	// Custom objects animate
 	MayowCuteAnimate.destroy();
@@ -1427,17 +1410,6 @@ void applicationLoop() {
 	glm::vec3 target;
 	float angleTarget;
 	//Matrix Models
-/*	matrixModelPanditaRojo = glm::translate(matrixModelPanditaRojo, glm::vec3(-3.0, 0.0, 2.0));
-	matrixModelPanditaAmarillo = glm::translate(matrixModelPanditaAmarillo, glm::vec3(-5.0, 0.0, 2.0));
-	matrixModelPanditaVerde = glm::translate(matrixModelPanditaVerde, glm::vec3(-7.0, 0.0, 2.0));
-	matrixModelPanditaNaranja = glm::translate(matrixModelPanditaNaranja, glm::vec3(-9.0, 0.0, 2.0));
-	matrixModelPanditaAzul = glm::translate(matrixModelPanditaAzul, glm::vec3(-11.0, 0.0, 2.0));
-	matrixModelCaramAmarillo = glm::translate(matrixModelCaramAmarillo, glm::vec3(-3.0, 0.0, -1.5));
-	matrixModelCaramAzul = glm::translate(matrixModelCaramAzul, glm::vec3(-5.0, 0.0, -1.5));
-	matrixModelCaramRosa = glm::translate(matrixModelCaramRosa, glm::vec3(-7.0, 0.0, -1.5));
-	matrixModelCaramVerde = glm::translate(matrixModelCaramVerde, glm::vec3(-9.0, 0.0, -1.5));
-	matrixModelDonaChocolate = glm::translate(matrixModelDonaChocolate, glm::vec3(6.0, 10.0, 2.0));//Problemas con las donas
-	matrixModelDonaFresa = glm::translate(matrixModelDonaFresa, glm::vec3(9.0, 10.0, 2.0));//Problemas con las donas*/
 	matrixModelHeladoChocolate = glm::translate(matrixModelHeladoChocolate, glm::vec3(-200.4375, 0, -200.5));
 	matrixModelHeladoFresa = glm::translate(matrixModelHeladoFresa, glm::vec3(-576.5625, 0, -354.6875));
 	matrixModelHeladoMenta = glm::translate(matrixModelHeladoMenta, glm::vec3(-169.53125, 0, -478.125));
@@ -1447,14 +1419,6 @@ void applicationLoop() {
 	matrixModelPiruletaRojo = glm::translate(matrixModelPiruletaRojo, glm::vec3(-222.65625, 0, 61.71875));
 	matrixModelPiruletaVerde = glm::translate(matrixModelPiruletaVerde, glm::vec3(-7.8125, 0, -278.125));
 	matrixModelBallKirby = glm::translate(matrixModelBallKirby, glm::vec3(-14.0, 0.0, 2.0));
-	//	matrixModelBastonLampara = glm::translate(matrixModelBastonLampara, glm::vec3(-16.0, 0.0, 2.0));
-	//	matrixModelCake = glm::translate(matrixModelCake, glm::vec3(1.5, 0.0, 2.0));
-	//	matrixModelChocolate = glm::translate(matrixModelChocolate, glm::vec3(-21.0, 0.0, 2.0));
-	//	matrixModelChocoPaleta = glm::translate(matrixModelChocoPaleta, glm::vec3(-16.0, 0.0, -1.5));
-	//	matrixModelCookie = glm::translate(matrixModelCookie, glm::vec3(-600.0,0.0,90.0));
-	//	matrixModelCuteHome1 = glm::translate(matrixModelCuteHome1, glm::vec3(14.84, 0.0, -35.9375));
-	//	matrixModelCuteHome2 = glm::translate(matrixModelCuteHome2, glm::vec3(-12.0, 0.0, -30.0));
-	//	matrixModelCuteShop = glm::translate(matrixModelCuteShop, glm::vec3(-60.0, 0.0, -30.0));
 	matrixModelIceCreamSign = glm::translate(matrixModelIceCreamSign, glm::vec3(-25.0, 0.0, -85.0));
 	matrixModelNube = glm::translate(matrixModelIceCreamSign, glm::vec3(0.0, 20.0, 2.0));
 	matrixModelPaleta = glm::translate(matrixModelPaleta, glm::vec3(-78.90625, 0, -670.3125));
@@ -1464,7 +1428,7 @@ void applicationLoop() {
 
 	//Matrix Models Animate
 	matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0.0, 0.0, 0.0));
-	
+
 	lastTime = TimeManager::Instance().GetTime();
 
 	// Time for the particles animation
@@ -1501,7 +1465,7 @@ void applicationLoop() {
 			angleTarget = glm::angle(glm::quat_cast(matrixModelMayow));
 			target = matrixModelMayow[3];
 		}
-		else{
+		else {
 			axis = glm::axis(glm::quat_cast(matrixModelMayow));
 			angleTarget = glm::angle(glm::quat_cast(matrixModelMayow));
 			target = matrixModelMayow[3];
@@ -1593,33 +1557,33 @@ void applicationLoop() {
 		/*******************************************
 		 * Propiedades SpotLights
 		 *******************************************/
-	/*	glm::vec3 spotPosition = glm::vec3(modelMatrixHeli * glm::vec4(0.32437, 0.226053, 1.79149, 1.0));
-		shaderMulLighting.setInt("spotLightCount", 1);
-		shaderTerrain.setInt("spotLightCount", 1);
-		shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
-		shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
-		shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
-		shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
-		shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
-		shaderMulLighting.setFloat("spotLights[0].linear", 0.074);
-		shaderMulLighting.setFloat("spotLights[0].quadratic", 0.03);
-		shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
-		shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
-		shaderTerrain.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
-		shaderTerrain.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
-		shaderTerrain.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderTerrain.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
-		shaderTerrain.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
-		shaderTerrain.setFloat("spotLights[0].constant", 1.0);
-		shaderTerrain.setFloat("spotLights[0].linear", 0.074);
-		shaderTerrain.setFloat("spotLights[0].quadratic", 0.03);
-		shaderTerrain.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
-		shaderTerrain.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
-		*/
-		/*******************************************
-		 * Propiedades PointLights
-		 *******************************************/
+		 /*	glm::vec3 spotPosition = glm::vec3(modelMatrixHeli * glm::vec4(0.32437, 0.226053, 1.79149, 1.0));
+			 shaderMulLighting.setInt("spotLightCount", 1);
+			 shaderTerrain.setInt("spotLightCount", 1);
+			 shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
+			 shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
+			 shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			 shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
+			 shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
+			 shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
+			 shaderMulLighting.setFloat("spotLights[0].linear", 0.074);
+			 shaderMulLighting.setFloat("spotLights[0].quadratic", 0.03);
+			 shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
+			 shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
+			 shaderTerrain.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
+			 shaderTerrain.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
+			 shaderTerrain.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+			 shaderTerrain.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
+			 shaderTerrain.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
+			 shaderTerrain.setFloat("spotLights[0].constant", 1.0);
+			 shaderTerrain.setFloat("spotLights[0].linear", 0.074);
+			 shaderTerrain.setFloat("spotLights[0].quadratic", 0.03);
+			 shaderTerrain.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
+			 shaderTerrain.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
+			 */
+			 /*******************************************
+			  * Propiedades PointLights
+			  *******************************************/
 		shaderMulLighting.setInt("pointLightCount", lamp1Position.size());
 		shaderTerrain.setInt("pointLightCount", lamp1Position.size());
 		for (int i = 0; i < lamp1Position.size(); i++) {
@@ -1644,7 +1608,7 @@ void applicationLoop() {
 			shaderTerrain.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.09);
 			shaderTerrain.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.01);
 		}
-		
+
 		/*******************************************
 		 * 1.- We render the depth buffer
 		 *******************************************/
@@ -1688,7 +1652,7 @@ void applicationLoop() {
 		shaderMulLighting.setInt("shadowMap", 10);
 		shaderTerrain.setInt("shadowMap", 10);
 
-		
+
 		/*******************************************
 		 * Skybox
 		 *******************************************/
@@ -1722,11 +1686,11 @@ void applicationLoop() {
 		 boxLightViewBox.render(boxViewTransform);
 		 glEnable(GL_CULL_FACE);*/
 
-		/*******************************************
-		* Creacion de colliders
-		* IMPORTANT do this before interpolations
-		*******************************************/
-		// Lamps1 colliders
+		 /*******************************************
+		 * Creacion de colliders
+		 * IMPORTANT do this before interpolations
+		 *******************************************/
+		 // Lamps1 colliders
 		for (int i = 0; i < lamp1Position.size(); i++) {
 			AbstractModel::OBB lampCollider;
 			glm::mat4 modelMatrixColliderLamp = glm::mat4(1.0);
@@ -1997,7 +1961,7 @@ void applicationLoop() {
 		}
 		for (int i = 0; i < PAmPosition.size(); i++) {
 			AbstractModel::OBB panditaAmarilloCollider;
-			glm::mat4 modelMatrixColliderPAm= glm::mat4(1.0);
+			glm::mat4 modelMatrixColliderPAm = glm::mat4(1.0);
 			modelMatrixColliderPAm = glm::translate(modelMatrixColliderPAm, PAmPosition[i]);
 			modelMatrixColliderPAm = glm::rotate(modelMatrixColliderPAm, glm::radians(PAmOrientation[i]),
 				glm::vec3(0, 1, 0));
@@ -2105,9 +2069,9 @@ void applicationLoop() {
 		HeladoMoraAzulFresaCollider.e = HeladoMoraAzulFresa.getObb().e * glm::vec3(4.0, 5.0, 4.0) * glm::vec3(1.0, 1.0, 1.0);
 		HeladoMoraAzulFresaCollider.c = glm::vec3(modelmatrixColliderHeladoMoraAzulFresa[3]);
 		addOrUpdateColliders(collidersOBB, "HeladoMoraAzul", HeladoMoraAzulFresaCollider, matrixModelHeladoMoraAzulFresa);
-				
+
 		// Collider de mayow
-		AbstractModel::OBB mayowCollider; 
+		AbstractModel::OBB mayowCollider;
 		glm::mat4 modelmatrixColliderMayow = glm::mat4(matrixModelMayow);
 		modelmatrixColliderMayow = glm::rotate(modelmatrixColliderMayow,
 			glm::radians(0.0f), glm::vec3(0, 0, 1));
@@ -2121,6 +2085,17 @@ void applicationLoop() {
 		mayowCollider.e = MayowCuteAnimate.getObb().e * glm::vec3(1.0, 2.0, 2.0) * glm::vec3(1.0, 1.0, 1.0);
 		mayowCollider.c = glm::vec3(modelmatrixColliderMayow[3]);
 		addOrUpdateColliders(collidersOBB, "mayow", mayowCollider, matrixModelMayow);
+
+		//Collider ballKirby 
+		AbstractModel::SBB BallKirbyCollider;
+		glm::mat4 modelMatrixColliderBallKirby = glm::mat4(matrixModelBallKirby);
+		modelMatrixColliderBallKirby = glm::scale(modelMatrixColliderBallKirby, glm::vec3(1.0, 1.0, 1.0));
+		modelMatrixColliderBallKirby = glm::translate(modelMatrixColliderBallKirby, BallKirby.getSbb().c);
+		BallKirbyCollider.c = glm::vec3(modelMatrixColliderBallKirby[3]);
+		BallKirbyCollider.ratio = BallKirby.getSbb().ratio * 10.0;
+		addOrUpdateColliders(collidersSBB, "BallKirby", BallKirbyCollider, matrixModelBallKirby);
+
+
 	
 		/*******************************************
 		 * Render de ders
@@ -2276,13 +2251,8 @@ void applicationLoop() {
 		source0Pos[2] = matrixModelMayow[3].z;
 		alSourcefv(source[0], AL_POSITION, source0Pos);
 
-	/*	source2Pos[0] = modelMatrixDart[3].x;
-		source2Pos[1] = modelMatrixDart[3].y;
-		source2Pos[2] = modelMatrixDart[3].z;
-		alSourcefv(source[2], AL_POSITION, source2Pos);
-		*/
 		// Listener for the Thris person camera
-	/*	listenerPos[0] = matrixModelMayow[3].x;
+		listenerPos[0] = matrixModelMayow[3].x;
 		listenerPos[1] = matrixModelMayow[3].y;
 		listenerPos[2] = matrixModelMayow[3].z;
 		alListenerfv(AL_POSITION, listenerPos);
@@ -2296,9 +2266,9 @@ void applicationLoop() {
 		listenerOri[3] = upModel.x;
 		listenerOri[4] = upModel.y;
 		listenerOri[5] = upModel.z;
-		*/
+		
 		// Listener for the First person camera
-		listenerPos[0] = camera->getPosition().x;
+/*		listenerPos[0] = camera->getPosition().x;
 		listenerPos[1] = camera->getPosition().y;
 		listenerPos[2] = camera->getPosition().z;
 		alListenerfv(AL_POSITION, listenerPos);
@@ -2309,7 +2279,7 @@ void applicationLoop() {
 		listenerOri[4] = camera->getUp().y;
 		listenerOri[5] = camera->getUp().z;
 		alListenerfv(AL_ORIENTATION, listenerOri);
-
+		*/
 		for (unsigned int i = 0; i < sourcesPlay.size(); i++) {
 			if (sourcesPlay[i]) {
 				sourcesPlay[i] = false;
@@ -2770,7 +2740,7 @@ void renderScene(bool renderParticles) {
 	for(int i = 0; i < cantidad_de_pelotas; i++) {
 		pelotasPosition[i].y = terrain.getHeightTerrain(pelotasPosition[i].x, pelotasPosition[i].z);
 		BallKirby.setPosition(pelotasPosition[i]);
-		BallKirby.setScale(glm::vec3(3.0, 3.0, 3.0));
+		BallKirby.setScale(glm::vec3(4.0, 4.0, 4.0));
 		BallKirby.setOrientation(glm::vec3(0,1.0, 0));
 		BallKirby.render();
 	}
