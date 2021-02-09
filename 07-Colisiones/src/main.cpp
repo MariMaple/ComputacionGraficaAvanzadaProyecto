@@ -50,6 +50,9 @@
 // Include Colision headers functions
 #include "Headers/Colisiones.h"
 
+// ShadowBox include
+#include "Headers/ShadowBox.h"
+
 // OpenAL include
 #include <AL/alut.h>
 
@@ -93,6 +96,8 @@ Box boxCollider;
 Sphere sphereCollider(10, 10);
 Box boxViewDepth;
 Box boxLightViewBox;
+
+ShadowBox * shadowBox;
 
 // Models complex instances
 Model panditaRojo;
@@ -1117,7 +1122,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	 * Inicializacion del framebuffer para
 	 * almacenar el buffer de profunidadad
 	 *******************************************/
-/*	glGenFramebuffers(1, &depthMapFBO);
+	glGenFramebuffers(1, &depthMapFBO);
 	glGenTextures(1, &depthMap);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
@@ -1126,7 +1131,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);*/
-/*	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
@@ -1135,7 +1140,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	*/
+	
 	/*******************************************
 	 * OpenAL init
 	 *******************************************/
@@ -1380,10 +1385,10 @@ bool processInput(bool continueApplication) {
 		matrixModelMayow = glm::rotate(matrixModelMayow, glm::radians(-1.0f), glm::vec3(0, 1, 0));
 		animationIndex = 1;
 	}if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS){
-		matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, 0.2));
+		matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, 0.3));
 		animationIndex = 1;
 	}else if (modelSelected == 1 && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS){
-		matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, -0.2));
+		matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0, 0, -0.3));
 		animationIndex = 1;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS && selec_vista) {
@@ -1438,7 +1443,8 @@ void applicationLoop() {
 	currTimeParticlesAnimationFire = lastTime;
 	lastTimeParticlesAnimationFire = lastTime;
 */
-	glm::vec3 lightPos = glm::vec3(10.0, 10.0, 0.0);
+	glm::vec3 lightPos = glm::vec3(20.0, 50.0, 0.0);
+	shadowBox = new ShadowBox(-lightPos, camera.get(), 60.0f, 20.0f, 60.0f);
 
 	while (psi) {
 		currTime = TimeManager::Instance().GetTime();
@@ -1487,12 +1493,20 @@ void applicationLoop() {
 		else
 			view = camera->getViewMatrix();
 
-		// Matriz de proyecciÃ³n del shadow mapping
-		glm::mat4 lightProjection, lightView;
+		shadowBox->update(screenWidth, screenHeight);
+		glm::vec3 centerBox = shadowBox->getCenter();
+
+		// Projection light shadow mapping
+		glm::mat4 lightProjection = glm::mat4(1.0f), lightView = glm::mat4(1.0f);
 		glm::mat4 lightSpaceMatrix;
-		float near_plane = 0.1f, far_plane = 20.0f;
-		lightProjection = glm::ortho(-25.0f, 25.0f, -25.0f, 25.0f, near_plane, far_plane);
-		lightView = glm::lookAt(lightPos, glm::vec3(0.0), glm::vec3(0.0, 1.0, 0.0));
+
+		lightProjection[0][0] = 2.0f / shadowBox->getWidth();
+		lightProjection[1][1] = 2.0f / shadowBox->getHeight();
+		lightProjection[2][2] = -2.0f / shadowBox->getLength();
+		lightProjection[3][3] = 1.0f;
+
+		lightView = glm::lookAt(centerBox, centerBox + glm::normalize(-lightPos), glm::vec3(0.0, 1.0, 0.0));
+
 		lightSpaceMatrix = lightProjection * lightView;
 		shaderDepth.setMatrix4("lightSpaceMatrix", 1, false, glm::value_ptr(lightSpaceMatrix));
 
@@ -1557,33 +1571,35 @@ void applicationLoop() {
 		/*******************************************
 		 * Propiedades SpotLights
 		 *******************************************/
-		 /*	glm::vec3 spotPosition = glm::vec3(modelMatrixHeli * glm::vec4(0.32437, 0.226053, 1.79149, 1.0));
-			 shaderMulLighting.setInt("spotLightCount", 1);
-			 shaderTerrain.setInt("spotLightCount", 1);
-			 shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
-			 shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
-			 shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-			 shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
-			 shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
-			 shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
-			 shaderMulLighting.setFloat("spotLights[0].linear", 0.074);
-			 shaderMulLighting.setFloat("spotLights[0].quadratic", 0.03);
-			 shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
-			 shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
-			 shaderTerrain.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
-			 shaderTerrain.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
-			 shaderTerrain.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-			 shaderTerrain.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
-			 shaderTerrain.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
-			 shaderTerrain.setFloat("spotLights[0].constant", 1.0);
-			 shaderTerrain.setFloat("spotLights[0].linear", 0.074);
-			 shaderTerrain.setFloat("spotLights[0].quadratic", 0.03);
-			 shaderTerrain.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
-			 shaderTerrain.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
-			 */
-			 /*******************************************
-			  * Propiedades PointLights
-			  *******************************************/
+
+		/*glm::vec3 spotPosition = glm::vec3(modelMatrixHeli * glm::vec4(0.32437, 0.226053, 1.79149, 1.0));
+		shaderMulLighting.setInt("spotLightCount", 1);
+		shaderTerrain.setInt("spotLightCount", 1);
+		shaderMulLighting.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
+		shaderMulLighting.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
+		shaderMulLighting.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+		shaderMulLighting.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
+		shaderMulLighting.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
+		shaderMulLighting.setFloat("spotLights[0].constant", 1.0);
+		shaderMulLighting.setFloat("spotLights[0].linear", 0.074);
+		shaderMulLighting.setFloat("spotLights[0].quadratic", 0.03);
+		shaderMulLighting.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
+		shaderMulLighting.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
+		shaderTerrain.setVectorFloat3("spotLights[0].light.ambient", glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
+		shaderTerrain.setVectorFloat3("spotLights[0].light.diffuse", glm::value_ptr(glm::vec3(0.2, 0.3, 0.2)));
+		shaderTerrain.setVectorFloat3("spotLights[0].light.specular", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
+		shaderTerrain.setVectorFloat3("spotLights[0].position", glm::value_ptr(spotPosition));
+		shaderTerrain.setVectorFloat3("spotLights[0].direction", glm::value_ptr(glm::vec3(0, -1, 0)));
+		shaderTerrain.setFloat("spotLights[0].constant", 1.0);
+		shaderTerrain.setFloat("spotLights[0].linear", 0.074);
+		shaderTerrain.setFloat("spotLights[0].quadratic", 0.03);
+		shaderTerrain.setFloat("spotLights[0].cutOff", cos(glm::radians(12.5f)));
+		shaderTerrain.setFloat("spotLights[0].outerCutOff", cos(glm::radians(15.0f)));
+		*/
+		/*******************************************
+		 * Propiedades PointLights
+		 *******************************************/
+
 		shaderMulLighting.setInt("pointLightCount", lamp1Position.size());
 		shaderTerrain.setInt("pointLightCount", lamp1Position.size());
 		for (int i = 0; i < lamp1Position.size(); i++) {
@@ -2274,7 +2290,9 @@ void applicationLoop() {
 		listenerOri[5] = upModel.z;
 		
 		// Listener for the First person camera
-/*		listenerPos[0] = camera->getPosition().x;
+
+		/*listenerPos[0] = camera->getPosition().x;
+
 		listenerPos[1] = camera->getPosition().y;
 		listenerPos[2] = camera->getPosition().z;
 		alListenerfv(AL_POSITION, listenerPos);
@@ -2284,8 +2302,7 @@ void applicationLoop() {
 		listenerOri[3] = camera->getUp().x;
 		listenerOri[4] = camera->getUp().y;
 		listenerOri[5] = camera->getUp().z;
-		alListenerfv(AL_ORIENTATION, listenerOri);
-		*/
+		alListenerfv(AL_ORIENTATION, listenerOri);*/
 		for (unsigned int i = 0; i < sourcesPlay.size(); i++) {
 			if (sourcesPlay[i]) {
 				sourcesPlay[i] = false;
@@ -2332,9 +2349,49 @@ void prepareScene() {
 
 	//Grass
 	modelGrass.setShader(&shaderMulLighting);
-*/
+	*/
 	//Mayow
+
+
+
+
+
 	MayowCuteAnimate.setShader(&shaderMulLighting);
+	panditaRojo.setShader(&shaderMulLighting);
+	panditaAzul.setShader(&shaderMulLighting);
+	panditaNaranja.setShader(&shaderMulLighting);
+	panditaVerde.setShader(&shaderMulLighting);
+	panditaAmarillo.setShader(&shaderMulLighting);
+	CaramAmarillo.setShader(&shaderMulLighting);
+	CaramAzul.setShader(&shaderMulLighting);
+	CaramRosa.setShader(&shaderMulLighting);
+	CaramVerde.setShader(&shaderMulLighting);
+	DonaChocolate.setShader(&shaderMulLighting);
+	DonaFresa.setShader(&shaderMulLighting);
+	HeladoChocolate.setShader(&shaderMulLighting);
+	HeladoFresa.setShader(&shaderMulLighting);
+	HeladoMenta.setShader(&shaderMulLighting);
+	HeladoMoraAzul.setShader(&shaderMulLighting);
+	HeladoMoraAzulFresa.setShader(&shaderMulLighting);
+	PiruletaAmarillo.setShader(&shaderMulLighting);
+	PiruletaRojo.setShader(&shaderMulLighting);
+	PiruletaVerde.setShader(&shaderMulLighting);
+	BallKirby.setShader(&shaderMulLighting);
+	BastonLampara.setShader(&shaderMulLighting);
+	Cake.setShader(&shaderMulLighting);
+	Chocolate.setShader(&shaderMulLighting);
+	ChocoPaleta.setShader(&shaderMulLighting);
+	Cookie.setShader(&shaderMulLighting);
+	CuteHome1.setShader(&shaderMulLighting);
+	CuteHome2.setShader(&shaderMulLighting);
+	CuteShop.setShader(&shaderMulLighting);
+	IceCreamSign.setShader(&shaderMulLighting);
+	Nube.setShader(&shaderMulLighting);
+	Paleta.setShader(&shaderMulLighting);
+	Strawberry.setShader(&shaderMulLighting);
+	SweetCarrito.setShader(&shaderMulLighting);
+
+
 }
 
 
@@ -2383,6 +2440,39 @@ void prepareDepthScene() {
 */
 	//Mayow
 	MayowCuteAnimate.setShader(&shaderDepth);
+	panditaRojo.setShader(&shaderDepth);
+	panditaAzul.setShader(&shaderDepth);
+	panditaNaranja.setShader(&shaderDepth);
+	panditaVerde.setShader(&shaderDepth);
+	panditaAmarillo.setShader(&shaderDepth);
+	CaramAmarillo.setShader(&shaderDepth);
+	CaramAzul.setShader(&shaderDepth);
+	CaramRosa.setShader(&shaderDepth);
+	CaramVerde.setShader(&shaderDepth);
+	DonaChocolate.setShader(&shaderDepth);
+	DonaFresa.setShader(&shaderDepth);
+	HeladoChocolate.setShader(&shaderDepth);
+	HeladoFresa.setShader(&shaderDepth);
+	HeladoMenta.setShader(&shaderDepth);
+	HeladoMoraAzul.setShader(&shaderDepth);
+	HeladoMoraAzulFresa.setShader(&shaderDepth);
+	PiruletaAmarillo.setShader(&shaderDepth);
+	PiruletaRojo.setShader(&shaderDepth);
+	PiruletaVerde.setShader(&shaderDepth);
+	BallKirby.setShader(&shaderDepth);
+	BastonLampara.setShader(&shaderDepth);
+	Cake.setShader(&shaderDepth);
+	Chocolate.setShader(&shaderDepth);
+	ChocoPaleta.setShader(&shaderDepth);
+	Cookie.setShader(&shaderDepth);
+	CuteHome1.setShader(&shaderDepth);
+	CuteHome2.setShader(&shaderDepth);
+	CuteShop.setShader(&shaderDepth);
+	IceCreamSign.setShader(&shaderDepth);
+	Nube.setShader(&shaderDepth);
+	Paleta.setShader(&shaderDepth);
+	Strawberry.setShader(&shaderDepth);
+	SweetCarrito.setShader(&shaderDepth);
 }
 
 void renderScene(bool renderParticles) {
@@ -2663,7 +2753,6 @@ void renderScene(bool renderParticles) {
 
 	matrixModelMayow[3][1] = terrain.getHeightTerrain(matrixModelMayow[3][0], matrixModelMayow[3][2]);
 	glm::mat4 matrixModelMayowBody = glm::mat4(matrixModelMayow);
-	glm::mat4 matrixView = glm::mat4(matrixModelMayowBody);
 	matrixModelMayowBody = glm::scale(matrixModelMayowBody, glm::vec3(0.02, 0.02, 0.02));
 	MayowCuteAnimate.setAnimationIndex(animationIndex);
 	MayowCuteAnimate.render(matrixModelMayowBody);

@@ -1,11 +1,11 @@
 #include "Headers/ThirdPersonCamera.h"
 
 ThirdPersonCamera::ThirdPersonCamera(){
-    pitch = glm::radians(25.0f);
+    pitch = glm::radians(20.0f);
     yaw = 0.0f;
     angleAroundTarget = 0.0f;
     angleTarget = 0.0;
-    distanceFromTarget = 7.0f;
+    distanceFromTarget = 1.0f;
     sensitivity = SENSITIVTY;
     worldUp = glm::vec3(0.0, 1.0, 0.0);
     updateCamera();
@@ -39,7 +39,7 @@ void ThirdPersonCamera::updateCamera(){
     //Calculate Horizontal distance
     float horizontalDistance = distanceFromTarget * cos(pitch);
     //Calculate Vertical distance
-    float verticalDistance = (distanceFromTarget) * sin(pitch);
+    float verticalDistance = distanceFromTarget * sin(pitch);
 
     //Calculate camera position
     float theta = angleTarget + angleAroundTarget;
