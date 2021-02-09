@@ -81,6 +81,7 @@ Shader shaderViewDepth;
 //Shader para dibujar el buffer de profunidad
 Shader shaderDepth;
 
+
 std::shared_ptr<Camera> camera(new ThirdPersonCamera());
 float distanceFromTarget = 7.0;
 
@@ -823,6 +824,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	camera->setSensitivity(1.0f); // velocidad de la camara
 	posicion_camara = glm::vec3(5.0, 20.0, 5.0);
 	cameraPP->setPosition(posicion_camara);
+
 
 	// Definimos el tamanio de la imagen
 	int imageWidth, imageHeight;
