@@ -1134,7 +1134,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/*******************************************
 	 * OpenAL init
 	 *******************************************/
-	alutInit(0, nullptr);
+	/*alutInit(0, nullptr);
 	alListenerfv(AL_POSITION, listenerPos);
 	alListenerfv(AL_VELOCITY, listenerVel);
 	alListenerfv(AL_ORIENTATION, listenerOri);
@@ -1160,7 +1160,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
 
 	alGetError(); /* clear error */
-	alGenSources(NUM_SOURCES, source);
+	/*alGenSources(NUM_SOURCES, source);
 
 	if (alGetError() != AL_NO_ERROR) {
 		printf("- Error creating sources !!\n");
@@ -1168,9 +1168,9 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	}
 	else {
 		printf("init - no errors after alGenSources\n");
-	}
+	}*/
 	//Musica de fondo
-	alSourcef(source[0], AL_PITCH, 1.0f);
+	/*alSourcef(source[0], AL_PITCH, 1.0f);
 	alSourcef(source[0], AL_GAIN, 3.0f);
 	alSourcefv(source[0], AL_POSITION, source0Pos);
 	alSourcefv(source[0], AL_VELOCITY, source0Vel);
@@ -1193,6 +1193,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	alSourcei(source[2], AL_BUFFER, buffer[2]);
 	alSourcei(source[2], AL_LOOPING, AL_TRUE);
 	alSourcef(source[2], AL_MAX_DISTANCE, 500);
+	*/
 }
 
 void destroy() {
@@ -2262,10 +2263,10 @@ void applicationLoop() {
 		/****************************+
 		 * Open AL sound data
 		 */
-		source0Pos[0] = matrixModelMayow[3].x;
+		/*source0Pos[0] = matrixModelMayow[3].x;
 		source0Pos[1] = matrixModelMayow[3].y;
 		source0Pos[2] = matrixModelMayow[3].z;
-		alSourcefv(source[0], AL_POSITION, source0Pos);
+		alSourcefv(source[0], AL_POSITION, source0Pos);*/
 
 	/*	source2Pos[0] = modelMatrixDart[3].x;
 		source2Pos[1] = modelMatrixDart[3].y;
@@ -2273,7 +2274,7 @@ void applicationLoop() {
 		alSourcefv(source[2], AL_POSITION, source2Pos);
 		*/
 		// Listener for the Thris person camera
-		listenerPos[0] = matrixModelMayow[3].x;
+		/*listenerPos[0] = matrixModelMayow[3].x;
 		listenerPos[1] = matrixModelMayow[3].y;
 		listenerPos[2] = matrixModelMayow[3].z;
 		alListenerfv(AL_POSITION, listenerPos);
@@ -2286,7 +2287,7 @@ void applicationLoop() {
 		listenerOri[2] = frontModel.z;
 		listenerOri[3] = upModel.x;
 		listenerOri[4] = upModel.y;
-		listenerOri[5] = upModel.z;
+		listenerOri[5] = upModel.z;*/
 
 		// Listener for the First person camera
 		/*listenerPos[0] = camera->getPosition().x;
@@ -2301,12 +2302,12 @@ void applicationLoop() {
 		listenerOri[5] = camera->getUp().z;*/
 		alListenerfv(AL_ORIENTATION, listenerOri);
 
-		for (unsigned int i = 0; i < sourcesPlay.size(); i++) {
+		/*for (unsigned int i = 0; i < sourcesPlay.size(); i++) {
 			if (sourcesPlay[i]) {
 				sourcesPlay[i] = false;
 				alSourcePlay(source[i]);
 			}
-		}
+		}*/
 	}
 }
 
