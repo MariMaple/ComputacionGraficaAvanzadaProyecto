@@ -1139,7 +1139,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	/*******************************************
 	 * OpenAL init
 	 *******************************************/
-	alutInit(0, nullptr);
+	/*alutInit(0, nullptr);
 	alListenerfv(AL_POSITION, listenerPos);
 	alListenerfv(AL_VELOCITY, listenerVel);
 	alListenerfv(AL_ORIENTATION, listenerOri);
@@ -1165,7 +1165,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
 
 	alGetError(); /* clear error */
-	alGenSources(NUM_SOURCES, source);
+	/*alGenSources(NUM_SOURCES, source);
 
 	if (alGetError() != AL_NO_ERROR) {
 		printf("- Error creating sources !!\n");
@@ -1197,7 +1197,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	alSourcefv(source[2], AL_VELOCITY, source2Vel);
 	alSourcei(source[2], AL_BUFFER, buffer[2]);
 	alSourcei(source[2], AL_LOOPING, AL_TRUE);
-	alSourcef(source[2], AL_MAX_DISTANCE, 500);
+	alSourcef(source[2], AL_MAX_DISTANCE, 500);*/
 }
 
 void destroy() {
