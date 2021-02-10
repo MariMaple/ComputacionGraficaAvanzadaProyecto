@@ -2818,7 +2818,7 @@ void renderScene(bool renderParticles) {
 
 	//for (int i = 0; i < 10; i++) {
 	if (ronda == 1) {
-		cantidad_de_pelotas = rand() % (ronda * 10 + 1);
+		cantidad_de_pelotas = (rand() % (ronda * 5 + 1))+5;
 		printf("cantidad de pelotas :%d \n", cantidad_de_pelotas);
 		for (int j = 0; j < cantidad_de_pelotas; j++) {
 			pos_chica = rand() % (101);
@@ -2893,16 +2893,16 @@ void renderScene(bool renderParticles) {
 		BallKirby.setPosition(pelotasPosition[i]);
 		BallKirby.setScale(glm::vec3(5.0, 5.0, 5.0));
 		BallKirby.setOrientation(glm::vec3(0, 1.0, 0));
-		if (ColisionMP == true) {
-			BallKirby.render();
-		}
-		else {//Aqui va la renderización en este mismo punto de la particula
+		//if (ColisionMP == true) {
+		BallKirby.render();
+		//}
+		//else {//Aqui va la renderización en este mismo punto de la particula
 			glm::mat4 modelMatrixParticlesFountain = glm::mat4(1.0);
 			modelMatrixParticlesFountain = glm::translate(modelMatrixParticlesFountain, pelotasPosition[i]);
 			modelMatrixParticlesFountain[3][1] = terrain.getHeightTerrain(modelMatrixParticlesFountain[3][0], modelMatrixParticlesFountain[3][2]) + 0.36 * 10.0;
 			modelMatrixParticlesFountain = glm::scale(modelMatrixParticlesFountain, glm::vec3(3.0, 3.0, 3.0));
 			currTimeParticlesAnimation = TimeManager::Instance().GetTime();
-		}
+		//}
 	}
 
 		
