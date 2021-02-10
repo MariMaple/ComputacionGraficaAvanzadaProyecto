@@ -146,20 +146,32 @@ GLuint textureTerrainBackgroundID, textureTerrainRID, textureTerrainGID, texture
 GLuint textureParticleFountainID, textureParticleFireID, texId;
 GLuint skyboxTextureID;
 
-GLenum types[6] = {
-GL_TEXTURE_CUBE_MAP_POSITIVE_X,
-GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
-GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
-GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
-GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
-GL_TEXTURE_CUBE_MAP_NEGATIVE_Z };
+bool dia = true;
 
-std::string fileNames[6] = { "../Textures/mp_Cute/Cute_ft.tga",
-		"../Textures/mp_Cute/Cute_bk.tga",
-		"../Textures/mp_Cute/Cute_up.tga",
-		"../Textures/mp_Cute/Cute_dn.tga",
-		"../Textures/mp_Cute/Cute_lf.tga",
-		"../Textures/mp_Cute/Cute_rt.tga" };
+	GLenum types[6] = {
+	GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+	GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+	GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+	GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+	GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+	GL_TEXTURE_CUBE_MAP_NEGATIVE_Z };
+
+	std::string fileNames[6] = { "../Textures/mp_Cute/Cute_ft.tga",
+					"../Textures/mp_Cute/Cute_bk.tga",
+					"../Textures/mp_Cute/Cute_up.tga",
+					"../Textures/mp_Cute/Cute_dn.tga",
+					"../Textures/mp_Cute/Cute_lf.tga",
+					"../Textures/mp_Cute/Cute_rt.tga" };
+
+
+	std::string fileNames2[6] = { "../Textures/mp_Cute/Cute_ft_n.tga",
+		"../Textures/mp_Cute/Cute_bk_n.tga",
+		"../Textures/mp_Cute/Cute_up_n.tga",
+		"../Textures/mp_Cute/Cute_dn_n.tga",
+		"../Textures/mp_Cute/Cute_lf_n.tga",
+		"../Textures/mp_Cute/Cute_rt_n.tga" };
+
+		
 
 bool exitApp = false;
 int lastMousePosX, offsetX = 0;
@@ -624,7 +636,7 @@ void initParticleBuffersFire() {
 	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
 }
 
-
+float cont_dia = 0.0f;
 // Implementacion de todas las funciones.
 void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
@@ -852,8 +864,24 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+
+	
+
 	for (int i = 0; i < ARRAY_SIZE_IN_ELEMENTS(types); i++) {
-		skyboxTexture = Texture(fileNames[i]);
+		for (int cont_dia = 0; cont_dia < 10000; cont_dia++) {
+			dia = true;
+			if (cont_dia >= 10000) {
+				dia = false;
+			}
+		}
+		
+
+		if (dia == true) {
+			skyboxTexture = Texture(fileNames[i]);
+		}
+		else {
+			skyboxTexture = Texture(fileNames2[i]);
+		}
 		FIBITMAP *bitmap = skyboxTexture.loadImage(true);
 		unsigned char *data = skyboxTexture.convertToData(bitmap, imageWidth,
 			imageHeight);
@@ -1484,6 +1512,9 @@ void applicationLoop() {
 	matrixModelStrawberry = glm::translate(matrixModelStrawberry, glm::vec3(-200.0, 0.0, -300.0));
 	matrixModelSweetCarrito = glm::translate(matrixModelSweetCarrito, glm::vec3(15.0, 0.0, -70.0));
 	matrixModelCuteGun = glm::translate(matrixModelCuteGun, glm::vec3(-523.4375 - 400.78125));
+
+
+
 
 	//Matrix Models Animate
 	matrixModelMayow = glm::translate(matrixModelMayow, glm::vec3(0.0, 0.0, 0.0));
@@ -2274,7 +2305,7 @@ void applicationLoop() {
 			}
 			addOrUpdateCollisionDetection(collisionDetection, it->first, isCollision);
 		}
-
+		std::string kirby;
 		std::map<std::string, bool>::iterator colIt;
 		for (colIt = collisionDetection.begin(); colIt != collisionDetection.end();
 			colIt++) {
@@ -2294,6 +2325,12 @@ void applicationLoop() {
 				else {
 					if (jt->first.compare("mayow") == 0)
 						matrixModelMayow= std::get<1>(jt->second);
+					if (jt->first.compare("BallKirby-") == 0) {
+						kirby = jt->first;
+						printf("%s", kirby);
+					}
+							
+
 				}
 			}
 		}
